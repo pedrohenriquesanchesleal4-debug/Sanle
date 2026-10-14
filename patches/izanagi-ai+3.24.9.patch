@@ -1,0 +1,89 @@
+diff --git a/node_modules/izanagi-ai/dist/exporters.js b/node_modules/izanagi-ai/dist/exporters.js
+index e75b7b2..a415b61 100644
+--- a/node_modules/izanagi-ai/dist/exporters.js
++++ b/node_modules/izanagi-ai/dist/exporters.js
+@@ -907,17 +907,9 @@ function opencodeAgentTemplate(a) {
+     const description = truncate(`${a.name} - ${trigger}`, 260);
+     const orchestratorFrontmatter = a.slug === 'orchestrator'
+         ? `mode: primary
+-tools:
+-  read: true
+-  grep: true
+-  glob: true
+-  task: true
+-  write: false
+-  edit: false
+-  bash: false
+ permission:
+   edit: deny
+-  bash: deny
++  bash: ask
+ `
+         : '';
+     return `---
+@@ -942,20 +934,11 @@ ${a.never.length > 0 ? bullet(a.never) : '- (sem regras nunca)'}
+ function opencodeOrchestratorTemplate(agents) {
+     const agentList = agents.map((a) => `- \`/${a.slug}\`: ${a.name} (${truncate(a.role, 90)})`).join('\n');
+     return `---
+-name: "Agents Orchestrator"
+ description: "Izanagi Multi-Agent Orchestrator - Default Multi-Agent Swarm, parallel concurrent execution across ${agents.length} specialized agents"
+ mode: primary
+-tools:
+-  read: true
+-  grep: true
+-  glob: true
+-  task: true
+-  write: false
+-  edit: false
+-  bash: false
+ permission:
+   edit: deny
+-  bash: deny
++  bash: ask
+ ---
+ 
+ Você é o **Izanagi Multi-Agent Orchestrator**, o coordenador central do framework Izanagi AI.
+@@ -972,7 +955,7 @@ Você conduz cada projeto como um executivo sênior de governança de TI: rigor
+ **⚠️ REGRA DE OURO (MODO MULTI-AGENTE PADRÃO):**
+ Você **nunca** atua sozinho de forma monolítica para tarefas complexas, SaaS ou sistemas. Você é o **Supervisor** de um **Swarm**: decompoe o pedido, despacha cada frente para o especialista certo **em paralelo**, e agrega os resultados. Um único agente tentando cobrir código + segurança + banco + QA degrada a qualidade em cada domínio e estoura o contexto com trabalho intermediário. Multi-agente em paralelo = cada especialista recebe contexto LIMPO e focado na sua frente.
+ 
+-Quando o usuário digitar \`/agents\`, você apresenta ou ativa o **Modo de Orquestração de Agentes** entre as 4 modalidades:
++Quando o usuário pedir orquestração multi-agente (ou digitar \`/orchestrator\`), você apresenta ou ativa o **Modo de Orquestração de Agentes** entre as 4 modalidades:
+ 
+ 1. **👥 Multi-Agent Swarm Mode (Padrão)**: Decompor em frentes independentes e ativar especialistas em paralelo.
+ 2. **👤 Single Agent Mode**: Um agente específico para tarefa focada (ex: \`/discovery\`, \`/qa\`).
+@@ -1004,7 +987,6 @@ Quando o usuário digitar \`/agents\`, você apresenta ou ativa o **Modo de Orqu
+ ${ORCHESTRATOR_HARD_GATES}
+ 
+ ## Os ${agents.length} Agentes Especializados do Framework
+-- \`/agents\`: Agents Orchestrator (Supervisor + Swarm paralelo)
+ ${agentList}
+ 
+ ## Design Experience Flow (obrigatório em TODO pedido de site/app)
+@@ -1027,10 +1009,12 @@ ${agentList}
+ export function exportToOpencode(baseDir) {
+     const created = [];
+     const agents = loadIzanagiAgents(baseDir);
+-    const orchestrator = writeIfAbsent(baseDir, '.opencode/agent/agents.md', opencodeOrchestratorTemplate(agents));
++    const orchestrator = writeIfAbsent(baseDir, '.opencode/agent/orchestrator.md', opencodeOrchestratorTemplate(agents));
+     if (orchestrator)
+         created.push(orchestrator);
+     for (const agent of agents) {
++        if (agent.slug === 'orchestrator')
++            continue;
+         const rel = writeIfAbsent(baseDir, `.opencode/agent/${agent.slug}.md`, opencodeAgentTemplate(agent));
+         if (rel)
+             created.push(rel);
+diff --git a/node_modules/izanagi-ai/skills/anti-ai-slop/SKILL.md b/node_modules/izanagi-ai/skills/anti-ai-slop/SKILL.md
+index 51929e8..5e525c2 100644
+--- a/node_modules/izanagi-ai/skills/anti-ai-slop/SKILL.md
++++ b/node_modules/izanagi-ai/skills/anti-ai-slop/SKILL.md
+@@ -3,7 +3,7 @@ name: anti-ai-slop
+ description: "Detecta e corrige design 'cara de IA' (Inter default, gradiente roxo-azul, hero + 3 cards, glassmorphism genérico) com tipografia, cor e layout intencionais. Use ao revisar qualquer UI antes de entregar."
+ triggers:
+   - "revisar UI antes de entregar"
+-  - "a interface parece genérica ou "cara de IA""
++  - 'a interface parece genérica ou "cara de IA"'
+   - "auditar tipografia, cor e layout por intenção"
+   - "substituir hero + três cards por algo específico do nicho"
+ capabilities:

@@ -17,14 +17,14 @@ export const brand = {
     "A Sanle conecta documentos, sistemas e inteligência artificial para reduzir trabalho manual e organizar a operação da sua empresa.",
   founded: { city: "Brasília", uf: "DF", country: "Brasil" },
   serviceRegion:
-    "Brasília e Distrito Federal — com arquitetura preparada para outras cidades brasileiras.",
+    "Brasília e Distrito Federal, com arquitetura preparada para outras cidades brasileiras.",
   contact: {
     // Somente dados REAIS. Enquanto não confirmados, a UI usa o formulário de
     // diagnóstico como canal primário e não exibe contato inventado.
     email: process.env.NEXT_PUBLIC_SANLE_EMAIL ?? "",
     whatsapp: process.env.NEXT_PUBLIC_SANLE_WHATSAPP ?? "",
     linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN ?? "",
-    city: "Brasília — DF"
+    city: "Brasília · DF"
   },
   // Links sociais reais (preenchidos por env; vazios são ocultados na UI)
   social: {
@@ -34,7 +34,7 @@ export const brand = {
 } as const;
 
 export const hero = {
-  eyebrow: "Automação operacional · Brasília — DF",
+  eyebrow: "Automação operacional · Brasília · DF",
   headlineTop: "Menos trabalho manual.",
   headlineBottom: "Mais fluxo de operação.",
   subheadline:
@@ -260,4 +260,5 @@ export const finalCta = {
 } as const;
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  (process.env.NODE_ENV === "production" ? "https://sanle.vercel.app" : "http://localhost:3000");

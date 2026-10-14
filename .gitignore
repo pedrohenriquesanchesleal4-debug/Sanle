@@ -30,5 +30,20 @@ npm-debug.log*
 next-env.d.ts
 coverage
 
-# izanagi runtime state
-.izanagi/state
+# izanagi framework
+.agents/
+.claude/
+.codex/
+.cursor/
+.github/
+.izanagi/
+.kimi/
+.opencode/
+AGENTS.md
+CLAUDE.md
+RULES.md
+SYSTEM.md
+kimi.md
+docs/swarm/
+docs/prompt-redesign.md
+

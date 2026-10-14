@@ -9,30 +9,45 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        accent: {
+          DEFAULT: "#FF5B1F",
+          glow: "rgba(255, 91, 31, 0.25)",
+          hover: "#E0480E"
+        },
+        dark: {
+          bg: "#0A0A09",
+          surface: "#141412",
+          card: "#161614"
+        },
         paper: {
-          DEFAULT: "#F4F1EA",
-          soft: "#EDE9DF",
-          deep: "#E3DDD0"
+          DEFAULT: "rgb(var(--paper) / <alpha-value>)",
+          soft: "rgb(var(--paper-soft) / <alpha-value>)",
+          deep: "rgb(var(--paper-deep) / <alpha-value>)"
         },
         ink: {
-          DEFAULT: "#121110",
-          soft: "#3A3733",
-          mute: "#6B665E"
+          DEFAULT: "rgb(var(--ink) / <alpha-value>)",
+          soft: "rgb(var(--ink-soft) / <alpha-value>)",
+          mute: "rgb(var(--ink-mute) / <alpha-value>)"
         },
         cobalt: {
-          DEFAULT: "#2440FF",
-          deep: "#1730D6",
+          DEFAULT: "rgb(var(--cobalt) / <alpha-value>)",
+          deep: "rgb(var(--cobalt-deep) / <alpha-value>)",
           soft: "#E4E8FF"
         },
         signal: {
-          DEFAULT: "#C8FF4D",
-          deep: "#9FDB1B"
+          DEFAULT: "rgb(var(--signal) / <alpha-value>)",
+          deep: "#059669"
         },
-        rust: "#B4462A"
+        amber: {
+          DEFAULT: "rgb(var(--amber) / <alpha-value>)",
+          deep: "#D97706"
+        },
+        rust: "rgb(var(--rust) / <alpha-value>)"
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
-        sans: ["var(--font-space)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "var(--font-fraunces)", "Georgia", "serif"],
+        display: ["var(--font-serif)", "var(--font-fraunces)", "serif"],
+        sans: ["var(--font-sans)", "var(--font-space)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"]
       },
       fontSize: {
