@@ -26,10 +26,14 @@ export type LocalDB = {
   audits: unknown[];
   searches: unknown[];
   leadSources: unknown[];
+  adminUsers: unknown[];
+  leadsInbound: unknown[];
+  landingEvents: unknown[];
+  prospectPages: unknown[];
 };
 
 const EMPTY: LocalDB = {
-  version: 2,
+  version: 4,
   leads: [],
   activities: [],
   drafts: [],
@@ -41,7 +45,11 @@ const EMPTY: LocalDB = {
   aiRuns: [],
   audits: [],
   searches: [],
-  leadSources: []
+  leadSources: [],
+  adminUsers: [],
+  leadsInbound: [],
+  landingEvents: [],
+  prospectPages: []
 };
 
 let cache: LocalDB | null = null;

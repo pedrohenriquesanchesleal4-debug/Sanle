@@ -43,11 +43,17 @@ export type VerificationStatus = "nao_verificado" | "parcial" | "verificado" | "
 export type EvidenceKind = "fact" | "hypothesis" | "unknown";
 
 export type LeadSource = {
-  provider: string; // osm | google_places | csv | manual | site
+  provider: string; // osm | google_places | csv | manual | site | calculator | checklist
   providerId?: string | null;
   url?: string | null;
   collectedAt: ISODate;
   note?: string | null;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  utmContent?: string | null;
+  utmTerm?: string | null;
+  referrer?: string | null;
 };
 
 /**
@@ -312,4 +318,66 @@ export type PublicDiagnosticInput = {
   volumeApprox?: string;
   currentSystem?: string;
   consent: boolean;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  referrer?: string;
+  calculatorEstimate?: string;
+};
+
+export type AdminUserRole = "admin" | "operator" | "viewer";
+
+export type AdminUser = {
+  id: string;
+  email: string;
+  name?: string | null;
+  role: AdminUserRole;
+  active: boolean;
+  createdAt: ISODate;
+  updatedAt: ISODate;
+};
+
+/* ------------------- Landing Inbound & Prospect Pages ------------------- */
+
+export type InboundLeadStatus = "novo" | "em_atendimento" | "convertido" | "descartado";
+
+export type LeadInbound = {
+  id: string;
+  createdAt: ISODate;
+  nome: string;
+  empresa: string;
+  whatsapp: string;
+  segmento: string;
+  dorTexto?: string | null;
+  consentimentoLgpd: boolean;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  prospectSlug?: string | null;
+  status: InboundLeadStatus;
+};
+
+export type LandingEventRecord = {
+  id: string;
+  createdAt: ISODate;
+  sessionId: string;
+  evento: string;
+  caminho: string;
+  segmento?: string | null;
+  prospectSlug?: string | null;
+  meta: Record<string, unknown>;
+};
+
+export type ProspectPageRecord = {
+  id: string;
+  slug: string;
+  leadId?: string | null;
+  empresa: string;
+  cidade: string;
+  nicho: string;
+  oportunidade?: string | null;
+  createdAt: ISODate;
+  expiresAt?: string | null;
 };

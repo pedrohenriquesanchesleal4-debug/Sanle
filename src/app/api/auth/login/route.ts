@@ -31,7 +31,8 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
     if (error || !data.user?.email) return failure("E-mail ou senha inválidos.", 401);
-    if (!isAdminEmail(data.user.email)) {
+    const isAllowed = await isAdminEmail(data.user.email);
+    if (!isAllowed) {
       await supabase.auth.signOut();
       return failure("Esta conta não tem acesso ao painel.", 403);
     }
