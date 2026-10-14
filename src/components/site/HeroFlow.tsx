@@ -34,9 +34,9 @@ const SCATTER = [
 ];
 
 const KIND_LABEL: Record<Chip["kind"], string> = {
-  doc: "DOC",
+  doc: "PDF",
   sheet: "XLS",
-  task: "TASK",
+  task: "FLUXO",
   mail: "MSG"
 };
 
@@ -85,32 +85,48 @@ export function HeroFlow() {
   }, []);
 
   return (
-    <div ref={root} className="relative aspect-square w-full max-w-[420px] select-none">
-      {/* Régua de fluxo */}
-      <svg aria-hidden="true" viewBox="0 0 400 400" className="absolute inset-0 h-full w-full">
+    <div ref={root} className="relative aspect-square w-full max-w-[440px] select-none p-4 rounded-3xl border border-black/10 bg-white/85 backdrop-blur-2xl shadow-2xl shadow-black/5">
+      {/* Moldura de janela arquitetural */}
+      <div className="absolute top-4 left-5 flex items-center gap-1.5" aria-hidden="true">
+        <span className="h-2 w-2 rounded-full bg-rust/60" />
+        <span className="h-2 w-2 rounded-full bg-amber/60" />
+        <span className="h-2 w-2 rounded-full bg-cobalt/60" />
+        <span className="ml-2 font-mono text-[0.62rem] uppercase tracking-widest text-ink-mute">
+          Pipeline de Organização
+        </span>
+      </div>
+
+      {/* Régua de fluxo luminosa */}
+      <svg aria-hidden="true" viewBox="0 0 400 400" className="absolute inset-0 h-full w-full pointer-events-none">
+        <defs>
+          <linearGradient id="flowGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#2440FF" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.6" />
+          </linearGradient>
+        </defs>
         <path
           data-rail
           d="M60 320 C 110 320, 120 200, 200 200 S 290 80, 340 80"
           fill="none"
-          stroke="rgb(var(--cobalt))"
-          strokeWidth="1.5"
+          stroke="url(#flowGradient)"
+          strokeWidth="2"
           strokeLinecap="round"
-          opacity="0.85"
         />
       </svg>
 
       {/* Chips */}
-      <div className="absolute inset-0 grid grid-cols-2 content-center gap-x-6 gap-y-4 px-2">
+      <div className="absolute inset-0 grid grid-cols-2 content-center gap-x-4 gap-y-3.5 px-6 pt-6">
         {CHIPS.map((chip) => (
           <div
             key={chip.id}
             data-chip
-            className="panel flex items-center gap-2.5 px-[0.7rem] py-[0.55rem] will-change-transform"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-black/8 bg-white shadow-sm will-change-transform hover:border-cobalt/40 transition-colors"
           >
-            <span className="grid h-6 w-6 place-items-center rounded-[6px] bg-ink font-mono text-[0.55rem] font-medium text-paper">
+            <span className="grid h-5 w-6 place-items-center rounded-md border border-cobalt/20 bg-cobalt/5 font-mono text-[0.55rem] font-bold text-cobalt">
               {KIND_LABEL[chip.kind]}
             </span>
-            <span className="truncate font-mono text-[0.68rem] text-ink-soft">{chip.label}</span>
+            <span className="truncate font-mono text-[0.68rem] text-ink">{chip.label}</span>
           </div>
         ))}
       </div>
