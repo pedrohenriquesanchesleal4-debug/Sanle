@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { MessageSquare, Send, X, Loader2, Sparkles, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -97,10 +96,10 @@ export function ChatWidget() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="sanle-chat"
-        className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-medium text-paper shadow-[0_18px_50px_-20px_rgba(18,17,16,0.9)] transition hover:bg-cobalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cobalt"
+        className="fixed bottom-6 left-6 z-40 flex items-center gap-2.5 rounded-full border border-black/10 bg-white/95 px-4 py-3 text-xs font-semibold text-ink shadow-2xl backdrop-blur-md transition-all hover:border-cobalt/50 hover:shadow-cobalt/10"
       >
-        {open ? <X size={18} /> : <MessageSquare size={18} />}
-        <span className="hidden sm:inline">{open ? "Fechar" : "Falar com a Sanle"}</span>
+        {open ? <X size={16} /> : <MessageSquare size={16} className="text-cobalt" />}
+        <span className="hidden sm:inline">{open ? "Fechar" : "Assistente IA Sanle"}</span>
       </button>
 
       {open && (
@@ -108,18 +107,26 @@ export function ChatWidget() {
           id="sanle-chat"
           role="dialog"
           aria-label="Assistente da Sanle"
-          className="fixed bottom-20 right-4 z-50 flex h-[min(560px,calc(100dvh-7rem))] w-[min(400px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-[var(--rule)] bg-paper shadow-[0_40px_90px_-40px_rgba(18,17,16,0.55)]"
+          className="fixed bottom-20 left-4 sm:left-6 z-50 flex h-[min(560px,calc(100dvh-7rem))] w-[min(390px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl backdrop-blur-2xl text-ink"
         >
-          <header className="flex items-center justify-between gap-3 border-b border-[var(--rule)] bg-ink px-4 py-3 text-paper">
+          <header className="flex items-center justify-between gap-3 border-b border-black/8 bg-paper px-4 py-3 text-ink">
             <div className="flex items-center gap-2">
-              <Sparkles size={16} className="text-signal" aria-hidden />
+              <Sparkles size={16} className="text-cobalt" aria-hidden />
               <div>
                 <p className="text-sm font-semibold leading-none">Assistente Sanle</p>
-                <p className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-paper/50">
-                  respostas com fontes
+                <p className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-ink-mute">
+                  respostas com fontes auditadas
                 </p>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="text-ink-mute hover:text-ink"
+              aria-label="Fechar assistente"
+            >
+              <X size={16} />
+            </button>
           </header>
 
           <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
@@ -127,22 +134,22 @@ export function ChatWidget() {
               <div key={i} className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}>
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-xl px-3.5 py-2.5 text-[0.86rem] leading-relaxed",
+                    "max-w-[85%] rounded-xl px-3.5 py-2.5 text-[0.86rem] leading-relaxed shadow-sm",
                     m.role === "user"
-                      ? "bg-cobalt text-white"
-                      : "border border-[var(--rule)] bg-white text-ink-soft"
+                      ? "bg-cobalt text-white font-medium"
+                      : "border border-black/8 bg-paper text-ink"
                   )}
                 >
                   <p className="whitespace-pre-wrap">{m.content}</p>
                   {m.sources && m.sources.length > 0 && (
-                    <p className="mt-2 border-t border-black/10 pt-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] opacity-70">
+                    <p className="mt-2 border-t border-black/8 pt-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-cobalt font-semibold">
                       Fontes: {[...new Set(m.sources)].join(" · ")}
                     </p>
                   )}
                   {m.noProvider && m.role === "assistant" && (
-                    <p className="mt-2 flex items-start gap-1.5 text-[0.66rem] opacity-70">
-                      <AlertTriangle size={12} className="mt-0.5 shrink-0" aria-hidden />
-                      <span>Resposta sem provedor de IA configurado — baseada apenas no material recuperado.</span>
+                    <p className="mt-2 flex items-start gap-1.5 text-[0.66rem] text-ink-mute">
+                      <AlertTriangle size={12} className="mt-0.5 shrink-0 text-amber font-bold" aria-hidden />
+                      <span>Modo determinístico local sem chave de IA externa.</span>
                     </p>
                   )}
                 </div>
@@ -150,9 +157,9 @@ export function ChatWidget() {
             ))}
             {sending && (
               <div className="flex justify-start">
-                <div className="flex items-center gap-2 rounded-xl border border-[var(--rule)] bg-white px-3.5 py-2.5 text-sm text-ink-soft">
-                  <Loader2 size={14} className="animate-spin" aria-hidden />
-                  pensando…
+                <div className="flex items-center gap-2 rounded-xl border border-black/8 bg-paper px-3.5 py-2.5 text-sm text-ink-soft">
+                  <Loader2 size={14} className="animate-spin text-cobalt" aria-hidden />
+                  consultando base de conhecimento…
                 </div>
               </div>
             )}
@@ -165,7 +172,7 @@ export function ChatWidget() {
                   key={s}
                   type="button"
                   onClick={() => send(s)}
-                  className="rounded-full border border-[var(--rule)] bg-white px-3 py-1.5 text-[0.72rem] text-ink-soft transition hover:border-cobalt hover:text-cobalt"
+                  className="rounded-full border border-black/10 bg-paper px-3 py-1.5 text-[0.72rem] text-ink-soft transition hover:border-cobalt hover:text-ink shadow-sm"
                 >
                   {s}
                 </button>
@@ -173,8 +180,8 @@ export function ChatWidget() {
             </div>
           )}
 
-          <div className="border-t border-[var(--rule)] bg-white px-3 py-3">
-            <label className="mb-2 flex items-start gap-2 text-[0.68rem] text-ink-soft/80">
+          <div className="border-t border-black/8 bg-white px-3 py-3">
+            <label className="mb-2 flex items-start gap-2 text-[0.68rem] text-ink-mute">
               <input
                 type="checkbox"
                 checked={consent}
@@ -182,7 +189,7 @@ export function ChatWidget() {
                 className="mt-0.5 accent-cobalt"
               />
               <span>
-                Autorizo salvar esta conversa para que a equipe dê continuidade. Sem marcar, nada é gravado.
+                Autorizo salvar esta conversa para continuidade pela equipe Sanle.
               </span>
             </label>
             <form
@@ -204,18 +211,12 @@ export function ChatWidget() {
               <button
                 type="submit"
                 disabled={sending || !input.trim()}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cobalt text-white transition hover:bg-ink disabled:opacity-40"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cobalt text-white transition hover:bg-cobalt-deep disabled:opacity-40 shadow-sm"
                 aria-label="Enviar mensagem"
               >
                 <Send size={16} />
               </button>
             </form>
-            <p className="mt-2 text-center text-[0.66rem] text-ink-soft/60">
-              Prefere um contato humano?{" "}
-              <Link href="/diagnostico" className="text-cobalt underline decoration-dotted">
-                Envie um diagnóstico
-              </Link>
-            </p>
           </div>
         </div>
       )}
