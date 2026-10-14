@@ -47,7 +47,7 @@ export function AdminShell({ session, children }: { session: Session; children: 
   const isActive = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
 
   return (
-    <div className="flex min-h-dvh bg-[var(--paper)]">
+    <div className="admin-theme flex min-h-dvh bg-[var(--paper)]">
       {/* Sidebar desktop */}
       <aside className="hidden w-64 shrink-0 flex-col border-r border-[var(--rule)] bg-ink text-paper lg:flex">
         <div className="flex h-16 items-center px-6">
