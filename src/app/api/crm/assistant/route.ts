@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addActivity, addMessage, getConversation, getLead, listActivities, logAiRun, updateConversation } from "@/lib/db/repo";
+import { addActivity, addMessage, getLead, listActivities, logAiRun, updateConversation } from "@/lib/db/repo";
 import { failure, guard, handleError, ok, readJson, requireAdmin, zodFailure } from "@/lib/api";
 import { answerInternal } from "@/lib/ai/assistant";
 import { recordAdminAction } from "@/lib/auth";

@@ -22,7 +22,18 @@ import {
 import { cn } from "@/lib/utils";
 import type { Session } from "@/lib/auth";
 
-const NAV_GROUPS = [
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ size?: number | string; className?: string; "aria-hidden"?: boolean }>;
+};
+
+type NavGroup = {
+  group: string;
+  items: NavItem[];
+};
+
+const NAV_GROUPS: NavGroup[] = [
   {
     group: "Inteligência Comercial",
     items: [
@@ -42,7 +53,7 @@ const NAV_GROUPS = [
       { href: "/admin/integracoes", label: "Integrações", icon: PlugZap }
     ]
   }
-] as const;
+];
 
 /**
  * SALES HUNTER — DashboardShell (Seção 13 & 15)

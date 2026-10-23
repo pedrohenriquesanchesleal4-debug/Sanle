@@ -37,7 +37,6 @@ export function CostCalculator() {
       custoMensal: monthlyCost
     });
 
-    // Despacha evento para preencher o formulário final
     if (typeof window !== "undefined") {
       window.dispatchEvent(
         new CustomEvent("sanle:prefill-inbound", {
@@ -59,34 +58,33 @@ export function CostCalculator() {
   return (
     <section
       id="calculadora"
-      className="relative scroll-mt-20 py-20 md:py-28 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 border-b border-white/[0.06] bg-[#08090C] py-20 text-[#F5F6F8] md:py-28"
       aria-labelledby="calc-title"
     >
       <div className="shell max-w-5xl">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#2440FF] font-semibold">
-          <Calculator className="h-4 w-4" />
+        <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#78A9FF]">
+          <Calculator className="h-4 w-4 text-[#B7F36B]" />
           <span>SIMULAÇÃO DE IMPACTO OPERACIONAL</span>
         </div>
 
         <h2
           id="calc-title"
-          className="mt-4 font-serif-editorial text-[clamp(2.4rem,5.5vw,4.6rem)] leading-[0.98] text-[#121110]"
+          className="mt-4 font-display text-[clamp(2rem,4.5vw,3.6rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-[#F5F6F8]"
         >
           Quanto custa o trabalho invisível na sua empresa?
         </h2>
 
-        <p className="mt-4 max-w-2xl text-lg text-[#4A453E] font-sans-editorial">
-          Informe os números reais da sua equipe para calcular as horas e o impacto financeiro
+        <p className="mt-4 max-w-2xl text-base text-[#969DA8] md:text-lg">
+          Informe os números reais da sua equipe para estimar as horas e o impacto financeiro
           drenados por rotinas manuais todos os meses.
         </p>
 
-        <div className="mt-12 grid lg:grid-cols-2 gap-8 items-start">
-          {/* Inputs */}
-          <div className="p-8 rounded-2xl bg-white border border-[rgba(18,17,16,0.08)] shadow-md space-y-6">
+        <div className="mt-12 grid items-start gap-8 lg:grid-cols-2">
+          <div className="space-y-6 rounded-2xl border border-white/[0.08] bg-[#111318] p-8">
             <div>
               <label
                 htmlFor="calc-team"
-                className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium"
+                className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
                 Número de pessoas na equipe
               </label>
@@ -100,14 +98,14 @@ export function CostCalculator() {
                   setTeamSize(e.target.value);
                   handleCalculateOrChange();
                 }}
-                className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] font-mono text-base focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                className="w-full rounded-xl border border-white/[0.1] bg-[#191C22] px-4 py-3 font-mono text-base text-[#F5F6F8] placeholder:text-[#969DA8]/45 focus:border-[#78A9FF] focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="calc-hours"
-                className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium"
+                className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
                 Horas por dia em tarefas repetitivas (por pessoa)
               </label>
@@ -123,14 +121,14 @@ export function CostCalculator() {
                   setHoursPerDay(e.target.value);
                   handleCalculateOrChange();
                 }}
-                className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] font-mono text-base focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                className="w-full rounded-xl border border-white/[0.1] bg-[#191C22] px-4 py-3 font-mono text-base text-[#F5F6F8] placeholder:text-[#969DA8]/45 focus:border-[#78A9FF] focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="calc-rate"
-                className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium"
+                className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
                 Custo médio da hora de trabalho (R$, opcional)
               </label>
@@ -144,40 +142,39 @@ export function CostCalculator() {
                   setHourlyRate(e.target.value);
                   handleCalculateOrChange();
                 }}
-                className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] font-mono text-base focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                className="w-full rounded-xl border border-white/[0.1] bg-[#191C22] px-4 py-3 font-mono text-base text-[#F5F6F8] placeholder:text-[#969DA8]/45 focus:border-[#78A9FF] focus:outline-none"
               />
             </div>
 
-            <p className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[#8A837A]">
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-[#969DA8]">
               * Considera média padrão de 22 dias úteis mensais.
             </p>
           </div>
 
-          {/* Resultado */}
-          <div className="p-8 md:p-10 rounded-2xl bg-[#F5F2EB] border border-[rgba(18,17,16,0.08)] flex flex-col justify-between min-h-[380px]">
+          <div className="flex min-h-[380px] flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#111318] p-8 md:p-10">
             <div>
-              <span className="inline-block px-3 py-1 bg-white border border-[rgba(18,17,16,0.08)] rounded-full font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[#4A453E] font-medium">
-                Estimativa com os números que você informou
+              <span className="inline-block rounded-full border border-white/[0.1] bg-[#191C22] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[#969DA8]">
+                Estimativa com os números informados
               </span>
 
               <div className="mt-8">
-                <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#4A453E]">
+                <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]">
                   Horas mensais consumidas
                 </span>
-                <div className="font-serif-editorial text-[clamp(3rem,6vw,5.5rem)] leading-none text-[#121110] mt-2">
+                <div className="mt-2 font-display text-[clamp(3rem,6vw,5rem)] font-semibold leading-none text-[#F5F6F8]">
                   {monthlyHours > 0 ? monthlyHours : "0"}
-                  {monthlyHours > 0 && <span className="text-xl font-mono text-[#4A453E] ml-2">h/mês</span>}
+                  {monthlyHours > 0 && <span className="ml-2 font-mono text-xl text-[#969DA8]">h/mês</span>}
                 </div>
               </div>
 
               {monthlyCost !== null && (
-                <div className="mt-8 pt-6 border-t border-[rgba(18,17,16,0.08)]">
-                  <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#4A453E]">
+                <div className="mt-8 border-t border-white/[0.08] pt-6">
+                  <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]">
                     Custo financeiro estimado
                   </span>
-                  <div className="font-serif-editorial text-[clamp(2.5rem,5vw,4.2rem)] leading-none text-[#2440FF] mt-2">
+                  <div className="mt-2 font-display text-[clamp(2.2rem,4.5vw,3.6rem)] font-semibold leading-none text-[#B7F36B]">
                     R$ {monthlyCost.toLocaleString("pt-BR")}
-                    <span className="text-lg font-mono text-[#4A453E] ml-2">/mês</span>
+                    <span className="ml-2 font-mono text-lg text-[#969DA8]">/mês</span>
                   </div>
                 </div>
               )}
@@ -188,9 +185,9 @@ export function CostCalculator() {
                 type="button"
                 onClick={handleCta}
                 disabled={monthlyHours === 0}
-                className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-[#121110] text-white font-medium text-sm transition-all hover:bg-[#2440FF] shadow-md shadow-stone-900/10 disabled:opacity-40 disabled:pointer-events-none active:scale-[0.99]"
+                className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#B7F36B] px-6 py-4 text-sm font-semibold text-[#08090C] transition-all hover:bg-[#c8f789] disabled:pointer-events-none disabled:opacity-40"
               >
-                <span>Quero reduzir isso</span>
+                <span>Quero converter essas horas em oportunidade</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowRight, CheckCircle2, MessageCircle, Sparkles } from "lucide-react";
-import { SEGMENTS_DATA, SegmentInfo } from "@/components/site/SegmentTabs";
+import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { SEGMENTS_DATA } from "@/content/segments";
 import { brand, siteUrl } from "@/content/brand";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CostCalculator } from "@/components/site/CostCalculator";

@@ -65,9 +65,11 @@ export default function LeadsPage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="eyebrow">CRM</p>
-          <h1 className="mt-2 font-display text-3xl text-ink">Leads</h1>
-          <p className="mt-1 text-sm text-ink-soft/70">{data ? `${data.total} registros` : "—"}</p>
+          <p className="eyebrow">CRM · SALES HUNTER</p>
+          <h1 className="mt-2 font-display text-3xl font-semibold text-[#F5F6F8]">Leads Qualificados</h1>
+          <p className="mt-1 text-sm text-[#969DA8]">
+            {data ? `${data.total} registros auditáveis na base ativa` : "—"}
+          </p>
         </div>
         <div className="flex gap-2">
           <button type="button" onClick={() => void load()} className="btn btn-ghost">
@@ -83,7 +85,7 @@ export default function LeadsPage() {
         <div className="grid gap-3 md:grid-cols-5">
           <div className="md:col-span-2">
             <div className="relative">
-              <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft/50" />
+              <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#969DA8]" />
               <input
                 className="field pl-9"
                 placeholder="Buscar empresa, contato, cidade…"
@@ -136,7 +138,7 @@ export default function LeadsPage() {
           <div className="-mx-5 overflow-x-auto">
             <table className="w-full min-w-[880px] text-sm">
               <thead>
-                <tr className="border-b border-[var(--rule)] text-left font-mono text-[0.64rem] uppercase tracking-[0.12em] text-ink-soft/70">
+                <tr className="border-b border-white/[0.08] text-left font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#969DA8]">
                   <th className="px-5 py-3">Empresa</th>
                   <th className="px-3 py-3">Etapa</th>
                   <th className="px-3 py-3">Score</th>
@@ -151,12 +153,12 @@ export default function LeadsPage() {
                 {data?.items.map((lead) => (
                   <tr
                     key={lead.id}
-                    className="cursor-pointer border-b border-[var(--rule)] transition hover:bg-cobalt/[0.03]"
+                    className="cursor-pointer border-b border-white/[0.06] transition hover:bg-[#78A9FF]/[0.05]"
                     onClick={() => router.push(`/admin/leads/${lead.id}`)}
                   >
                     <td className="px-5 py-3">
-                      <p className="font-medium text-ink">{lead.tradeName || lead.companyName}</p>
-                      <p className="text-xs text-ink-soft/70">
+                      <p className="font-medium text-[#F5F6F8]">{lead.tradeName || lead.companyName}</p>
+                      <p className="text-xs text-[#969DA8]">
                         {[lead.segment, lead.city, lead.uf].filter(Boolean).join(" · ") || "sem classificação"}
                       </p>
                     </td>
@@ -164,7 +166,7 @@ export default function LeadsPage() {
                     <td className="px-3 py-3"><ScorePill score={lead.score} /></td>
                     <td className="px-3 py-3"><PriorityDot priority={lead.priority} /></td>
                     <td className="px-3 py-3"><VerificationBadge status={lead.verification} /></td>
-                    <td className="px-3 py-3 text-xs text-ink-soft">
+                    <td className="px-3 py-3 text-xs text-[#969DA8]">
                       {lead.nextAction ? (
                         <span className="line-clamp-1">
                           {lead.nextAction}
@@ -174,9 +176,11 @@ export default function LeadsPage() {
                         <Badge tone="rust">sem próxima ação</Badge>
                       )}
                     </td>
-                    <td className="px-3 py-3 text-xs text-ink-soft/70">{timeAgo(lead.updatedAt)}</td>
+                    <td className="px-3 py-3 text-xs text-[#969DA8]">{timeAgo(lead.updatedAt)}</td>
                     <td className="px-5 py-3 text-right">
-                      <Link href={`/admin/leads/${lead.id}`} className="text-xs text-cobalt">Abrir →</Link>
+                      <Link href={`/admin/leads/${lead.id}`} className="font-mono text-xs text-[#78A9FF] hover:text-[#B7F36B]">
+                        Abrir →
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -189,7 +193,7 @@ export default function LeadsPage() {
               <button type="button" className="btn btn-ghost" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
                 <ChevronLeft size={15} /> Anterior
               </button>
-              <span className="font-mono text-xs text-ink-soft">
+              <span className="font-mono text-xs text-[#969DA8]">
                 página {data.page} / {data.totalPages}
               </span>
               <button type="button" className="btn btn-ghost" disabled={page >= data.totalPages} onClick={() => setPage((p) => p + 1)}>
@@ -204,21 +208,21 @@ export default function LeadsPage() {
         <div id="duplicatas">
           <Panel
             title="Possíveis duplicatas"
-            description="Somente sinalização — a Sanle nunca mescla registros automaticamente. Revise e decida manualmente."
+            description="Somente sinalização — o Sales Hunter nunca mescla registros automaticamente. Revise e decida manualmente."
           >
             <ul className="space-y-4">
               {dupes.map((g) => (
-                <li key={g.key} className="rounded-lg border border-[var(--rule)] p-4">
-                  <p className="mb-2 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-ink-soft/70">
+                <li key={g.key} className="rounded-xl border border-white/[0.08] bg-[#191C22]/55 p-4">
+                  <p className="mb-2 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#969DA8]">
                     <Copy size={12} /> chave: {g.key}
                   </p>
                   <ul className="space-y-1 text-sm">
                     {g.leads.map((l) => (
                       <li key={l.id} className="flex items-center justify-between gap-3">
-                        <Link href={`/admin/leads/${l.id}`} className="text-cobalt">
+                        <Link href={`/admin/leads/${l.id}`} className="text-[#78A9FF] hover:text-[#B7F36B]">
                           {l.companyName}
                         </Link>
-                        <span className="text-xs text-ink-soft/70">{[l.city, l.phone, l.email].filter(Boolean).join(" · ")}</span>
+                        <span className="text-xs text-[#969DA8]">{[l.city, l.phone, l.email].filter(Boolean).join(" · ")}</span>
                       </li>
                     ))}
                   </ul>

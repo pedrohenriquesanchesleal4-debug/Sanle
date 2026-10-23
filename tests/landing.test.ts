@@ -1,8 +1,48 @@
 import { describe, it, expect } from "vitest";
-import { buildWhatsAppLink, getWhatsAppNumber } from "@/lib/whatsapp";
-import { InboundLeadSchema } from "@/app/api/site/inbound/route";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { InboundLeadSchema } from "@/lib/schemas";
+import { computeStoryTimelineState } from "@/lib/motion/scroll-timelines";
+import { STORY_SCENES, MOTION_EASING, MOTION_DURATION } from "@/lib/motion/motion-config";
+import { brand, hero } from "@/content/brand";
 
-describe("Landing & Inbound Integration Tests", () => {
+describe("Landing, Storytelling & Inbound Integration Tests", () => {
+  it("exposes Sales Hunter brand identity and The Opportunity Engine concept", () => {
+    expect(brand.name).toBe("Sales Hunter");
+    expect(hero.eyebrow).toContain("THE OPPORTUNITY ENGINE");
+  });
+
+  it("enforces precision motion tokens and 8 camera keyframes for 3D WebGL engine", () => {
+    expect(MOTION_EASING.gsapOut).toBe("power3.out");
+    expect(MOTION_DURATION.normal).toBeGreaterThan(0);
+    expect(STORY_SCENES).toHaveLength(8);
+  });
+
+  it("defines all 8 continuous storytelling scenes covering [0..1] without gaps", () => {
+    expect(STORY_SCENES).toHaveLength(8);
+    expect(STORY_SCENES[0]!.range[0]).toBe(0);
+    expect(STORY_SCENES[STORY_SCENES.length - 1]!.range[1]).toBe(1);
+
+    for (let i = 1; i < STORY_SCENES.length; i++) {
+      expect(STORY_SCENES[i]!.range[0]).toBeCloseTo(STORY_SCENES[i - 1]!.range[1], 5);
+    }
+  });
+
+  it("computes continuous camera, network, and opportunity parameters across scroll progress", () => {
+    const startState = computeStoryTimelineState(0);
+    expect(startState.activeSceneIndex).toBe(0);
+    expect(startState.activeScene.id).toBe("scene-01-signal");
+    expect(startState.networkIntensity).toBeLessThan(0.2);
+
+    const midState = computeStoryTimelineState(0.42);
+    expect(midState.activeScene.id).toBe("scene-04-opportunity");
+    expect(midState.opportunityFocus).toBeGreaterThan(0.7);
+
+    const endState = computeStoryTimelineState(1);
+    expect(endState.activeSceneIndex).toBe(7);
+    expect(endState.activeScene.id).toBe("scene-08-engine");
+    expect(endState.opportunityFocus).toBeGreaterThan(0.9);
+  });
+
   it("buildWhatsAppLink formats safe wa.me URL with phone and message", () => {
     const url = buildWhatsAppLink();
     expect(url).toContain("https://wa.me/");
@@ -37,9 +77,9 @@ describe("Landing & Inbound Integration Tests", () => {
 
   it("rejects inbound lead with missing required fields or LGPD false", () => {
     const invalidData = {
-      nome: "A", // too short (min 2)
-      empresa: "B", // too short (min 2)
-      whatsapp: "123", // too short
+      nome: "A",
+      empresa: "B",
+      whatsapp: "123",
       consentimentoLgpd: false
     };
 
@@ -54,7 +94,7 @@ describe("Landing & Inbound Integration Tests", () => {
       whatsapp: "11999999999",
       segmento: "Outros",
       consentimentoLgpd: true,
-      hp: "http://spam.com" // honeypot filled
+      hp: "http://spam.com"
     };
 
     const parsed = InboundLeadSchema.safeParse(botData);
