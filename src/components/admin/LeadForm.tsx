@@ -7,8 +7,6 @@ import { api, errorFields, errorMessage } from "@/lib/client-api";
 import { FUNNEL_STAGES } from "@/lib/types";
 import { segments } from "@/content/brand";
 
-const CHANNELS = ["osm", "google_places", "csv", "manual", "site"] as const;
-
 export function LeadForm({
   onClose,
   onCreated

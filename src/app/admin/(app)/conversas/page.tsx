@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { RefreshCw, Send, ArrowLeft } from "lucide-react";
 import { Panel, Badge, Spinner, Notice, EmptyState } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
@@ -11,7 +10,6 @@ import { timeAgo } from "@/lib/utils";
 type ConvDetail = { conversation: Conversation; messages: ConversationMessage[] };
 
 export default function ConversasPage() {
-  const router = useRouter();
   const [list, setList] = useState<Conversation[] | null>(null);
   const [detail, setDetail] = useState<ConvDetail | null>(null);
   const [error, setError] = useState<string | null>(null);

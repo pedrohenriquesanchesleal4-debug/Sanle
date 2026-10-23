@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Sparkles, Send, Loader2, UserRound, Bot } from "lucide-react";
-import { Panel, Spinner, Notice, Badge } from "@/components/admin/ui";
+import { Send, Loader2, UserRound, Bot } from "lucide-react";
+import { Panel, Notice, Badge } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
 import type { Lead, Paginated } from "@/lib/types";
 

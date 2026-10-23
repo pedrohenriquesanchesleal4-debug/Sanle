@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Copy, Check, RefreshCw } from "lucide-react";
-import { Panel, Badge, Spinner, Notice, EmptyState } from "@/components/admin/ui";
+import { Badge, Spinner, Notice, EmptyState } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
 import type { OutreachDraft } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
