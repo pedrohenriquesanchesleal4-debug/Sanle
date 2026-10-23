@@ -80,7 +80,12 @@ export function SanleScrollytelling() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const animationFrameRef = useRef<number | null>(null);
+  
+  // Refs para interpolação suave (lerp) e eliminação de thrashing de renderização
+  const targetProgressRef = useRef<number>(0);
+  const currentRenderProgressRef = useRef<number>(0);
+  const rafIdRef = useRef<number | null>(null);
+  const isLoopRunningRef = useRef<boolean>(false);
 
   // 1. Pré-carregamento dos 4 frames da história
   useEffect(() => {
@@ -99,7 +104,6 @@ export function SanleScrollytelling() {
         }
       };
       img.onerror = () => {
-        // Fallback para não quebrar a montagem
         loadedCount += 1;
         if (loadedCount === CHAPTERS.length) {
           imagesRef.current = loadedImages;
@@ -109,13 +113,13 @@ export function SanleScrollytelling() {
     });
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
       }
     };
   }, []);
 
-  // 2. Função de renderização suave do Canvas com blend/crossfade entre frames
+  // 2. Função de renderização pura do Canvas com verdadeiro crossfade ótico
   const renderCanvas = useCallback((progress: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -127,10 +131,14 @@ export function SanleScrollytelling() {
 
     const width = canvas.width;
     const height = canvas.height;
+    if (width === 0 || height === 0) return;
 
-    // Calcula o frame base e o próximo frame com interpolação contínua
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
+    // Calcula o frame base e o próximo frame com interpolação contínua (0 a 3)
     const totalFrames = CHAPTERS.length;
-    const continuousFrame = progress * (totalFrames - 1);
+    const continuousFrame = Math.max(0, Math.min(totalFrames - 1, progress * (totalFrames - 1)));
     const baseIndex = Math.min(Math.floor(continuousFrame), totalFrames - 1);
     const nextIndex = Math.min(baseIndex + 1, totalFrames - 1);
     const blendAlpha = continuousFrame - baseIndex;
@@ -143,7 +151,7 @@ export function SanleScrollytelling() {
     // Helper para desenhar a imagem mantendo a proporção de cobertura ('cover')
     const drawCover = (img: HTMLImageElement, alpha: number) => {
       if (!img || !img.complete || img.naturalWidth === 0) return;
-      ctx.globalAlpha = alpha;
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
 
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = width / height;
@@ -164,17 +172,48 @@ export function SanleScrollytelling() {
       ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
     };
 
-    if (baseImg) {
-      drawCover(baseImg, 1);
-    }
-    if (nextImg && blendAlpha > 0 && baseIndex !== nextIndex) {
-      drawCover(nextImg, blendAlpha);
+    // Verdadeiro crossfade ótico: fade out da base (1 - blendAlpha) e fade in do próximo (blendAlpha)
+    if (baseIndex === nextIndex || blendAlpha <= 0.001) {
+      if (baseImg) drawCover(baseImg, 1);
+    } else {
+      if (baseImg) drawCover(baseImg, 1 - blendAlpha);
+      if (nextImg) drawCover(nextImg, blendAlpha);
     }
 
     ctx.globalAlpha = 1;
   }, []);
 
-  // 3. Atualização das dimensões do Canvas com suporte a telas HiDPI
+  // 3. Loop de interpolação suave (Lerp) para evitar pulos no scroll de roda
+  const startLerpLoop = useCallback(() => {
+    if (isLoopRunningRef.current) return;
+    isLoopRunningRef.current = true;
+
+    const loop = () => {
+      const diff = targetProgressRef.current - currentRenderProgressRef.current;
+      if (Math.abs(diff) > 0.0005) {
+        // Easing suave tátil (0.16)
+        currentRenderProgressRef.current += diff * 0.16;
+        renderCanvas(currentRenderProgressRef.current);
+        rafIdRef.current = requestAnimationFrame(loop);
+      } else {
+        currentRenderProgressRef.current = targetProgressRef.current;
+        renderCanvas(currentRenderProgressRef.current);
+        isLoopRunningRef.current = false;
+        rafIdRef.current = null;
+      }
+    };
+
+    rafIdRef.current = requestAnimationFrame(loop);
+  }, [renderCanvas]);
+
+  // 4. Renderiza imediatamente quando as imagens terminarem o carregamento
+  useEffect(() => {
+    if (imagesLoaded) {
+      renderCanvas(currentRenderProgressRef.current);
+    }
+  }, [imagesLoaded, renderCanvas]);
+
+  // 5. Atualização das dimensões do Canvas isolada de eventos de scroll (zero thrashing)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -182,47 +221,47 @@ export function SanleScrollytelling() {
     const handleResize = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
-      renderCanvas(scrollProgress);
+      const newWidth = Math.floor(rect.width * dpr);
+      const newHeight = Math.floor(rect.height * dpr);
+
+      if (canvas.width !== newWidth || canvas.height !== newHeight) {
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        renderCanvas(currentRenderProgressRef.current);
+      }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [renderCanvas, scrollProgress]);
+  }, [renderCanvas]);
 
-  // 4. Listener de Scroll nativo de alto desempenho com requestAnimationFrame
+  // 6. Listener de Scroll nativo de alto desempenho com requestAnimationFrame
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const onScroll = () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      const rect = container.getBoundingClientRect();
+      const totalHeight = container.offsetHeight - window.innerHeight;
+      if (totalHeight <= 0) return;
 
-      animationFrameRef.current = requestAnimationFrame(() => {
-        const rect = container.getBoundingClientRect();
-        const totalHeight = container.offsetHeight - window.innerHeight;
-        if (totalHeight <= 0) return;
+      // Progresso normalizado de 0.00 a 1.00 ao longo do container
+      const rawProgress = -rect.top / totalHeight;
+      const clamped = Math.max(0, Math.min(1, rawProgress));
 
-        // Progresso normalizado de 0.00 a 1.00 ao longo do container
-        const rawProgress = -rect.top / totalHeight;
-        const clamped = Math.max(0, Math.min(1, rawProgress));
+      targetProgressRef.current = clamped;
+      setScrollProgress(clamped);
 
-        setScrollProgress(clamped);
+      // Sincroniza o capítulo ativo em tempo real
+      const chapterIdx = Math.min(
+        Math.floor(clamped * CHAPTERS.length),
+        CHAPTERS.length - 1
+      );
+      setActiveChapter(chapterIdx);
 
-        const currentChapterIndex = Math.min(
-          Math.floor(clamped * CHAPTERS.length),
-          CHAPTERS.length - 1
-        );
-        setActiveChapter(currentChapterIndex);
-
-        if (imagesLoaded) {
-          renderCanvas(clamped);
-        }
-      });
+      // Dispara o loop lerp suave
+      startLerpLoop();
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -230,11 +269,8 @@ export function SanleScrollytelling() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
     };
-  }, [imagesLoaded, renderCanvas]);
+  }, [startLerpLoop]);
 
   // Ação de navegar até um capítulo específico via clique
   const scrollToChapter = (index: number) => {
@@ -271,7 +307,7 @@ export function SanleScrollytelling() {
         />
 
         {/* 1. Header do Scrollytelling com status em tempo real */}
-        <div className="relative z-20 flex items-center justify-between border-b border-[rgba(18,17,16,0.08)] pb-4">
+        <div className="relative z-20 flex items-center justify-between border-b border-[rgba(18,17,16,0.08)] pb-3">
           <div className="flex items-center gap-3">
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2440FF]/10 text-[#2440FF]">
               <Sparkles className="h-3.5 w-3.5" />
@@ -304,12 +340,19 @@ export function SanleScrollytelling() {
               <ArrowUpRight className="h-3.5 w-3.5 text-[#2440FF]" />
             </Link>
           </div>
+
+          {/* Micro-barra de progresso fluida sob o cabeçalho */}
+          <div
+            className="absolute bottom-0 left-0 h-[2px] bg-[#2440FF] transition-all duration-100 ease-out"
+            style={{ width: `${Math.round(scrollProgress * 100)}%` }}
+            aria-hidden="true"
+          />
         </div>
 
         {/* 2. Palco Central: Visual do Objeto em Canvas + Narrativa Editorial */}
-        <div className="relative z-10 my-auto grid lg:grid-cols-[1.15fr_0.85fr] gap-8 md:gap-12 items-center max-w-7xl mx-auto w-full">
+        <div className="relative z-10 my-auto grid lg:grid-cols-[1.12fr_0.88fr] gap-6 md:gap-10 items-center max-w-7xl mx-auto w-full">
           {/* Lado Esquerdo: Canvas Cinematográfico Interativo */}
-          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl md:rounded-3xl overflow-hidden border border-[rgba(18,17,16,0.1)] bg-white shadow-2xl shadow-stone-300/40">
+          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[min(52vh,460px)] rounded-2xl md:rounded-3xl overflow-hidden border border-[rgba(18,17,16,0.1)] bg-white shadow-2xl shadow-stone-300/40">
             {/* O Canvas onde os frames passam a cada scrollada */}
             <canvas
               ref={canvasRef}
@@ -339,22 +382,22 @@ export function SanleScrollytelling() {
             </div>
           </div>
 
-          {/* Lado Direito: Narrativa Editorial que evolui no Scroll */}
-          <div className="flex flex-col justify-center space-y-4 max-w-xl">
+          {/* Lado Direito: Narrativa Editorial com transição fluida */}
+          <div key={current.id} className="flex flex-col justify-center space-y-3.5 max-w-xl transition-all duration-300 animate-in fade-in">
             <div className="inline-flex items-center gap-2 text-[#2440FF] font-mono text-xs uppercase tracking-widest font-semibold">
               <IconComponent className="h-4 w-4" />
               <span>{current.kicker}</span>
             </div>
 
-            <h3 className="font-serif-editorial text-[clamp(1.75rem,3.2vw,2.75rem)] leading-[1.08] text-[#121110] tracking-tight transition-all duration-300">
+            <h3 className="font-serif-editorial text-[clamp(1.65rem,3vw,2.5rem)] leading-[1.08] text-[#121110] tracking-tight">
               {current.title}
             </h3>
 
-            <p className="font-display text-base sm:text-lg text-[#2440FF] font-medium leading-snug">
+            <p className="font-display text-sm sm:text-base text-[#2440FF] font-medium leading-snug">
               {current.lead}
             </p>
 
-            <p className="text-sm sm:text-base leading-relaxed text-[#4A453E] font-sans-editorial">
+            <p className="text-xs sm:text-sm leading-relaxed text-[#4A453E] font-sans-editorial">
               {current.body}
             </p>
 

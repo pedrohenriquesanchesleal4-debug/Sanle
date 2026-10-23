@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import gsap from "gsap";
-import { ArrowRight, MessageCircle, Sparkles, ChevronDown } from "lucide-react";
+import { ArrowRight, MessageCircle, ChevronDown } from "lucide-react";
 import { heroContent } from "@/content/hero";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
+
+import { TactileFlowConsole } from "@/components/site/TactileFlowConsole";
 
 export function HeroPortal() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -136,29 +137,34 @@ export function HeroPortal() {
            ========================================================================= */}
         <div
           ref={heroContentRef}
-          className="relative z-10 w-full h-full flex flex-col justify-between pt-24 pb-10 will-change-transform"
+          className="relative z-10 w-full h-full flex flex-col justify-between pt-20 pb-8 will-change-transform"
           style={{
             opacity: 0.45,
             transform: "translate3d(0, 0, 0) scale(0.88)",
             pointerEvents: isRevealed ? "auto" : "none"
           }}
         >
-          <div className="shell relative z-10 grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center my-auto">
+          <div className="shell relative z-10 grid lg:grid-cols-[1.08fr_0.92fr] gap-8 lg:gap-12 items-center my-auto w-full max-w-7xl">
             {/* Lado Esquerdo: Mensagem e Tipografia Monumental em Tom Claro */}
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[rgba(18,17,16,0.08)] shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
-                <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#4A453E] font-medium">
-                  {heroContent.eyebrow}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[rgba(18,17,16,0.08)] shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
+                  <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-[#4A453E] font-medium">
+                    {heroContent.eyebrow}
+                  </span>
+                </div>
+                <span className="font-mono text-[0.62rem] text-[#8A837A] hidden sm:inline">
+                  LAT 15°47&apos;38&quot;S LONG 47°52&apos;58&quot;W
                 </span>
               </div>
 
               <h1
                 id="hero-main-title"
-                className="mt-6 font-serif-editorial text-[clamp(3.1rem,8vw,7.2rem)] leading-[0.94] tracking-[-0.04em] text-[#121110]"
+                className="mt-5 font-serif-editorial text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.98] tracking-[-0.035em] text-[#121110]"
               >
                 {heroContent.headlineTop}
-                <span className="block mt-1">
+                <span className="block mt-1 font-serif-editorial">
                   {heroContent.headlineBottom}{" "}
                   <em className="italic text-[#2440FF] font-normal not-italic:font-serif">
                     {heroContent.headlineItalic}
@@ -166,15 +172,43 @@ export function HeroPortal() {
                 </span>
               </h1>
 
-              <p className="mt-7 max-w-xl text-lg md:text-xl leading-relaxed text-[#4A453E] font-sans-editorial">
+              <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-[#4A453E] font-sans-editorial">
                 {heroContent.subheadline}
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-3.5">
+              {/* Três capacidades arquiteturais de fluxo */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-xl">
+                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#2440FF] font-bold block">
+                    01 · Ingestão
+                  </span>
+                  <span className="text-[0.72rem] text-[#121110] font-medium block mt-0.5">
+                    WhatsApp & OCR direto
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#C8A24A] font-bold block">
+                    02 · Regras
+                  </span>
+                  <span className="text-[0.72rem] text-[#121110] font-medium block mt-0.5">
+                    Validação em 0.12s
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#10B981] font-bold block">
+                    03 · ERP Sync
+                  </span>
+                  <span className="text-[0.72rem] text-[#121110] font-medium block mt-0.5">
+                    Omie, ContaAzul & Ledger
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-7 flex flex-wrap items-center gap-3.5">
                 <Link
                   href={heroContent.ctaPrimary.href}
                   onClick={handleCtaClick}
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#121110] text-white font-medium text-sm transition-all duration-200 hover:bg-[#2440FF] hover:shadow-[0_10px_25px_rgba(36,64,255,0.3)] active:scale-[0.98]"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#121110] text-white font-medium text-sm transition-all duration-200 hover:bg-[#2440FF] hover:shadow-[0_8px_20px_rgba(36,64,255,0.25)] active:scale-[0.98]"
                 >
                   <span>{heroContent.ctaPrimary.label}</span>
                   <ArrowRight className="h-4 w-4" />
@@ -183,58 +217,40 @@ export function HeroPortal() {
                 <button
                   type="button"
                   onClick={handleWhatsAppClick}
-                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#121110] text-sm hover:border-[#2440FF] hover:text-[#2440FF] transition-all shadow-sm active:scale-[0.98]"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#121110] text-sm hover:border-[#2440FF] hover:text-[#2440FF] transition-all shadow-sm active:scale-[0.98]"
                 >
                   <MessageCircle className="h-4 w-4 text-[#10B981]" />
                   <span>{heroContent.ctaSecondary.label}</span>
                 </button>
               </div>
 
-              <p className="mt-6 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[#8A837A]">
+              <p className="mt-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[#8A837A]">
                 {heroContent.microProof}
               </p>
             </div>
 
-            {/* Lado Direito: Preview da Escultura Cinética */}
-            <div className="relative w-full aspect-[4/3] md:aspect-[16/11] rounded-3xl border border-[rgba(18,17,16,0.1)] bg-white overflow-hidden shadow-2xl shadow-stone-300/50 group">
-              <Image
-                src="/images/scrolly/frame-1.jpg"
-                alt="Escultura cinética da Sanle em atelier de arquitetura"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 540px"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 backdrop-blur-md border border-[rgba(18,17,16,0.06)] shadow-sm">
-                <Sparkles className="h-3 w-3 text-[#2440FF]" />
-                <span className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-[#121110] font-semibold">
-                  Objeto Cinético Sanle
+            {/* Lado Direito: O Console Tátil de Orquestração Operacional */}
+            <div className="w-full">
+              <TactileFlowConsole />
+              
+              <div className="mt-3 flex items-center justify-between px-2">
+                <a
+                  href="#historia-sanle"
+                  className="inline-flex items-center gap-1.5 text-[0.68rem] font-mono text-[#4A453E] hover:text-[#2440FF] transition-colors"
+                >
+                  <ChevronDown className="h-3 w-3 animate-bounce text-[#2440FF]" />
+                  <span>Role para ver a escultura física em movimento no Scrollytelling</span>
+                </a>
+                <span className="font-mono text-[0.62rem] text-[#8A837A]">
+                  4 CAPÍTULOS
                 </span>
               </div>
-
-              <a
-                href="#historia-sanle"
-                className="absolute bottom-4 inset-x-4 z-10 p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-[rgba(18,17,16,0.08)] flex items-center justify-between text-xs text-[#121110] shadow-lg hover:border-[#2440FF] transition-all"
-              >
-                <div>
-                  <strong className="block font-medium">História em Scrollytelling</strong>
-                  <span className="text-[#4A453E] text-[0.7rem]">
-                    Role para ver o objeto se montar e o fluxo se organizar
-                  </span>
-                </div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2440FF] text-white">
-                  <ChevronDown className="h-4 w-4 animate-bounce" />
-                </div>
-              </a>
             </div>
           </div>
 
-          <div className="shell pt-4 border-t border-[rgba(18,17,16,0.08)] flex items-center justify-between text-xs font-mono text-[#8A837A]">
-            <span>01 / 07 · INTRODUÇÃO</span>
-            <span className="hidden sm:inline">CONECTANDO DOCUMENTOS · SISTEMAS · IA</span>
+          <div className="shell pt-3 border-t border-[rgba(18,17,16,0.08)] flex items-center justify-between text-xs font-mono text-[#8A837A]">
+            <span>01 / 07 · REVELAÇÃO DO FLUXO OPERACIONAL</span>
+            <span className="hidden sm:inline">CONECTANDO DOCUMENTOS · SISTEMAS · REGRAS DE NEGÓCIO</span>
           </div>
         </div>
 
