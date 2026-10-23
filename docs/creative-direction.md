@@ -112,33 +112,31 @@ A narrativa da landing page opera sobre um palco contínuo onde cada objeto se m
 
 ## 4. LISTA DE ASSETS E PROMPTS DETALHADOS DE GERAÇÃO
 
-### ASSET 01 — HERO VISUAL (`public/media/hero/opportunity-origin.png`)
-- **Dimensões/Formato**: 16:9 (`1920x1080`, PNG/WebP otimizado).
+### ASSET 01 — HERO VISUAL (`public/media/hero/opportunity-origin.jpg`)
+- **Dimensões/Formato**: 16:9 (`1376x768`, JPEG otimizado).
 - **Uso na Narrativa**: Base visual atmosférica da Cena 01 (*Before the Signal*) e fallback estático de alta precisão para dispositivos sem WebGL.
 - **Prompt de Geração (12 critérios)**:
   > "Create an original cinematic visual environment for a premium B2B commercial intelligence platform called Sales Hunter. 1. Narrative purpose: represent the silent moment right before a business opportunity signal is detected in a vast urban territory. 2. Composition: extreme minimalist wide composition with 80% negative space and a single luminous micro-coordinate point in the exact center casting a delicate horizontal horizon line. 3. Point of view: elevated architectural aerial perspective looking slightly down into an abstract dark spatial plane. 4. Depth: deep atmospheric perspective with subtle volumetric falloff. 5. Lighting: physically plausible low-key studio lighting, tiny crisp #B7F36B lime-green focal spark and faint #78A9FF cool-blue optical refraction. 6. Palette: deep obsidian black #08090C, graphite #111318, subtle slate #969DA8. 7. Texture: fine anodized matte metal and subtle 35mm film grain. 8. Motion feel: still tension before expansion. 9. Aspect ratio: 16:9 widescreen. 10. Forbidden elements: no text, no letters, no numbers, no logos, no robots, no digital brains, no earth globes, no neon cyberpunk grids. 11. Continuity: matches the dark spatial coordinate language of the entire Opportunity Engine series. 12. Final use: Hero background and WebGL fallback for Scene 01."
 
-### ASSET 02 — NETWORK ENVIRONMENT (`public/media/storytelling/network-territory.png`)
-- **Dimensões/Formato**: 16:9 (`1920x1080`, PNG/WebP).
+### ASSET 02 — NETWORK ENVIRONMENT (`public/media/storytelling/network-territory.jpg`)
+- **Dimensões/Formato**: 16:9 (`1376x768`, JPEG otimizado).
 - **Uso na Narrativa**: Atmosfera espacial da Cena 02 (*A World of Businesses*) e textura de profundidade do território de negócios.
 - **Prompt de Geração**:
   > "Create an original dark architectural data-topography visualization representing a metropolitan network of real businesses seen at night. 1. Narrative purpose: illustrate thousands of dispersed commercial establishments across a territory waiting to be analyzed. 2. Composition: sweeping wide-angle spatial field with elevated clusters of delicate light nodes connected by hairline geometric threads stretching toward a dark horizon. 3. Point of view: cinematic low-altitude flyover camera at a 25-degree tilt. 4. Depth: three distinct planes of depth with shallow depth-of-field bokeh in the foreground and crisp mid-ground spatial markers. 5. Lighting: controlled bi-color illumination with #78A9FF exploration-blue network filaments and rare #B7F36B opportunity-green priority nodes. 6. Palette: #08090C deep black, #111318 graphite, #78A9FF blue, #B7F36B green, #F5F6F8 white pinpoints. 7. Texture: matte architectural relief map with micro-grid etching. 8. Motion feel: slow camera traversal across the territory. 9. Aspect ratio: 16:9. 10. Forbidden elements: no text, no UI labels, no world map continents, no sci-fi holograms, no generic stock wallpaper look. 11. Continuity: direct evolution of the single point from Asset 01 into a spatial network. 12. Final use: Scene 02 background layer and editorial feature backdrop."
 
-### ASSET 03 — OPPORTUNITY FOCUS (`public/media/storytelling/opportunity-focus.png`)
-- **Dimensões/Formato**: 16:9 (`1920x1080`, PNG/WebP).
+### ASSET 03 — OPPORTUNITY FOCUS (`public/media/storytelling/opportunity-focus.jpg`)
+- **Dimensões/Formato**: 16:9 (`1376x768`, JPEG otimizado).
 - **Uso na Narrativa**: Transição das Cenas 03 e 04 (*Signal to Opportunity*) e seção editorial de diagnóstico.
 - **Prompt de Geração**:
   > "Create a cinematic macro-architectural composition showing a single high-value business opportunity isolated from background noise. 1. Narrative purpose: visualize the exact moment an intelligence engine filters out dozens of ordinary nodes and locks onto one priority commercial opportunity. 2. Composition: asymmetric rule-of-thirds layout where a sharp, luminous monolithic glass prism on the right is connected by a single glowing #B7F36B filament to a dimmed field of out-of-focus graphite nodes on the left. 3. Point of view: eye-level macro telephoto lens (85mm f/1.4 aesthetic). 4. Depth: strong selective focus with creamy dark background bokeh and razor-sharp foreground glass edge. 5. Lighting: rim lighting in #B7F36B opportunity green and soft #78A9FF ambient fill on dark brushed aluminum. 6. Palette: #08090C, #111318, #191C22, #B7F36B, #78A9FF. 7. Texture: optical crystal, dark anodized aluminum, subtle surface micro-texture. 8. Motion feel: precision focus pull. 9. Aspect ratio: 16:9. 10. Forbidden elements: no text, no numbers, no charts with letters, no human figures, no AI clichés. 11. Continuity: isolates one node from Asset 02's network. 12. Final use: Scene 04 transition visual and Opportunity Diagnosis editorial card."
 
 ### ASSET 04 — COMMERCIAL PHOTOGRAPHY (`public/media/businesses/`)
-1. `glazier-workshop.png` — **Vidraçaria & Arquitetura em Vidro**:
+1. `glazier-workshop.jpg` — **Vidraçaria & Arquitetura em Vidro**:
    - **Prompt**: *"Editorial commercial photography of a modern Brazilian architectural glass and glazing workshop (vidraçaria). Craftsman inspecting large tempered glass panels in a moody, clean industrial studio with dramatic natural side-lighting coming through tall windows, deep shadows (#08090C), warm tungsten accent, reflections on glass edges, Leica SL2 35mm documentary style, realistic textures, no readable signs, no logos, no text, 16:9."*
-2. `precision-service.png` — **Oficina & Serviço Técnico Especializado**:
+2. `precision-service.jpg` — **Oficina & Serviço Técnico Especializado**:
    - **Prompt**: *"High-end editorial commercial photography of a clean contemporary automotive and technical service workshop in Brazil. Organized dark graphite tool walls, warm overhead task lighting illuminating a clean service bay, architectural symmetry, deep contrast, realistic industrial craftsmanship, shot on medium format camera, no readable brand logos, no text, 16:9."*
-3. `clinical-studio.png` — **Clínica & Atendimento Especializado**:
-   - **Prompt**: *"Sophisticated architectural interior photography of a contemporary Brazilian medical or dental clinic reception and consultation space at dusk. Warm indirect lighting, dark slate stone, natural wood slats, glass partitions, calm professional atmosphere, editorial magazine quality, no people with distorted features, no text or signage, 16:9."*
 
-### ASSET 05 — FINAL COMPOSITION (`public/media/storytelling/engine-convergence.png`)
+### ASSET 05 — FINAL COMPOSITION (`public/media/storytelling/engine-convergence.jpg`)
 - **Dimensões/Formato**: 16:9 (`1920x1080`, PNG/WebP).
 - **Uso na Narrativa**: Cena 08 (*The Opportunity Engine*) e referência visual de convergência.
 - **Prompt de Geração**:
