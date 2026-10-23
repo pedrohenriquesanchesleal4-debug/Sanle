@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { StorytellingExperience } from "@/components/storytelling/StorytellingExperience";
-import { FeatureNarrative } from "@/components/landing/FeatureNarrative";
-import { ProductShowcase } from "@/components/landing/ProductShowcase";
-import { FinalCTA } from "@/components/landing/FinalCTA";
+import { HeroPortal } from "@/components/site/HeroPortal";
+import { SanleScrollytelling } from "@/components/site/SanleScrollytelling";
+import { MarqueeProblems } from "@/components/site/MarqueeProblems";
+import { PinnedProblems } from "@/components/site/PinnedProblems";
+import { CostCalculator } from "@/components/site/CostCalculator";
+import { Transformation } from "@/components/site/Transformation";
+import { DemoFlow } from "@/components/site/DemoFlow";
+import { SegmentTabs } from "@/components/site/SegmentTabs";
+import { Solutions } from "@/components/site/Solutions";
+import { Cases } from "@/components/site/Cases";
+import { Method } from "@/components/site/Method";
 import { Faq } from "@/components/site/Faq";
+import { FinalCta } from "@/components/site/FinalCta";
 import { brand } from "@/content/brand";
 
 export const metadata: Metadata = {
@@ -14,10 +22,8 @@ export const metadata: Metadata = {
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Organization",
   name: brand.name,
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
   description: brand.positioning,
   areaServed: { "@type": "Place", name: brand.serviceRegion }
 };
@@ -32,20 +38,45 @@ export default function HomePage() {
         }}
       />
 
-      {/* 1. Narrativa Cinematográfica de 8 Cenas Controlada pelo Scroll + Palco 3D WebGL */}
-      <StorytellingExperience />
+      {/* 1. Portal Zoom Inicial + Revelação do Site (Máscara Óptica SVG na Logo Sanle) */}
+      <HeroPortal />
 
-      {/* 2. Seção Editorial de Recursos (6 movimentos com fotografia real e filmes procedurais) */}
-      <FeatureNarrative />
+      {/* 2. O Grande Scrollytelling: A História da Sanle e os 4 Capítulos com Fotografia Real */}
+      <SanleScrollytelling />
 
-      {/* 3. Seção de Produto Real (Simulador interativo de busca, diagnóstico, mensagem e pipeline) */}
-      <ProductShowcase />
+      {/* 3. Faixa Marquee de Alabastro (Tarefas Manuais Mapeadas) */}
+      <MarqueeProblems />
 
-      {/* 4. Perguntas Frequentes sobre autenticidade, operação Free-First e privacidade */}
+      {/* 4. O Problema: Os 7 Trabalhos Invisíveis Pinned */}
+      <PinnedProblems />
+
+      {/* 5. Calculadora Interativa do Custo Invisível */}
+      <CostCalculator />
+
+      {/* 6. Antes e Depois (Slider Interativo em Seção Clara) */}
+      <Transformation />
+
+      {/* 7. Demonstração Interativa em 6 Etapas */}
+      <DemoFlow />
+
+      {/* 8. Para quem é: Seletor de Segmentos com Abas */}
+      <SegmentTabs />
+
+      {/* 9. As 4 Soluções Arquitetadas (Grade de Engenharia) */}
+      <Solutions />
+
+      {/* 10. Prova Técnica sem Cases Falsos: Construído por Nós */}
+      <Cases />
+
+      {/* 11. Método de Trabalho em 4 Etapas */}
+      <Method />
+
+      {/* 12. Perguntas Frequentes Acessíveis + JSON-LD */}
       <Faq />
 
-      {/* 5. Fechamento Visual Forte ("Suas próximas oportunidades começam aqui.") */}
-      <FinalCTA />
+      {/* 13. Chamada Final + Formulário Curto de Diagnóstico */}
+      <FinalCta />
     </>
   );
 }
+

@@ -82,7 +82,6 @@
     font-feature-settings: "ss01", "cv01", "cv02";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: clip;
   }
 
   ::selection {
