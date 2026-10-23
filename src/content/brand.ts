@@ -1,5 +1,5 @@
 /**
- * SANLE — Fonte única da verdade para identidade, posicionamento e informações
+ * SALES HUNTER (SANLE) — Fonte única da verdade para identidade, posicionamento e informações
  * institucionais. Nada de nome duplicado pelo código: tudo lê daqui.
  *
  * Regra do projeto: NÃO inventar clientes, números, depoimentos, certificações ou
@@ -8,16 +8,16 @@
  */
 
 export const brand = {
-  name: "Sanle",
-  legalName: "Sanle", // razão social/CNPJ somente quando confirmados (ver pendências)
-  tagline: "Automação de processos e IA aplicada aos negócios",
+  name: "Sales Hunter",
+  legalName: "Sanle · Sales Hunter",
+  tagline: "Inteligência comercial para prospecção B2B, diagnóstico de oportunidades e conversão",
   positioning:
-    "Identificamos gargalos operacionais e criamos soluções para reduzir trabalho manual, organizar informações e melhorar os processos que sustentam o crescimento das empresas.",
+    "Plataforma de inteligência comercial que ajuda a encontrar empresas reais, identificar oportunidades de negócio, priorizar leads, gerar abordagens personalizadas e organizar negociações do primeiro sinal ao fechamento.",
   shortPitch:
-    "A Sanle conecta documentos, sistemas e inteligência artificial para reduzir trabalho manual e organizar a operação da sua empresa.",
+    "Do desconhecido à descoberta. Da descoberta à oportunidade. Da oportunidade à conversa. O Sales Hunter transforma informações dispersas de empresas em oportunidades comerciais acionáveis.",
   founded: { city: "Brasília", uf: "DF", country: "Brasil" },
   serviceRegion:
-    "Brasília e Distrito Federal, com arquitetura preparada para outras cidades brasileiras.",
+    "Brasília e Distrito Federal, com arquitetura preparada para todo o território nacional.",
   contact: {
     // Somente dados REAIS. Enquanto não confirmados, a UI usa o formulário de
     // diagnóstico como canal primário e não exibe contato inventado.
@@ -34,13 +34,13 @@ export const brand = {
 } as const;
 
 export const hero = {
-  eyebrow: "Automação operacional · Brasília · DF",
-  headlineTop: "Menos trabalho manual.",
-  headlineBottom: "Mais fluxo de operação.",
+  eyebrow: "THE OPPORTUNITY ENGINE · PROSPECÇÃO B2B",
+  headlineTop: "Todo negócio começa",
+  headlineBottom: "com uma oportunidade.",
   subheadline:
-    "Identificamos tarefas repetitivas e conectamos documentos, sistemas e inteligência artificial para simplificar a rotina da sua empresa.",
-  ctaPrimary: { label: "Mapear um processo", href: "/diagnostico" },
-  ctaSecondary: { label: "Ver como funciona", href: "/#como-funciona" }
+    "Do desconhecido à descoberta. Da descoberta à oportunidade. Da oportunidade à conversa.",
+  ctaPrimary: { label: "Começar a prospectar", href: "/admin/login" },
+  ctaSecondary: { label: "Explorar a plataforma", href: "/#produto-real" }
 } as const;
 
 /** O problema invisível — tarefas que consomem tempo sem aparecer no resultado. */
@@ -59,22 +59,22 @@ export const transformation = {
   before: {
     label: "Antes",
     items: [
-      "Arquivos dispersos em pastas diferentes",
-      "Informações inconsistentes entre planilhas",
-      "Etapas manuais que dependem de uma pessoa",
-      "Dificuldade para acompanhar pendências",
-      "Nenhum histórico de quem fez o quê"
+      "Pesquisa manual em dezenas de abas e mapas soltos",
+      "Empresas sem qualificação nem critério de prioridade",
+      "Abordagens genéricas ignoradas no WhatsApp",
+      "Dificuldade para lembrar quem respondeu ou pediu retorno",
+      "Nenhum histórico centralizado do funil comercial"
     ]
   },
   after: {
     label: "Depois",
     items: [
-      "Documentos organizados por regra",
-      "Informações extraídas e padronizadas",
-      "Validações automáticas de campos",
-      "Pendências rastreáveis com dono e prazo",
-      "Revisão humana onde realmente importa",
-      "Dados prontos para o sistema que a empresa já usa"
+      "Descoberta estruturada de empresas por nicho e região",
+      "Diagnóstico claro da presença digital e oportunidade sugerida",
+      "Score de priorização explicável antes do primeiro contato",
+      "Mensagens personalizadas e páginas de demonstração 1-a-1",
+      "Pipeline Kanban com próximas ações e lembretes rastreáveis",
+      "Histórico completo da primeira busca ao relacionamento comercial"
     ]
   }
 } as const;
@@ -95,110 +95,109 @@ export const solutions: Solution[] = [
   {
     slug: "automacao-documental-financeira",
     code: "A",
-    title: "Automação documental e financeira",
-    short: "Organização de documentos, extração de informações, validação de campos e preparação de dados.",
+    title: "Descoberta territorial e mapeamento de empresas",
+    short: "Localização de negócios reais por nicho, cidade e bairro usando fontes abertas e verificáveis.",
     audience:
-      "BPO financeiro, escritórios contábeis e empresas administrativas com grande volume de documentos (notas, comprovantes, contratos, extratos).",
+      "Equipes comerciais B2B, agências digitais, consultorias, software houses e prestadores de serviços corporativos.",
     problem:
-      "Recepção de documentos desorganizada, campos ausentes, duplicidades e conferência manual que consome dias no fechamento.",
+      "Prospecção feita no escuro, copiando telefones manualmente sem contexto sobre a maturidade digital de cada empresa.",
     how: [
-      "Diagnóstico do fluxo atual de recebimento e conferência",
-      "Classificação e renomeação automática de arquivos por regra",
-      "Extração de campos de PDFs, notas e comprovantes",
-      "Validação de obrigatoriedade, formato e duplicidade",
-      "Encaminhamento das exceções para revisão humana",
-      "Exportação estruturada para o sistema financeiro da empresa"
+      "Busca estruturada por categoria, cidade, UF e bairro via OpenStreetMap/Overpass ou CSV",
+      "Higienização e deduplicação automática contra a base atual do CRM",
+      "Identificação de sinais públicos (endereço, telefone, presença ou ausência de website nos dados consultados)",
+      "Importação seletiva para o funil com trilha de procedência auditável",
+      "Organização imediata em listas e buscas salvas"
     ],
     deliverables: [
-      "Pipeline documental executável e agendável",
-      "Relatório de exceções e pendências",
-      "Base organizada e rastreável",
-      "Documentação de operação e manutenção"
+      "Buscador territorial multi-provedor integrado ao CRM",
+      "Detector de duplicatas sem mesclagem destrutiva",
+      "Importador de planilhas CSV com validação",
+      "Histórico de buscas salvas por região e nicho"
     ],
     faq: [
-      { q: "A Sanle substitui meu sistema financeiro?", a: "Não. A Sanle organiza e prepara os dados para o sistema que sua empresa já usa." },
-      { q: "E quando o documento vem ilegível?", a: "A exceção é marcada e encaminhada para revisão humana, com o motivo registrado." }
+      { q: "O buscador exige API paga para funcionar?", a: "Não. O provedor padrão utiliza OpenStreetMap/Overpass gratuitamente, mantendo Google Places como opcional controlado." },
+      { q: "Os leads encontrados são mesclados sozinhos?", a: "Não. Possíveis duplicatas são sinalizadas para decisão humana." }
     ]
   },
   {
     slug: "integracao-de-sistemas",
     code: "B",
-    title: "Integração de sistemas",
-    short: "Conexão entre ferramentas, planilhas, formulários, armazenamento e sistemas empresariais.",
+    title: "Diagnóstico de oportunidade e score explicável",
+    short: "Priorização inteligente baseada em sinais públicos e justificativa transparente de cada pontuação.",
     audience:
-      "Empresas que operam com várias ferramentas desconectadas: planilhas, formulários, pastas compartilhadas, ERPs e CRMs.",
+      "Operações comerciais que precisam focar energia nas empresas com maior aderência ao serviço ofertado.",
     problem:
-      "O mesmo dado é digitado em vários lugares e a informação só existe quando alguém lembra de copiá-la manualmente.",
+      "Vendedores gastam o mesmo tempo com leads frios e com empresas que têm necessidade imediata.",
     how: [
-      "Mapeamento de fontes e destinos de dados",
-      "Definição de contratos de integração entre sistemas",
-      "Sincronização confiável e idempotente",
-      "Tratamento de falhas, retentativas e alertas",
-      "Registro de execução para auditoria"
+      "Análise automática dos dados disponíveis do estabelecimento",
+      "Cálculo determinístico de score de priorização (0 a 100) com fatores abertos",
+      "Identificação de lacunas (ex.: website não identificado nos dados consultados, canais de contato)",
+      "Sugestão de oportunidade comercial e serviço recomendado",
+      "Classificação em prioridade alta, média ou baixa"
     ],
     deliverables: [
-      "Camada de integração entre as ferramentas existentes",
-      "Painel de status das sincronizações",
-      "Log de erros e reprocessamento",
-      "Documentação das regras de negócio aplicadas"
+      "Motor de scoring transparente por fatores",
+      "Painel de diagnóstico por empresa",
+      "Hipótese comercial editável pelo operador",
+      "Filtros de priorização na base de leads"
     ],
     faq: [
-      { q: "Preciso trocar minhas ferramentas?", a: "Não necessariamente. A Sanle começa integrando o que já existe e evolui conforme a necessidade." },
-      { q: "Se a API de um sistema falhar, o que acontece?", a: "A falha é registrada, a operação é reprocessada e a pendência fica visível." }
+      { q: "Como o score é calculado?", a: "Por fatores objetivos e visíveis no detalhe de cada lead, sem caixa-preta." },
+      { q: "Posso ajustar a prioridade manualmente?", a: "Sim. O operador tem controle total sobre etapa, prioridade e hipótese comercial." }
     ]
   },
   {
     slug: "inteligencia-artificial-aplicada",
     code: "C",
-    title: "Inteligência artificial aplicada",
-    short: "Assistentes especializados, RAG, classificação, extração e apoio à análise de informações.",
+    title: "Geração de abordagens e demonstrações 1-a-1",
+    short: "Mensagens personalizadas para WhatsApp e e-mail + páginas de demonstração exclusivas por lead.",
     audience:
-      "Empresas com regras específicas e volume de informação que exige leitura, classificação e respostas fundamentadas.",
+      "Prospecção consultiva que precisa iniciar conversas relevantes sem parecer disparo em massa.",
     problem:
-      "Excesso de informação não estruturada e decisões que dependem de leitura humana demorada e sujeita a variação.",
+      "Mensagens copiadas e coladas geram rejeição imediata e não demonstram valor concreto para o negócio prospectado.",
     how: [
-      "Definição das regras e do escopo de atuação da IA",
-      "Base de conhecimento curada e versionada",
-      "Recuperação de contexto com fontes citadas",
-      "Classificação e extração assistidas",
-      "Guardrails: a IA não inventa e encaminha quando não sabe"
+      "Geração de rascunhos de primeiro contato, follow-up, convite de reunião e proposta",
+      "Criação com 1 clique de página personalizada (/p/[slug]) com diagnóstico para o prospect",
+      "Abertura direta do WhatsApp com mensagem contextualizada e link da demonstração",
+      "Rastreamento de leitura e eventos quando o lead acessa a demonstração",
+      "Aprovação humana obrigatória antes de qualquer envio"
     ],
     deliverables: [
-      "Assistente especializado no domínio do cliente",
-      "Base de conhecimento gerenciável",
-      "Registro de execuções e fontes utilizadas",
-      "Avaliação de respostas sem contexto suficiente"
+      "Gerador de abordagens multi-canal (WhatsApp, E-mail, LinkedIn, Ligação)",
+      "Gerador de landing pages personalizadas por lead",
+      "Integração rápida com WhatsApp Web/App",
+      "Biblioteca de rascunhos com controle de status"
     ],
     faq: [
-      { q: "A IA pode inventar informação?", a: "Não deve. Toda resposta cita as fontes recuperadas e, sem evidência, informa a limitação e encaminha." },
-      { q: "Meus dados ficam seguros?", a: "As chaves ficam no servidor, o acesso é controlado e a política de tratamento é documentada (LGPD)." }
+      { q: "A plataforma faz disparos automáticos em massa?", a: "Não. O Sales Hunter prepara a abordagem personalizada e o profissional inicia a conversa com qualidade." },
+      { q: "Preciso de chave paga de IA?", a: "Não. Há geração determinística gratuita embutida, com suporte opcional a provedores LLM." }
     ]
   },
   {
     slug: "operacao-comercial",
     code: "D",
-    title: "Operação comercial",
-    short: "Organização de solicitações, acompanhamento de orçamentos e estruturação de processos de vendas.",
+    title: "Pipeline Kanban, follow-ups e gestão de relacionamento",
+    short: "Organização visual de todas as negociações, da primeira busca ao fechamento.",
     audience:
-      "Prestadores de serviço, vidraçarias, marcenarias, empresas de instalação e recrutamento com muitos pedidos de orçamento.",
+      "Times e profissionais que precisam de previsibilidade comercial sem perder oportunidades por falta de acompanhamento.",
     problem:
-      "Pedidos chegam por vários canais, orçamentos se perdem e oportunidades ficam sem acompanhamento.",
+      "Conversas iniciadas no WhatsApp esquecidas sem próximo passo, sem lembrete e sem visibilidade de funil.",
     how: [
-      "Centralização das solicitações de orçamento",
-      "Padronização de etapas do funil de vendas",
-      "Geração assistida de propostas e acompanhamento",
-      "Lembretes e próximas ações por oportunidade",
-      "Indicadores de conversão e gargalos"
+      "Quadro Kanban interativo com atualização real no banco de dados",
+      "Registro automático de cada mudança de etapa na linha do tempo do lead",
+      "Alertas de leads sem próxima ação definida e lembretes com vencimento",
+      "Assistente interno com acesso ao contexto do CRM e base de conhecimento",
+      "Visão executiva do funil e atividades dos últimos 30 dias"
     ],
     deliverables: [
-      "Funil comercial estruturado",
-      "Modelos de proposta e mensagens revisáveis",
-      "Histórico de interações por oportunidade",
-      "Relatórios de acompanhamento"
+      "Pipeline comercial completo em 11 estágios",
+      "Timeline auditável de atividades e notas por lead",
+      "Sistema de lembretes e alertas de estagnação",
+      "Assistente comercial RAG integrado"
     ],
     faq: [
-      { q: "A Sanle faz disparo de mensagens?", a: "Não. A IA prepara o conteúdo e a pessoa decide quando e onde enviar." },
-      { q: "Consigo acompanhar quem não respondeu?", a: "Sim. Cada oportunidade tem próxima ação e lembrete configurável." }
+      { q: "Consigo saber quais leads estão parados?", a: "Sim. O painel destaca imediatamente todos os leads sem próxima ação ou com lembretes vencidos." },
+      { q: "Funciona com Supabase gratuito?", a: "Sim, opera em Supabase Free ou armazenamento local sem custos." }
     ]
   }
 ];
@@ -207,56 +206,56 @@ export const solutions: Solution[] = [
 export const method = [
   {
     step: "01",
-    title: "Diagnóstico do processo",
-    body: "Entendemos onde o trabalho manual está custando tempo, mapeamos o fluxo real e medimos a situação atual."
+    title: "Exploração territorial",
+    body: "Você define o nicho e a localização. O Sales Hunter mapeia estabelecimentos reais e organiza os dados disponíveis sem ruído."
   },
   {
     step: "02",
-    title: "Definição de escopo e indicadores",
-    body: "Você aprova um problema delimitado, com critérios de sucesso mensuráveis. Começamos pequeno, sem exigir que a empresa troque tudo."
+    title: "Sinal e diagnóstico",
+    body: "O motor identifica lacunas digitais, calcula o score de prioridade explicável e aponta qual serviço oferecer a cada empresa."
   },
   {
     step: "03",
-    title: "Implementação e validação",
-    body: "Construímos, testamos com dados reais e validamos com quem executa a rotina, ajustando antes de ir para produção."
+    title: "Abordagem e demonstração",
+    body: "Em segundos, você gera uma mensagem sob medida e uma página de demonstração exclusiva para abrir conversa no WhatsApp."
   },
   {
     step: "04",
-    title: "Acompanhamento e melhoria contínua",
-    body: "Medimos os indicadores, corrigimos desvios e evoluímos para automações maiores e manutenção recorrente."
+    title: "Pipeline e conversão",
+    body: "O lead entra no CRM Kanban com próxima ação, histórico completo e lembretes de follow-up até se tornar cliente."
   }
 ] as const;
 
 /** Demonstrativo conceitual — claramente identificado como protótipo, sem dados reais. */
 export const demoNotice =
-  "Demonstração conceitual com dados fictícios. Ilustra o fluxo proposto e não está conectada a nenhum sistema financeiro real.";
+  "Demonstração interativa com dados sintéticos ilustrativos. Não executa chamadas automáticas ao Google Places na página pública.";
 
 /** FAQ institucional (base para SEO e para o RAG). */
 export const faqs = [
-  { q: "Como começa um projeto com a Sanle?", a: "Por um diagnóstico de um processo específico. Você descreve a dor, nós mapeamos o fluxo e propomos um escopo delimitado com indicadores." },
-  { q: "Preciso trocar todos os meus sistemas?", a: "Não. A Sanle parte de um problema delimitado e integra o que a empresa já utiliza." },
-  { q: "Quanto tempo leva?", a: "Depende do escopo. Cada proposta define etapas e prazos específicos após o diagnóstico — não trabalhamos com promessas genéricas." },
-  { q: "A Sanle usa meus dados para treinar IA?", a: "Não. Os dados são tratados conforme a finalidade do projeto e a política de privacidade." },
-  { q: "Vocês trabalham só em Brasília?", a: "O foco inicial é Brasília e o DF, com atendimento remoto e arquitetura preparada para outras cidades." },
-  { q: "Como funciona a cobrança?", a: "O escopo e o modelo comercial são definidos na proposta. A Sanle evolui de projetos para contratos de manutenção e recorrência." }
+  { q: "O que é o Sales Hunter?", a: "É uma plataforma de inteligência comercial B2B que integra descoberta de empresas, diagnóstico de oportunidades, geração de abordagens, páginas de demonstração e CRM em um único fluxo." },
+  { q: "A plataforma exige assinatura de APIs pagas?", a: "Não. A arquitetura é Free-First: funciona com OpenStreetMap gratuito, armazenamento local ou Supabase Free e geração determinística sem custo obrigatório." },
+  { q: "Os dados mostrados na animação da página inicial são de clientes reais?", a: "Não. As cenas narrativas da landing page utilizam dados demonstrativos identificados como ilustrativos para explicar o funcionamento da plataforma sem expor terceiros nem consumir API." },
+  { q: "Posso usar o Google Places se eu tiver uma chave própria?", a: "Sim. O conector Google Places já existe no sistema e permanece desligado por padrão para proteger seu orçamento, podendo ser habilitado nas configurações." },
+  { q: "O Sales Hunter envia mensagens sozinho no WhatsApp?", a: "Não. A plataforma cria a abordagem personalizada e abre o WhatsApp pronto para envio, garantindo revisão humana e zero bloqueio por spam." },
+  { q: "Como acesso a área de trabalho?", a: "Basta clicar em 'Acessar conta' ou 'Começar a prospectar' para entrar diretamente no ambiente operacional." }
 ] as const;
 
 /** Segmentos-alvo iniciais (usados no formulário e na prospecção). */
 export const segments = [
-  "BPO financeiro",
-  "Escritório contábil",
-  "Empresa administrativa",
-  "Grande volume de documentos",
-  "Recrutamento e seleção",
-  "Prestador de serviços com orçamentos",
   "Vidraçaria / marcenaria / instalação",
-  "Pequena ou média empresa (planilhas e e-mail)"
+  "Oficina mecânica e estética automotiva",
+  "Clínica médica e odontológica",
+  "Restaurante e gastronomia",
+  "Barbearia e estética",
+  "BPO financeiro e contabilidade",
+  "Escritório jurídico e consultoria",
+  "Prestador de serviços locais B2B"
 ] as const;
 
 export const finalCta = {
-  headline: "Qual etapa da sua operação não deveria mais depender de trabalho manual?",
-  body: "Descreva o problema. Nós mapeamos o processo e propomos um caminho para reduzi-lo.",
-  cta: "Conversar sobre meu processo"
+  headline: "Suas próximas oportunidades começam aqui.",
+  body: "Transforme dados públicos dispersos em diagnósticos claros, abordagens inteligentes e negociações organizadas no CRM.",
+  cta: "Começar a prospectar"
 } as const;
 
 export const siteUrl =

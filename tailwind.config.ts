@@ -4,20 +4,36 @@ const config: Config = {
   content: [
     "./src/app/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
-    "./src/content/**/*.{ts,tsx}"
+    "./src/content/**/*.{ts,tsx}",
+    "./src/lib/**/*.{ts,tsx}"
   ],
   theme: {
     extend: {
       colors: {
+        /* =================================================================
+           SALES HUNTER — THE OPPORTUNITY ENGINE PALETTE
+           ================================================================= */
+        hunter: {
+          void: "#08090C",        // Preto profundo
+          graphite: "#111318",    // Grafite
+          surface: "#191C22",     // Superfícies / Cards
+          elevated: "#20242D",    // Superfície em hover / modal
+          white: "#F5F6F8",       // Branco principal
+          muted: "#969DA8",       // Cinza secundário
+          green: "#B7F36B",       // Verde de oportunidade
+          greenDim: "rgba(183, 243, 107, 0.14)",
+          blue: "#78A9FF",        // Azul de exploração
+          blueDim: "rgba(120, 169, 255, 0.14)"
+        },
         accent: {
-          DEFAULT: "#FF5B1F",
-          glow: "rgba(255, 91, 31, 0.25)",
-          hover: "#E0480E"
+          DEFAULT: "#B7F36B",
+          glow: "rgba(183, 243, 107, 0.25)",
+          hover: "#A3E655"
         },
         dark: {
-          bg: "#0A0A09",
-          surface: "#141412",
-          card: "#161614"
+          bg: "#08090C",
+          surface: "#111318",
+          card: "#191C22"
         },
         paper: {
           DEFAULT: "rgb(var(--paper) / <alpha-value>)",
@@ -32,11 +48,11 @@ const config: Config = {
         cobalt: {
           DEFAULT: "rgb(var(--cobalt) / <alpha-value>)",
           deep: "rgb(var(--cobalt-deep) / <alpha-value>)",
-          soft: "#E4E8FF"
+          soft: "rgba(120, 169, 255, 0.14)"
         },
         signal: {
           DEFAULT: "rgb(var(--signal) / <alpha-value>)",
-          deep: "#059669"
+          deep: "#8FD14F"
         },
         amber: {
           DEFAULT: "rgb(var(--amber) / <alpha-value>)",
@@ -46,24 +62,35 @@ const config: Config = {
       },
       fontFamily: {
         serif: ["var(--font-serif)", "var(--font-fraunces)", "Georgia", "serif"],
-        display: ["var(--font-serif)", "var(--font-fraunces)", "serif"],
+        display: ["var(--font-sans)", "var(--font-space)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "var(--font-space)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"]
       },
       fontSize: {
-        "clamp-hero": "clamp(2.75rem, 8vw, 8.5rem)",
-        "clamp-title": "clamp(2rem, 5vw, 4.5rem)",
-        "clamp-sub": "clamp(1.25rem, 2.5vw, 2.25rem)"
+        "clamp-hero": "clamp(2.5rem, 6.4vw, 6.25rem)",
+        "clamp-title": "clamp(1.85rem, 4.2vw, 3.85rem)",
+        "clamp-sub": "clamp(1.125rem, 2vw, 1.65rem)"
       },
       letterSpacing: {
-        tightest: "-0.045em"
+        tightest: "-0.04em",
+        editorial: "-0.032em"
       },
       maxWidth: {
-        shell: "1280px",
-        prose: "68ch"
+        shell: "1320px",
+        prose: "65ch"
+      },
+      borderRadius: {
+        hunter: "14px",
+        "hunter-lg": "20px"
+      },
+      boxShadow: {
+        "hunter-card": "0 24px 60px -18px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(245, 246, 248, 0.07)",
+        "hunter-glow-green": "0 0 40px -8px rgba(183, 243, 107, 0.32), 0 0 0 1px rgba(183, 243, 107, 0.35)",
+        "hunter-glow-blue": "0 0 40px -8px rgba(120, 169, 255, 0.28), 0 0 0 1px rgba(120, 169, 255, 0.3)"
       },
       transitionTimingFunction: {
-        editorial: "cubic-bezier(0.16, 1, 0.3, 1)"
+        editorial: "cubic-bezier(0.16, 1, 0.3, 1)",
+        precision: "cubic-bezier(0.22, 1, 0.36, 1)"
       },
       keyframes: {
         "fade-up": {
@@ -73,6 +100,10 @@ const config: Config = {
         "flow-dash": {
           to: { strokeDashoffset: "-24" }
         },
+        "signal-pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.85" },
+          "50%": { transform: "scale(1.65)", opacity: "0.2" }
+        },
         marquee: {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" }
@@ -81,6 +112,7 @@ const config: Config = {
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both",
         "flow-dash": "flow-dash 1.2s linear infinite",
+        "signal-pulse": "signal-pulse 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite",
         marquee: "marquee 38s linear infinite"
       }
     }
