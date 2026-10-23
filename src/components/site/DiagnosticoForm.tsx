@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Loader2, CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import { segments } from "@/content/brand";
+import { getStoredUtm } from "@/lib/utm";
 
 type FieldErrors = Record<string, string>;
 
@@ -40,10 +41,11 @@ export function DiagnosticoForm() {
     }
     setSending(true);
     try {
+      const utm = getStoredUtm();
       const res = await fetch("/api/diagnostico", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, consent })
+        body: JSON.stringify({ ...form, consent, ...utm })
       });
       const json = await res.json();
       if (!res.ok || !json.ok) {

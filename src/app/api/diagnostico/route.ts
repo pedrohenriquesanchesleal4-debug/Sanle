@@ -1,4 +1,4 @@
-import { addActivity, createLead, createReminder } from "@/lib/db/repo";
+import { addActivity, createLead, createReminder, recordLeadSource } from "@/lib/db/repo";
 import { diagnosticSchema, sanitizeText } from "@/lib/schemas";
 import { failure, guard, handleError, ok, readJson, zodFailure } from "@/lib/api";
 import { normalizePhone } from "@/lib/utils";
@@ -26,6 +26,18 @@ export async function POST(req: Request) {
     if (d.website) return ok({ protocol: null, spam: true });
 
     const protocol = makeProtocol();
+    const hasCalculator = Boolean(d.calculatorEstimate);
+    const tags = ["site", "diagnostico"];
+    if (hasCalculator) tags.push("calculadora");
+    if (d.utmSource) tags.push(`utm:${d.utmSource}`);
+
+    const utmDetails = [
+      d.utmSource && `Origem: ${d.utmSource}`,
+      d.utmMedium && `Mídia: ${d.utmMedium}`,
+      d.utmCampaign && `Campanha: ${d.utmCampaign}`,
+      d.calculatorEstimate && `Estimativa calculadora: ${d.calculatorEstimate}`
+    ].filter(Boolean).join(" · ");
+
     const lead = await createLead({
       companyName: sanitizeText(d.companyName),
       segment: sanitizeText(d.segment),
@@ -40,24 +52,45 @@ export async function POST(req: Request) {
       consent: true,
       stage: "identificado",
       priority: "alta",
-      tags: ["site", "diagnostico"],
+      tags,
       source: {
         provider: "site",
         providerId: protocol,
         url: "/diagnostico",
         collectedAt: new Date().toISOString(),
-        note: "Formulário de diagnóstico do site público — com consentimento."
+        note: `Formulário de diagnóstico do site público.${utmDetails ? ` (${utmDetails})` : ""}`,
+        utmSource: d.utmSource ? sanitizeText(d.utmSource) : null,
+        utmMedium: d.utmMedium ? sanitizeText(d.utmMedium) : null,
+        utmCampaign: d.utmCampaign ? sanitizeText(d.utmCampaign) : null,
+        utmContent: d.utmContent ? sanitizeText(d.utmContent) : null,
+        utmTerm: d.utmTerm ? sanitizeText(d.utmTerm) : null,
+        referrer: d.referrer ? sanitizeText(d.referrer) : null
       },
       verification: "nao_verificado",
       nextAction: "Revisar diagnóstico e preparar primeiro contato",
       nextActionAt: new Date(Date.now() + 86400000).toISOString()
     });
 
+    try {
+      await recordLeadSource({
+        leadId: lead.id,
+        provider: "site",
+        providerId: protocol,
+        url: "/diagnostico",
+        collectedAt: new Date().toISOString(),
+        note: `Conversão via site.${utmDetails ? ` [${utmDetails}]` : ""}`,
+        origin: "form",
+        actor: "public"
+      });
+    } catch {
+      // lead_sources é opcional/tolerante
+    }
+
     await addActivity({
       leadId: lead.id,
       kind: "sistema",
       summary: "Diagnóstico recebido pelo site",
-      detail: `Protocolo ${protocol}. Segmento: ${d.segment}.`,
+      detail: `Protocolo ${protocol}. Segmento: ${d.segment}.${utmDetails ? ` ${utmDetails}.` : ""}`,
       actor: "site"
     });
 

@@ -1,7 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { brand, siteUrl } from "@/content/brand";
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-serif"
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans"
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono"
+});
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -14,13 +34,6 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-space"
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-  variable: "--font-mono"
 });
 
 export const metadata: Metadata = {
@@ -67,9 +80,11 @@ export const metadata: Metadata = {
   }
 };
 
+import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
+
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F4F1EA" },
+    { media: "(prefers-color-scheme: light)", color: "#FAF8F5" },
     { media: "(prefers-color-scheme: dark)", color: "#121110" }
   ],
   width: "device-width",
@@ -80,15 +95,20 @@ export default function RootLayout({
   children
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${fraunces.variable} ${spaceGrotesk.variable} ${plexMono.variable}`}>
-      <body className="min-h-dvh antialiased">
-        <a
-          href="#conteudo"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-paper"
-        >
-          Pular para o conteúdo
-        </a>
-        {children}
+    <html
+      lang="pt-BR"
+      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}
+    >
+      <body className="min-h-dvh antialiased bg-paper text-ink">
+        <SmoothScrollProvider>
+          <a
+            href="#conteudo"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-paper"
+          >
+            Pular para o conteúdo
+          </a>
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-import { listAudits, listAiRuns } from "@/lib/db/repo";
+import { listAudits, listAiRuns, countInboundLeads, countLandingEvents, listProspectPages } from "@/lib/db/repo";
 import { handleError, ok, requireAdmin } from "@/lib/api";
 import { capabilityReport, env } from "@/lib/env";
 import { listProviders } from "@/lib/providers";
@@ -11,8 +11,20 @@ export async function GET() {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
   try {
-    const [runs, audits] = await Promise.all([listAiRuns(25), listAudits(25)]);
+    const [runs, audits, inboundCount, eventsCount, pages] = await Promise.all([
+      listAiRuns(25),
+      listAudits(25),
+      countInboundLeads(),
+      countLandingEvents(),
+      listProspectPages()
+    ]);
     return ok({
+      landing: {
+        inboundLeads: inboundCount,
+        events: eventsCount,
+        prospectPages: pages.length,
+        operationalCost: "R$ 0,00 (Free-First)"
+      },
       capabilities: capabilityReport(),
       providers: listProviders(),
       ai: {

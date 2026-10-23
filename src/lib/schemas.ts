@@ -28,6 +28,14 @@ export const diagnosticSchema = z.object({
   consent: z.literal(true, {
     errorMap: () => ({ message: "É necessário autorizar o contato para enviar." })
   }),
+  // Rastreamento de origem de tráfego e campanha (UTM)
+  utmSource: z.string().trim().max(100).optional().or(z.literal("")),
+  utmMedium: z.string().trim().max(100).optional().or(z.literal("")),
+  utmCampaign: z.string().trim().max(100).optional().or(z.literal("")),
+  utmContent: z.string().trim().max(100).optional().or(z.literal("")),
+  utmTerm: z.string().trim().max(100).optional().or(z.literal("")),
+  referrer: z.string().trim().max(300).optional().or(z.literal("")),
+  calculatorEstimate: z.string().trim().max(200).optional().or(z.literal("")),
   // honeypot anti-bot: deve permanecer vazio
   website: z.string().max(0).optional().or(z.literal(""))
 });

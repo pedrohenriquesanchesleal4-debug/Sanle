@@ -12,6 +12,10 @@ import type {
   AuditLog,
   SavedSearch,
   LeadSourceRecord,
+  AdminUser,
+  LeadInbound,
+  LandingEventRecord,
+  ProspectPageRecord,
   FunnelStage,
   Paginated
 } from "@/lib/types";
@@ -475,4 +479,217 @@ export function findDuplicates(leads: Lead[]): DuplicateGroup[] {
   return groups;
 }
 
+/* ---------------------------- Admin Users ------------------------------- */
+
+async function adminUsersTable(): Promise<Table<AdminUser>> {
+  return table<AdminUser>("adminUsers");
+}
+
+export async function isAdminUser(email: string): Promise<boolean> {
+  if (!email) return false;
+  const normalized = email.trim().toLowerCase();
+  const all = await (await adminUsersTable()).all();
+  return all.some((u) => u.email.trim().toLowerCase() === normalized && u.active);
+}
+
+export async function listAdminUsers(): Promise<AdminUser[]> {
+  const all = await (await adminUsersTable()).all();
+  return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getAdminUser(id: string): Promise<AdminUser | null> {
+  return (await adminUsersTable()).get(id);
+}
+
+export async function getAdminUserByEmail(email: string): Promise<AdminUser | null> {
+  const normalized = email.trim().toLowerCase();
+  const all = await (await adminUsersTable()).all();
+  return all.find((u) => u.email.trim().toLowerCase() === normalized) ?? null;
+}
+
+export async function createAdminUser(input: {
+  email: string;
+  name?: string | null;
+  role?: AdminUser["role"];
+  active?: boolean;
+}): Promise<AdminUser> {
+  const ts = nowISO();
+  const base: Omit<AdminUser, "id"> = {
+    email: input.email.trim().toLowerCase(),
+    name: input.name?.trim() || null,
+    role: input.role ?? "admin",
+    active: input.active ?? true,
+    createdAt: ts,
+    updatedAt: ts
+  };
+  return (await adminUsersTable()).insert(base);
+}
+
+export async function updateAdminUser(
+  id: string,
+  patch: Partial<Omit<AdminUser, "id" | "createdAt">>
+): Promise<AdminUser | null> {
+  const cleanPatch: Partial<AdminUser> = { ...patch, updatedAt: nowISO() };
+  if (cleanPatch.email) cleanPatch.email = cleanPatch.email.trim().toLowerCase();
+  return (await adminUsersTable()).update(id, cleanPatch);
+}
+
+export async function deleteAdminUser(id: string): Promise<void> {
+  return (await adminUsersTable()).remove(id);
+}
+
+/* ----------------------- Inbound Leads & Events ----------------------- */
+
+async function leadsInboundTable(): Promise<Table<LeadInbound>> {
+  return table<LeadInbound>("leadsInbound");
+}
+
+async function landingEventsTable(): Promise<Table<LandingEventRecord>> {
+  return table<LandingEventRecord>("landingEvents");
+}
+
+async function prospectPagesTable(): Promise<Table<ProspectPageRecord>> {
+  return table<ProspectPageRecord>("prospectPages");
+}
+
+export async function createInboundLead(input: {
+  nome: string;
+  empresa: string;
+  whatsapp: string;
+  segmento: string;
+  dorTexto?: string | null;
+  consentimentoLgpd?: boolean;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  prospectSlug?: string | null;
+}): Promise<{ inbound: LeadInbound; lead: Lead }> {
+  const ts = nowISO();
+  const inboundBase: Omit<LeadInbound, "id"> = {
+    nome: input.nome.trim(),
+    empresa: input.empresa.trim(),
+    whatsapp: input.whatsapp.trim(),
+    segmento: input.segmento.trim(),
+    dorTexto: input.dorTexto?.trim() || null,
+    consentimentoLgpd: input.consentimentoLgpd ?? true,
+    utmSource: input.utmSource?.trim() || null,
+    utmMedium: input.utmMedium?.trim() || null,
+    utmCampaign: input.utmCampaign?.trim() || null,
+    prospectSlug: input.prospectSlug?.trim() || null,
+    status: "novo",
+    createdAt: ts
+  };
+
+  const inbound = await (await leadsInboundTable()).insert(inboundBase);
+
+  // Integração Sales Hunter: cria o Lead correspondente no CRM
+  const leadBase: Omit<Lead, "id"> = {
+    companyName: input.empresa.trim(),
+    contactName: input.nome.trim(),
+    contactPhone: input.whatsapp.trim(),
+    segment: input.segmento.trim(),
+    source: {
+      provider: "site",
+      collectedAt: ts,
+      utmSource: input.utmSource?.trim() || null,
+      utmMedium: input.utmMedium?.trim() || null,
+      utmCampaign: input.utmCampaign?.trim() || null,
+      note: `Capturado via Landing Inbound (ID: ${inbound.id})`
+    },
+    verification: "parcial",
+    stage: "identificado",
+    priority: "alta",
+    tags: ["inbound_landing", input.segmento.trim()],
+    problemDescription: input.dorTexto?.trim() || null,
+    consent: input.consentimentoLgpd ?? true,
+    createdAt: ts,
+    updatedAt: ts
+  };
+
+  const lead = await (await leadsTable()).insert(leadBase);
+
+  // Registra atividade no lead
+  await addActivity({
+    leadId: lead.id,
+    kind: "sistema",
+    summary: "Lead inbound capturado na landing page",
+    detail: `Empresa: ${input.empresa} | Contato: ${input.nome} | Tel: ${input.whatsapp} | Segmento: ${input.segmento}`
+  });
+
+  return { inbound, lead };
+}
+
+export async function listInboundLeads(): Promise<LeadInbound[]> {
+  const all = await (await leadsInboundTable()).all();
+  return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function countInboundLeads(): Promise<number> {
+  return (await leadsInboundTable()).count();
+}
+
+export async function recordLandingEvent(input: {
+  sessionId: string;
+  evento: string;
+  caminho: string;
+  segmento?: string | null;
+  prospectSlug?: string | null;
+  meta?: Record<string, unknown>;
+}): Promise<LandingEventRecord> {
+  const ts = nowISO();
+  const base: Omit<LandingEventRecord, "id"> = {
+    sessionId: input.sessionId,
+    evento: input.evento,
+    caminho: input.caminho,
+    segmento: input.segmento ?? null,
+    prospectSlug: input.prospectSlug ?? null,
+    meta: input.meta ?? {},
+    createdAt: ts
+  };
+  return (await landingEventsTable()).insert(base);
+}
+
+export async function listLandingEvents(limit = 100): Promise<LandingEventRecord[]> {
+  const all = await (await landingEventsTable()).all();
+  return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
+}
+
+export async function countLandingEvents(): Promise<number> {
+  return (await landingEventsTable()).count();
+}
+
+export async function createProspectPage(input: {
+  slug: string;
+  leadId?: string | null;
+  empresa: string;
+  cidade?: string;
+  nicho: string;
+  oportunidade?: string | null;
+}): Promise<ProspectPageRecord> {
+  const ts = nowISO();
+  const base: Omit<ProspectPageRecord, "id"> = {
+    slug: input.slug.trim().toLowerCase(),
+    leadId: input.leadId ?? null,
+    empresa: input.empresa.trim(),
+    cidade: input.cidade?.trim() || "Brasília",
+    nicho: input.nicho.trim(),
+    oportunidade: input.oportunidade?.trim() || null,
+    createdAt: ts,
+    expiresAt: null
+  };
+  return (await prospectPagesTable()).insert(base);
+}
+
+export async function getProspectPageBySlug(slug: string): Promise<ProspectPageRecord | null> {
+  const all = await (await prospectPagesTable()).all();
+  const normalized = slug.trim().toLowerCase();
+  return all.find((p) => p.slug.trim().toLowerCase() === normalized) ?? null;
+}
+
+export async function listProspectPages(): Promise<ProspectPageRecord[]> {
+  const all = await (await prospectPagesTable()).all();
+  return all.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
 export { newId };
+

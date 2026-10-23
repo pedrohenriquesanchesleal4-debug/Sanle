@@ -23,7 +23,11 @@ export type Collection =
   | "aiRuns"
   | "audits"
   | "searches"
-  | "leadSources";
+  | "leadSources"
+  | "adminUsers"
+  | "leadsInbound"
+  | "landingEvents"
+  | "prospectPages";
 
 export interface Row {
   id: string;
@@ -207,7 +211,11 @@ const TABLE_NAMES: Record<Collection, string> = {
   aiRuns: "ai_runs",
   audits: "audit_logs",
   searches: "saved_searches",
-  leadSources: "lead_sources"
+  leadSources: "lead_sources",
+  adminUsers: "admin_users",
+  leadsInbound: "leads_inbound",
+  landingEvents: "landing_events",
+  prospectPages: "prospect_pages"
 };
 
 export async function table<T extends Row>(collection: Collection): Promise<Table<T>> {

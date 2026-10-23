@@ -1,117 +1,167 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Logo } from "./Logo";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
-const NAV = [
+const NAV_LINKS = [
+  { label: "Nossa História", href: "/#historia-sanle" },
   { label: "Soluções", href: "/solucoes" },
   { label: "Como funciona", href: "/#como-funciona" },
-  { label: "Aplicações", href: "/#aplicacoes" },
+  { label: "Segmentos", href: "/#para-quem" },
   { label: "Sobre", href: "/sobre" }
 ];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const [inPortal, setInPortal] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      // O header se torna visível após ultrapassar a entrada da logo (~800px)
+      const portalThreshold = 750;
+      const isPastPortal = window.scrollY >= portalThreshold;
+      setInPortal(!isPastPortal);
+      setScrolled(window.scrollY > portalThreshold + 40);
+    };
+
+    const onPortalEntered = () => {
+      setInPortal(false);
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("sanle:portal-entered", onPortalEntered);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("sanle:portal-entered", onPortalEntered);
+    };
   }, []);
 
-  // Fecha com ESC e trava o scroll quando o menu mobile abre
+  // Trava scroll com menu mobile aberto
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    firstLinkRef.current?.focus();
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
+      document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [mobileOpen]);
+
+  const handleCtaClick = () => {
+    trackEvent("cta_clicado", { cta: "header_mapear_processo" });
+    setMobileOpen(false);
+  };
 
   return (
     <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500",
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        inPortal
+          ? "opacity-0 -translate-y-6 pointer-events-none"
+          : "opacity-100 translate-y-0 pointer-events-auto"
+      } ${
         scrolled
-          ? "border-b border-[var(--rule)] bg-paper/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
-      )}
+          ? "bg-[#FAF8F5]/92 backdrop-blur-md border-b border-[rgba(18,17,16,0.08)] py-3.5 shadow-sm text-[#121110]"
+          : "bg-transparent border-b border-transparent py-5 text-[#121110]"
+      }`}
     >
-      <div className="shell flex h-[68px] items-center justify-between gap-6">
-        <Link href="/" aria-label="Sanle — início" className="text-[1.05rem]">
-          <Logo />
+      <div className="shell flex items-center justify-between">
+        {/* Logo sanle em minúsculas com nó cobalto */}
+        <Link
+          href="/"
+          className="font-serif-editorial text-2xl md:text-3xl tracking-[-0.03em] text-[#121110] hover:text-[#2440FF] transition-colors"
+        >
+          sanle
         </Link>
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
-          {NAV.map((item) => (
+        {/* Links Desktop */}
+        <nav className="hidden md:flex items-center gap-8 font-sans-editorial text-sm text-[#4A453E]">
+          {NAV_LINKS.map((link) => (
             <Link
-              key={item.href}
-              href={item.href}
-              className="link-underline text-[0.9rem] text-ink-soft transition-colors hover:text-ink"
+              key={link.href}
+              href={link.href}
+              className="hover:text-[#121110] transition-colors font-medium"
             >
-              {item.label}
+              {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Link href="/diagnostico" className="btn btn-primary text-[0.85rem]">
-            Mapear um processo
+        {/* CTA Desktop */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/diagnostico"
+            onClick={handleCtaClick}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#121110] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#2440FF] transition-all shadow-sm"
+          >
+            <span>Mapear meu processo</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
+        {/* Botão Hamburger Mobile */}
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--rule-strong)] md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-2 rounded-lg text-[#121110] hover:bg-black/5 transition-colors"
+          aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
         >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      {/* Menu mobile */}
-      <div
-        id="menu-mobile"
-        hidden={!open}
-        className="fixed inset-0 top-[68px] z-40 bg-paper md:hidden"
-      >
-        <nav aria-label="Navegação mobile" className="shell flex flex-col gap-1 py-6">
-          {NAV.map((item, i) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              ref={i === 0 ? firstLinkRef : undefined}
-              onClick={() => setOpen(false)}
-              className="border-b border-[var(--rule)] py-4 font-display text-3xl tracking-tight"
+      {/* Menu Mobile em Tela Cheia */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-[#FAF8F5] text-[#121110] p-8 flex flex-col justify-between animate-fade-up">
+          <div className="flex items-center justify-between border-b border-[rgba(18,17,16,0.08)] pb-6">
+            <span className="font-serif-editorial text-3xl tracking-[-0.03em] text-[#121110]">
+              sanle
+            </span>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="p-2 text-[#4A453E] hover:text-[#121110]"
+              aria-label="Fechar menu"
             >
-              {item.label}
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          <nav className="my-auto space-y-6">
+            {NAV_LINKS.map((link, idx) => (
+              <div key={link.href} className="border-b border-[rgba(18,17,16,0.06)] pb-4">
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-serif-editorial text-4xl block text-[#121110] hover:text-[#2440FF] transition-colors"
+                >
+                  <span className="font-mono text-xs text-[#2440FF] mr-3">0{idx + 1}</span>
+                  {link.label}
+                </Link>
+              </div>
+            ))}
+          </nav>
+
+          <div className="pt-6 border-t border-[rgba(18,17,16,0.08)] space-y-4">
+            <Link
+              href="/diagnostico"
+              onClick={handleCtaClick}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-[#121110] text-white font-medium text-sm uppercase tracking-wider hover:bg-[#2440FF] transition-colors"
+            >
+              <span>Mapear meu processo</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
-          ))}
-          <Link
-            href="/diagnostico"
-            onClick={() => setOpen(false)}
-            className="btn btn-primary mt-6 w-full"
-          >
-            Mapear um processo
-          </Link>
-        </nav>
-      </div>
+
+            <p className="font-mono text-[0.68rem] text-center uppercase tracking-[0.16em] text-[#8A837A]">
+              AUTOMAÇÃO OPERACIONAL · BRASÍLIA · DF
+            </p>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

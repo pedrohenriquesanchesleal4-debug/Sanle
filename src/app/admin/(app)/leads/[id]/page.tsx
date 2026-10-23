@@ -34,6 +34,8 @@ export default function LeadDetailPage() {
   const [note, setNote] = useState("");
   const [reminder, setReminder] = useState({ title: "", dueAt: "" });
   const [draftForm, setDraftForm] = useState({ kind: "primeiro_contato", channel: "email", subject: "", instructions: "" });
+  const [generatingPage, setGeneratingPage] = useState(false);
+  const [prospectUrl, setProspectUrl] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setError(null);
@@ -43,6 +45,44 @@ export default function LeadDetailPage() {
       setError(errorMessage(err));
     }
   }, [id]);
+
+  async function generateProspectPage() {
+    if (!data?.lead) return;
+    setGeneratingPage(true);
+    try {
+      const res = await api.post<{ ok: boolean; url: string }>("/api/admin/prospect-pages", {
+        leadId: data.lead.id,
+        empresa: data.lead.tradeName || data.lead.companyName,
+        cidade: data.lead.city || "Brasília",
+        nicho: data.lead.segment || "Operação"
+      });
+      if (res.url) {
+        setProspectUrl(res.url);
+        await navigator.clipboard.writeText(res.url);
+        await api.post(`/api/crm/leads/${data.lead.id}/activities`, {
+          kind: "sistema",
+          summary: "Página de prospecção personalizada gerada",
+          detail: `Link gerado e copiado: ${res.url}`
+        });
+        await load();
+      }
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setGeneratingPage(false);
+    }
+  }
+
+  function openWhatsAppWithPage() {
+    if (!data?.lead || !prospectUrl) return;
+    const phone = (data.lead.contactPhone || data.lead.phone || "").replace(/\D/g, "");
+    const cleanPhone = phone.startsWith("55") ? phone : phone ? `55${phone}` : "";
+    const msg = `Olá! Preparei uma página exclusiva para a ${data.lead.tradeName || data.lead.companyName} com oportunidades práticas de automação para ${data.lead.segment || "a sua operação"}: ${prospectUrl}`;
+    const url = cleanPhone
+      ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`
+      : `https://web.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+  }
 
   useEffect(() => {
     void load();
@@ -137,12 +177,42 @@ export default function LeadDetailPage() {
             criado {timeAgo(lead.createdAt)} · fonte: {lead.source.provider}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => void generateProspectPage()}
+            disabled={generatingPage}
+            className="btn btn-primary text-xs"
+          >
+            <Sparkles size={14} /> {generatingPage ? "Gerando link…" : "Gerar página para este lead"}
+          </button>
+
+          {prospectUrl && (
+            <button
+              type="button"
+              onClick={openWhatsAppWithPage}
+              className="btn btn-ghost text-xs !border-signal/40 !bg-signal/10 !text-signal font-medium"
+            >
+              <ExternalLink size={14} /> Abrir WhatsApp com link
+            </button>
+          )}
+
           <button type="button" onClick={removeLead} className="btn btn-ghost text-rust">
             <Trash2 size={15} /> Excluir
           </button>
         </div>
       </header>
+
+      {prospectUrl && (
+        <Notice tone="neutral">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+            <span>Página personalizada ativa: <strong>{prospectUrl}</strong> (link já copiado)</span>
+            <a href={prospectUrl} target="_blank" rel="noopener noreferrer" className="font-semibold underline">
+              Visualizar página →
+            </a>
+          </div>
+        </Notice>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Coluna esquerda: dados + edição */}
