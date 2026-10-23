@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireSession } from "@/lib/auth";
-import { createProspectPage, getLead } from "@/lib/db/repo";
+import { createProspectPage } from "@/lib/db/repo";
 import { siteUrl } from "@/content/brand";
 
 const CreatePageSchema = z.object({

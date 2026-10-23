@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BookOpen, Plus, Loader2, RefreshCw, Trash2 } from "lucide-react";
+import { Plus, Loader2, RefreshCw, Trash2 } from "lucide-react";
 import { Panel, Badge, Spinner, Notice, EmptyState, Field } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
 import { timeAgo } from "@/lib/utils";

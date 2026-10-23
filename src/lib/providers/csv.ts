@@ -1,4 +1,4 @@
-import type { ProspectCandidate, ProspectProvider, ProspectQuery } from "./types";
+import type { ProspectCandidate, ProspectProvider } from "./types";
 import { ProviderUnavailableError } from "./types";
 
 /**
@@ -140,7 +140,7 @@ export const csvProvider: ProspectProvider = {
     serverOnly: true,
     supportsImport: true
   },
-  async search(_query: ProspectQuery): Promise<ProspectCandidate[]> {
+  async search(): Promise<ProspectCandidate[]> {
     throw new ProviderUnavailableError("CSV não executa busca: use o upload de arquivo.");
   }
 };

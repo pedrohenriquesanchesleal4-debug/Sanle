@@ -163,3 +163,27 @@ export const candidateImportSchema = z.object({
   candidates: z.array(candidateSchema).min(1).max(200),
   label: z.string().trim().max(120).optional()
 });
+
+export const InboundLeadSchema = z.object({
+  nome: z.string().trim().min(2, "Nome deve ter pelo menos 2 caracteres").max(120),
+  empresa: z.string().trim().min(2, "Empresa deve ter pelo menos 2 caracteres").max(120),
+  whatsapp: z
+    .string()
+    .trim()
+    .min(10, "WhatsApp deve ter pelo menos 10 dígitos")
+    .max(20)
+    .regex(/^[0-9+\s()-]+$/, "Telefone inválido"),
+  segmento: z.string().trim().min(2).max(100),
+  dorTexto: z.string().trim().max(1000).optional().nullable(),
+  consentimentoLgpd: z.boolean().refine((val) => val === true, {
+    message: "Consentimento LGPD é obrigatório"
+  }),
+  utmSource: z.string().trim().max(100).optional().nullable(),
+  utmMedium: z.string().trim().max(100).optional().nullable(),
+  utmCampaign: z.string().trim().max(100).optional().nullable(),
+  prospectSlug: z.string().trim().max(100).optional().nullable(),
+  hp: z.string().optional().nullable() // Honeypot contra robôs
+});
+
+export type InboundLeadInput = z.infer<typeof InboundLeadSchema>;
+

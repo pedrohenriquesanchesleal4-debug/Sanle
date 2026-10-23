@@ -12,7 +12,7 @@ const STAGE_TONE: Record<string, string> = {
   reuniao: "lime",
   proposta_enviada: "lime",
   negociacao: "lime",
-  ganho: "cobalt",
+  ganho: "lime",
   perdido: "rust",
   sem_prioridade: "neutral"
 };
@@ -34,15 +34,20 @@ export function VerificationBadge({ status }: { status: VerificationStatus }) {
 }
 
 export function ScorePill({ score }: { score?: number | null }) {
-  if (score == null) return <span className="font-mono text-xs text-ink-soft/50">—</span>;
+  if (score == null) return <span className="font-mono text-xs text-[#969DA8]/50">—</span>;
   const tone = score >= 65 ? "lime" : score >= 40 ? "cobalt" : "neutral";
   return <Badge tone={tone}>{score}</Badge>;
 }
 
 export function PriorityDot({ priority }: { priority: string }) {
-  const color = priority === "alta" ? "bg-rust" : priority === "media" ? "bg-cobalt" : "bg-ink-soft/40";
+  const color =
+    priority === "alta"
+      ? "bg-[#B7F36B] shadow-[0_0_8px_#B7F36B]"
+      : priority === "media"
+        ? "bg-[#78A9FF]"
+        : "bg-[#969DA8]/45";
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-ink-soft">
+    <span className="inline-flex items-center gap-1.5 text-xs text-[#969DA8]">
       <span className={`h-2 w-2 rounded-full ${color}`} aria-hidden />
       {priority}
     </span>

@@ -7,8 +7,6 @@ import { api, errorFields, errorMessage } from "@/lib/client-api";
 import { FUNNEL_STAGES } from "@/lib/types";
 import { segments } from "@/content/brand";
 
-const CHANNELS = ["osm", "google_places", "csv", "manual", "site"] as const;
-
 export function LeadForm({
   onClose,
   onCreated
@@ -56,11 +54,24 @@ export function LeadForm({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/50 p-4 backdrop-blur-sm">
-      <form onSubmit={submit} className="my-8 w-full max-w-2xl rounded-2xl border border-[var(--rule)] bg-paper p-6 shadow-2xl">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl text-ink">Novo lead</h2>
-          <button type="button" onClick={onClose} aria-label="Fechar" className="rounded-lg p-1.5 text-ink-soft hover:bg-black/5">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#08090C]/80 p-4 backdrop-blur-md">
+      <form
+        onSubmit={submit}
+        className="my-8 w-full max-w-2xl rounded-2xl border border-white/[0.1] bg-[#111318] p-6 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.85)]"
+      >
+        <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+          <div>
+            <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-[#78A9FF]">
+              CADASTRO COMERCIAL
+            </p>
+            <h2 className="mt-1 font-display text-xl font-semibold text-[#F5F6F8]">Novo lead</h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar"
+            className="rounded-lg border border-white/[0.08] bg-[#191C22] p-1.5 text-[#969DA8] transition hover:text-[#F5F6F8]"
+          >
             <X size={18} />
           </button>
         </div>
@@ -125,7 +136,7 @@ export function LeadForm({
         </div>
 
         <div className="mt-4 space-y-4">
-          <Field label="Hipótese de problema" hint="Marcada como hipótese — não como fato">
+          <Field label="Hipótese de problema" hint="Marcada como hipótese — não como fato verificado">
             <input className="field" value={form.hypothesis} onChange={(e) => update("hypothesis", e.target.value)} />
           </Field>
           <Field label="Notas internas">
@@ -133,9 +144,9 @@ export function LeadForm({
           </Field>
         </div>
 
-        {errors._ && <p className="mt-3 text-sm text-rust">{errors._}</p>}
+        {errors._ && <p className="mt-3 text-sm text-[#FF6B6B]">{errors._}</p>}
 
-        <div className="mt-6 flex justify-end gap-3">
+        <div className="mt-6 flex justify-end gap-3 border-t border-white/[0.06] pt-4">
           <button type="button" onClick={onClose} className="btn btn-ghost">
             Cancelar
           </button>

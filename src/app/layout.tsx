@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { brand, siteUrl } from "@/content/brand";
+import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -45,12 +46,13 @@ export const metadata: Metadata = {
   description: brand.shortPitch,
   applicationName: brand.name,
   keywords: [
-    "automação de processos",
-    "automação documental",
-    "integração de sistemas",
-    "inteligência artificial aplicada",
-    "RAG",
-    "organização de documentos",
+    "Sales Hunter",
+    "inteligência comercial",
+    "prospecção B2B",
+    "encontrar empresas",
+    "oportunidades comerciais",
+    "CRM B2B",
+    "diagnóstico comercial",
     "Brasília",
     "DF"
   ],
@@ -80,12 +82,10 @@ export const metadata: Metadata = {
   }
 };
 
-import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
-
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAF8F5" },
-    { media: "(prefers-color-scheme: dark)", color: "#121110" }
+    { media: "(prefers-color-scheme: light)", color: "#08090C" },
+    { media: "(prefers-color-scheme: dark)", color: "#08090C" }
   ],
   width: "device-width",
   initialScale: 1
@@ -97,13 +97,13 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}
+      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} dark`}
     >
-      <body className="min-h-dvh antialiased bg-paper text-ink">
+      <body className="min-h-dvh antialiased bg-[#08090C] text-[#F5F6F8] selection:bg-[#B7F36B] selection:text-[#08090C]">
         <SmoothScrollProvider>
           <a
             href="#conteudo"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-paper"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[#B7F36B] focus:px-5 focus:py-3 focus:font-semibold focus:text-[#08090C]"
           >
             Pular para o conteúdo
           </a>

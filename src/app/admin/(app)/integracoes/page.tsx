@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PlugZap, CheckCircle2, XCircle, RefreshCw } from "lucide-react";
+import { CheckCircle2, XCircle, RefreshCw } from "lucide-react";
 import { Panel, Badge, Spinner, Notice } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
 import { timeAgo } from "@/lib/utils";

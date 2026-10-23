@@ -1,145 +1,74 @@
-# Sanle
+# Sales Hunter — The Opportunity Engine (Sanle)
 
-Prospecção de leads com IA para agências e consultorias — diagnostica problemas de prospecção, qualifica leads, rastreia conversas e gera rascunhos de outreach, com assistente conversacional no site e no painel.
+Plataforma de inteligência comercial B2B e experiência digital cinematográfica construída sobre **Next.js 15.1**, **React 19**, **TypeScript**, **Three.js (WebGL)** e **GSAP ScrollTrigger**.
 
-> **Postura Free-First:** o app roda **100% sem chaves** (armazenamento local + IA determinística + OpenStreetMap gratuito). Toda integração paga é opcional e exige ativação explícita por env/flag. Nada é inventado: o que não está configurado não aparece como "ativo".
+Transforma sinais dispersos do mercado em oportunidades priorizadas, diagnósticos comerciais, mensagens personalizadas com abertura direta no WhatsApp e acompanhamento em pipeline CRM auditável.
+
+> **Postura Free-First (R$ 0):** a aplicação inteira funciona **100% sem chaves pagas** (armazenamento local em `.data/sanle.json` ou Supabase Free Tier, busca real via OpenStreetMap Overpass/Nominatim gratuito, IA determinística local + provedores opcionais por feature flag, WebGL 3D e filmes procedurais renderizados no próprio navegador).
 
 ---
 
-## Stack
+## Arquitetura da Experiência
+
+### Ambiente A — Landing Page Cinematográfica (`/`)
+- **Conceito Criativo:** *The Opportunity Engine* — *"Do desconhecido à descoberta. Da descoberta à oportunidade. Da oportunidade à conversa."*
+- **8 Cenas Conectadas por Scroll (`src/components/storytelling/`):**
+  1. `01 · BEFORE THE SIGNAL` — O ponto de origem e coordenada espacial.
+  2. `02 · A WORLD OF BUSINESSES` — Formação da malha territorial de empresas.
+  3. `03 · THE SEARCH` — Filtragem em tempo real por segmento e região (`Vidraçarias — Brasília`).
+  4. `04 · OPPORTUNITY DETECTED` — Sinais comerciais (`#B7F36B`) e score auditável (`88/100`).
+  5. `05 · COMMERCIAL INTELLIGENCE` — Diagnóstico de presença digital, canais e oferta recomendada.
+  6. `06 · PERSONALIZED OUTREACH` — Mensagem sob medida e acionamento direto no WhatsApp + preview de site.
+  7. `07 · LIVING PIPELINE` — Funil comercial ativo em 8 estágios.
+  8. `08 · THE OPPORTUNITY ENGINE` — Convergência do ecossistema completo e chamada para ação.
+- **Motor 3D WebGL (`src/components/three/`):**
+  - `OpportunityField`, `CameraRig`, `SpatialMarkers` (`InstancedMesh`) e `ConnectionNetwork` (`LineSegments`), com `DPR <= 1.5`, pausa automática fora de viewport, fallback gracioso sem WebGL e suporte integral a `prefers-reduced-motion`.
+- **Ativos Visuais & Filmes Procedurais (`public/media/` & `ProceduralFilms.tsx`):**
+  - 6 ativos fotográficos/editoriais 16:9 originais gerados sob medida + texturas SVG e 3 filmes procedurais em canvas 60fps (`Opening`, `Discovery`, `Transformation`).
+
+### Ambiente B — Plataforma Operacional & CRM (`/admin`)
+- **Dashboard Dark Precision (`#08090C` / `#111318` / `#191C22`):**
+  - **Visão Geral (`/admin`):** KPIs executivos, sinais de oportunidade, fila prioritária de ação e funil.
+  - **Buscador de Empresas (`/admin/prospects`):** Prospecção real via OpenStreetMap (gratuito), Google Places (opcional via flag) ou importação CSV com deduplicação e transparência de fontes.
+  - **Leads (`/admin/leads`) & Ficha 360° (`/admin/leads/[id]`):** Score auditável com breakdown de fatores, diagnóstico comercial, gerador de abordagem por IA, botão de WhatsApp com mensagem pré-preenchida, histórico e tarefas.
+  - **Pipeline Kanban (`/admin/pipeline`):** Movimentação entre etapas com persistência real confirmada antes da conclusão visual.
+
+---
+
+## Stack Técnica
 
 - **Next.js 15.1** (App Router, React 19, TypeScript estrito)
-- **Tailwind CSS + GSAP** (UI do site e painel)
-- **Zod** (schemas de entrada em todas as rotas)
-- **Supabase** (`@supabase/ssr` + `supabase-js`) — *opcional*; sem isso o app usa armazenamento local em `.data/sanle.json` (gitignored)
-- **Vitest** — 51 testes (`npm test`)
-- Persistência em **Ports & Adapters**: `src/lib/db/adapter.ts` → `SupabaseTable` (Postgres + RLS deny-by-default via service role) ou `LocalTable` (JSON local)
+- **Three.js + GSAP 3.12 (ScrollTrigger)** — Scrollytelling 3D e motion system
+- **Tailwind CSS** — Tokens do sistema *The Opportunity Engine* (`Inter`, `Syne`, `JetBrains Mono`)
+- **Zod** — Validação estrita em 100% das rotas de API
+- **Supabase** (`@supabase/ssr` + `supabase-js`) ou **Local Adapter** (`.data/sanle.json`)
+- **Vitest** — Suíte automatizada de testes unitários e de integração
 
 ---
 
-## Pré-requisitos
-
-- Node.js 20+ (fetch nativo para o seed)
-- npm 10+
-
----
-
-## Instalação
+## Instalação e Execução
 
 ```bash
 npm install
-```
-
-## Configuração
-
-```bash
 cp .env.example .env.local
-```
-
-Nenhuma variável é obrigatória. Veja `docs/CONFIGURACAO-APIS.md` para o papel de cada uma e `docs/CUSTOS-E-LIMITES.md` para custos/limites.
-
-Para rodar **sem Supabase** (modo local, recomendado para começar):
-
-```bash
-# .env.local
-NODE_ENV=development
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-SANLE_ADMIN_EMAILS=voce@exemplo.com
-SANLE_LOCAL_ADMIN=true
-```
-
-> `SANLE_LOCAL_ADMIN=true` libera o painel SEM Supabase, com qualquer senha de 6+ caracteres. **NUNCA** ative em produção.
-
-## Subir Supabase (opcional)
-
-1. Crie um projeto em [supabase.com](https://supabase.com) (região próxima ao seu público; free tier suficiente para começar).
-2. Aplique as migrations — todas em `supabase/migrations/`:
-
-   ```bash
-   # com o CLI local configurado
-   supabase link --project-ref <REF>
-   supabase db push
-   ```
-
-   Ou cole cada arquivo `supabase/migrations/*.sql` no **SQL Editor** do dashboard, na ordem numérica.
-3. Em `.env.local`:
-
-   ```bash
-   NEXT_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
-   SUPABASE_SERVICE_ROLE_KEY=<service_role key>   # server-only, nunca exposta
-   SANLE_LOCAL_ADMIN=false
-   ```
-
-   > A `service_role` key contorna RLS por design (o app gerencia os dados no servidor).
-   > `docker/systemd/edge functions`: **nunca** referencie `SUPABASE_SERVICE_ROLE_KEY` em código/arquivos client.
-
-## Desenvolvimento
-
-```bash
 npm run dev        # http://localhost:3000
-npm run lint       # next lint
+```
+
+### Scripts de Verificação
+
+```bash
 npm run typecheck  # tsc --noEmit
-npm test           # vitest (51 testes)
+npm test           # vitest run
+npm run build      # next build de produção
 ```
-
-## Build e produção
-
-```bash
-npm run build
-npm start          # ou `next start -p $PORT`
-```
-
-Em produção, o app serve automaticamente headers de segurança: `Content-Security-Policy`, `Strict-Transport-Security` (HSTS, 1 ano), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Cross-Origin-Opener-Policy`, `Cross-Origin-Resource-Policy`, `Referrer-Policy` e `Permissions-Policy`.
-
-## Dados de demonstração
-
-Com o servidor rodando:
-
-```bash
-npm run seed
-```
-
-O script faz login via `/api/auth/login` e chama `POST /api/seed` (admin-only). Modo local: aceita `admin@local.dev`/qualquer senha (ou defina `SANLE_SEED_EMAIL`/`SANLE_SEED_PASSWORD`). Modo Supabase: precisa de um usuário real em `SANLE_ADMIN_EMAILS`. Detalhes no topo de `scripts/seed-demo.mjs`.
 
 ---
 
-## Documentação
+## Documentação Complementar
 
 | Documento | Conteúdo |
 |---|---|
-| `docs/CUSTOS-E-LIMITES.md` | Custos por serviço, limites gratuitos, excedentes, alternativas e desativação (Free-First) |
-| `docs/CONFIGURACAO-APIS.md` | Todas as variáveis de ambiente, papel, flag de ativação e fonte no código |
-| `docs/ITENS-MANUAIS.md` | Itens que exigem ação humana/externa (credenciais, revisão jurídica, deploy) |
-| `docs/CHECKLIST-COMPLIANCE.md` | Checklist de verificação de segurança, LGPD e compliance (assinado na seção I) |
-| `docs/RELATORIO-AUDITORIA-FINAL.md` | Auditoria final (Compliance Gate): gates executados, segurança, a11y, anti-slop e veredito |
-| `.agents/memoria/` | Memória do projeto (decisões ADR, arquitetura, schema atual) |
-
-## Segurança (resumo)
-
-- **Auth:** allowlist `SANLE_ADMIN_EMAILS` com *fail-closed*; sessão via cookies HttpOnly + SameSite=Lax; login com rate limit (10/10min) e logout ao detectar e-mail fora da allowlist.
-- **Autorização:** rota `/admin/*` protegida por middleware + `requireAdmin` em **toda** API de dados (ownership implícito: a API é single-tenant).
-- **RLS:** todas as tabelas com RLS deny-by-default + `revoke all from anon, authenticated`; acesso de dados exclusivo via service role no servidor.
-- **Trilha de auditoria:** `audit_logs` **append-only por trigger no banco** (migration `20261012000500`), gravada em ações sensíveis (login, chat admin, importações, seed).
-- **Input:** Zod em 100% dos payloads; sanitização de texto; rate limit por rota; validação de origem (Origin ≠ Host → 403) nas rotas com sessão.
-- **LLM:** guardrails determinísticos (injeção de prompt, redação de PII/segredos), teto de custo diário (`SANLE_AI_DAILY_BUDGET_USD`) e fallback determinístico sem chave.
-- **Provedores:** cache + pacing + circuit breaker + User-Agent identificável (política OSM); Google Places atrás de flag **e** chave; SSRF mitigado (URLs apenas de env, nunca do usuário).
-- **Dados locais:** `.data/` é gitignored (nunca versionar PII de leads).
-
-## LGPD (resumo)
-
-Coleta mínima, finalidade declarada, consentimento explícito para diagnóstico/chat (persistência só com consentimento `true`), trânsito TLS 1.3, e trilha de auditoria. Itens que dependem de ação humana (revisão jurídica de `privacidade`/`termos`, DPO/encarregado, política de retenção, canal de exclusão de titular): veja `docs/ITENS-MANUAIS.md`.
-
----
-
-## Scripts
-
-| Script | Descrição |
-|---|---|
-| `npm run dev` | Dev server |
-| `npm run build` | Build de produção |
-| `npm start` | Server de produção |
-| `npm run lint` | Lint |
-| `npm run typecheck` | Checagem de tipos |
-| `npm test` | Vitest |
-| `npm run seed` | Popula dados demo via API (`scripts/seed-demo.mjs`) |
+| `docs/creative-direction.md` | Direção criativa, mapa das 8 cenas, sistema de câmeras 3D, paleta e fotografia |
+| `docs/CUSTOS-E-LIMITES.md` | Custos por serviço, limites gratuitos e operação Free-First |
+| `docs/CONFIGURACAO-APIS.md` | Variáveis de ambiente opcionais e flags de ativação |
+| `docs/CHECKLIST-COMPLIANCE.md` | Segurança, LGPD, rate limit, RBAC e headers HTTP |

@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch (err) {
+  } catch {
     // Analytics nunca deve retornar erro 500 para não quebrar sendBeacon
     return NextResponse.json({ ok: false }, { status: 200 });
   }

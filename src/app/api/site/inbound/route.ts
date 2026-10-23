@@ -1,29 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import crypto from "node:crypto";
 import { createInboundLead } from "@/lib/db/repo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { InboundLeadSchema } from "@/lib/schemas";
 
-export const InboundLeadSchema = z.object({
-  nome: z.string().trim().min(2, "Nome deve ter pelo menos 2 caracteres").max(120),
-  empresa: z.string().trim().min(2, "Empresa deve ter pelo menos 2 caracteres").max(120),
-  whatsapp: z
-    .string()
-    .trim()
-    .min(10, "WhatsApp deve ter pelo menos 10 dígitos")
-    .max(20)
-    .regex(/^[0-9+\s()-]+$/, "Telefone inválido"),
-  segmento: z.string().trim().min(2).max(100),
-  dorTexto: z.string().trim().max(1000).optional().nullable(),
-  consentimentoLgpd: z.boolean().refine((val) => val === true, {
-    message: "Consentimento LGPD é obrigatório"
-  }),
-  utmSource: z.string().trim().max(100).optional().nullable(),
-  utmMedium: z.string().trim().max(100).optional().nullable(),
-  utmCampaign: z.string().trim().max(100).optional().nullable(),
-  prospectSlug: z.string().trim().max(100).optional().nullable(),
-  hp: z.string().optional().nullable() // Honeypot contra robôs
-});
+export const runtime = "nodejs";
 
 // Cache em memória de rate-limit por SHA-256 do IP (5 submissões por 15 min)
 const RATE_LIMIT_CACHE = new Map<string, { count: number; expiresAt: number }>();
