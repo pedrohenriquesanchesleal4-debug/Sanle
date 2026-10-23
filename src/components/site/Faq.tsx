@@ -9,20 +9,10 @@ interface FaqItem {
   a: string;
 }
 
-const ALL_FAQS: FaqItem[] = [
-  ...initialFaqs,
-  {
-    q: "Como é feito o primeiro contato?",
-    a: "Pelo formulário de diagnóstico nesta página ou direto pelo WhatsApp. Conversamos de forma objetiva sobre um processo específico da sua empresa e, se houver alinhamento, agendamos um mapeamento detalhado sem compromisso de contratação."
-  },
-  {
-    q: "Posso começar com um processo só?",
-    a: "Sim, e é exatamente assim que recomendamos. Começamos por uma dor delimitada com impacto mensurável (ex: conferência de extratos ou renomeação de notas), validamos o resultado e só depois expandimos para outros gargalos."
-  }
-];
+const ALL_FAQS: FaqItem[] = [...initialFaqs];
 
 export function Faq() {
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   const toggle = (idx: number) => {
     setOpenIdx((current) => (current === idx ? null : idx));
@@ -44,7 +34,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative scroll-mt-20 py-24 md:py-32 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 border-t border-[#F5F6F8]/8 bg-[#08090C] py-24 text-[#F5F6F8] md:py-32"
       aria-labelledby="faq-title"
     >
       <script
@@ -55,30 +45,29 @@ export function Faq() {
       />
 
       <div className="shell max-w-4xl">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#2440FF] font-semibold">
+        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#78A9FF]">
           <span>PERGUNTAS FREQUENTES</span>
         </div>
 
         <h2
           id="faq-title"
-          className="mt-4 font-serif-editorial text-[clamp(2.4rem,5.5vw,4.5rem)] leading-[0.98] text-[#121110]"
+          className="mt-4 font-display text-clamp-title font-semibold leading-[1.03] tracking-tightest text-[#F5F6F8]"
         >
-          Dúvidas antes de conversar.
+          Clareza sobre operação, dados e infraestrutura.
         </h2>
 
-        <p className="mt-4 max-w-xl text-lg text-[#4A453E] font-sans-editorial">
-          Transparência sobre método, escopo, segurança de dados e modelo de contratação.
+        <p className="mt-3 max-w-xl text-base text-[#969DA8]">
+          Transparência sobre a arquitetura Free-First, uso de dados públicos e fluxo comercial do Sales Hunter.
         </p>
 
-        {/* Acordeão Acessível */}
-        <div className="mt-14 divide-y divide-[rgba(18,17,16,0.08)] border-y border-[rgba(18,17,16,0.08)]">
+        <div className="mt-12 divide-y divide-[#F5F6F8]/10 border-y border-[#F5F6F8]/10">
           {ALL_FAQS.map((item, idx) => {
             const isOpen = openIdx === idx;
             const contentId = `faq-answer-${idx}`;
             const headerId = `faq-header-${idx}`;
 
             return (
-              <div key={idx} className="py-5">
+              <div key={item.q} className="py-5">
                 <h3>
                   <button
                     id={headerId}
@@ -86,14 +75,16 @@ export function Faq() {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggle(idx)}
-                    className="w-full flex items-center justify-between text-left gap-6 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2440FF]"
+                    className="group flex w-full items-center justify-between gap-6 text-left focus:outline-none"
                   >
-                    <span className="font-serif-editorial text-xl md:text-2xl text-[#121110] group-hover:text-[#2440FF] transition-colors">
+                    <span className="font-display text-lg font-medium text-[#F5F6F8] transition-colors group-hover:text-[#B7F36B] md:text-xl">
                       {item.q}
                     </span>
                     <span
-                      className={`h-7 w-7 rounded-full border border-[rgba(18,17,16,0.12)] flex items-center justify-center shrink-0 transition-transform ${
-                        isOpen ? "rotate-180 border-[#2440FF] text-[#2440FF] bg-[#2440FF]/5" : "text-[#8A837A]"
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-transform ${
+                        isOpen
+                          ? "rotate-180 border-[#B7F36B]/50 bg-[#B7F36B]/15 text-[#B7F36B]"
+                          : "border-[#F5F6F8]/15 text-[#969DA8]"
                       }`}
                     >
                       <ChevronDown className="h-4 w-4" />
@@ -106,7 +97,7 @@ export function Faq() {
                     id={contentId}
                     role="region"
                     aria-labelledby={headerId}
-                    className="mt-4 text-[#4A453E] text-base leading-relaxed font-sans-editorial pr-12 animate-fade-up"
+                    className="mt-3 pr-10 text-sm leading-relaxed text-[#969DA8] md:text-base"
                   >
                     <p>{item.a}</p>
                   </div>
