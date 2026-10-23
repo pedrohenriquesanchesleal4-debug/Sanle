@@ -11,6 +11,7 @@ import {
 
 export function TactileFlowConsole() {
   const [mode, setMode] = useState<"flow" | "manual">("flow");
+  const [activeTab, setActiveTab] = useState<"pipeline" | "payload">("pipeline");
   const [isSimulating, setIsSimulating] = useState(false);
   const [simulationStep, setSimulationStep] = useState(0);
   const [simLatency, setSimLatency] = useState("0.38s");
@@ -193,23 +194,80 @@ export function TactileFlowConsole() {
          ========================================================================= */}
       {mode === "flow" && (
         <div className="mt-4 space-y-3.5 animate-in fade-in duration-300">
-          {/* Faixa de telemetria ativa */}
-          <div className="flex items-center justify-between rounded-xl bg-[#2440FF]/8 border border-[#2440FF]/15 px-3.5 py-2">
+          {/* Faixa de telemetria ativa e comutador de visão */}
+          <div className="flex items-center justify-between rounded-xl bg-[#2440FF]/8 border border-[#2440FF]/15 px-3.5 py-1.5">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2440FF] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2440FF]" />
               </span>
-              <span className="font-mono text-[0.7rem] uppercase tracking-wider text-[#2440FF] font-semibold">
-                Engenharia de Fluxo Ativa
+              <span className="font-mono text-[0.68rem] uppercase tracking-wider text-[#2440FF] font-semibold">
+                Fluxo Ativo ({simLatency})
               </span>
             </div>
-            <span className="font-mono text-[0.68rem] text-[#4A453E]">
-              Latência média: <strong className="text-[#2440FF]">{simLatency}</strong>
-            </span>
+
+            <div className="inline-flex rounded-md bg-white p-0.5 border border-black/5 shadow-xs">
+              <button
+                type="button"
+                onClick={() => setActiveTab("pipeline")}
+                className={`px-2 py-0.5 rounded font-mono text-[0.62rem] uppercase tracking-wider transition-all ${
+                  activeTab === "pipeline"
+                    ? "bg-[#2440FF] text-white font-bold"
+                    : "text-[#6A6359] hover:text-[#121110]"
+                }`}
+              >
+                Três Nós
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("payload")}
+                className={`px-2 py-0.5 rounded font-mono text-[0.62rem] uppercase tracking-wider transition-all ${
+                  activeTab === "payload"
+                    ? "bg-[#121110] text-emerald-400 font-bold"
+                    : "text-[#6A6359] hover:text-[#121110]"
+                }`}
+              >
+                Payload JSON
+              </button>
+            </div>
           </div>
 
-          {/* O Pipeline dos Três Nós da Sanle */}
+          {activeTab === "payload" ? (
+            <div className="p-3 rounded-xl bg-[#121110] text-emerald-400 font-mono text-[0.62rem] leading-relaxed shadow-md border border-stone-800 animate-in fade-in duration-200">
+              <div className="flex items-center justify-between pb-1.5 border-b border-stone-800 text-[0.56rem] text-stone-400">
+                <span>{"// PAYLOAD REAL SINCRONIZADO COM OMIE ERP"}</span>
+                <span>TOQUES HUMANOS: 0</span>
+              </div>
+              <pre className="mt-1.5 overflow-x-auto max-h-[175px]">
+                {JSON.stringify(
+                  {
+                    origem: "WhatsApp Inbound API",
+                    documento: "NF-e #4910.pdf",
+                    parser: "Sanle OCR Neural v3.4",
+                    tempo_total: simLatency,
+                    dados: {
+                      emissor: "Vidraçaria Alvorada",
+                      cnpj: "12.345.678/0001-90",
+                      valor_total: 14850.0,
+                      itens_validados: 14
+                    },
+                    regras_fiscais: {
+                      preco_tabela: "CONFORME",
+                      anti_duplicidade: "PASS"
+                    },
+                    erp_destino: {
+                      sistema: "Omie ERP",
+                      lancamento_id: "LNC-88219",
+                      status: "CONCILIADO_SEM_DIGITACAO"
+                    }
+                  },
+                  null,
+                  2
+                )}
+              </pre>
+            </div>
+          ) : (
+          /* O Pipeline dos Três Nós da Sanle */
           <div className="relative space-y-2.5">
             {/* Linha vertical conectora de latão e safira */}
             <div className="absolute left-[19px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#2440FF] via-[#C8A24A] to-[#10B981] z-0 opacity-40" />
@@ -298,6 +356,7 @@ export function TactileFlowConsole() {
               </div>
             </div>
           </div>
+        )}
 
           {/* Painel de Ação Interativa: Disparo de Demonstração */}
           <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[rgba(18,17,16,0.06)]">
