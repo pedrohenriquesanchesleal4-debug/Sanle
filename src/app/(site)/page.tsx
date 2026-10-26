@@ -14,6 +14,7 @@ import { ContactSection } from "@/components/site/ContactSection";
 import { Method } from "@/components/site/Method";
 import { Faq } from "@/components/site/Faq";
 import { FinalCta } from "@/components/site/FinalCta";
+import { SanleStageHUD } from "@/components/site/SanleStageHUD";
 import { brand, faqs, siteUrl } from "@/content/brand";
 
 export const metadata: Metadata = {
@@ -188,6 +189,9 @@ export default function HomePage() {
 
       {/* 15. Chamada Final + Formulário Curto de Diagnóstico */}
       <FinalCta />
+
+      {/* 16. HUD Flutuante de Estágios e Profundidade (Inspirado no why.zero.university) */}
+      <SanleStageHUD />
     </>
   );
 }

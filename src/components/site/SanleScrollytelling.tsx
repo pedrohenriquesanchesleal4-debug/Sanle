@@ -149,6 +149,30 @@ export function SanleScrollytelling() {
       />
 
       <div className="shell max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+        {/* =========================================================================
+            GATE DE ENTRADA · AMBIENTE 01 (Transição temática estilo why.zero.university)
+           ========================================================================= */}
+        <div className="mb-8 sm:mb-12 p-4 sm:p-5 rounded-2xl bg-white border border-[rgba(18,17,16,0.08)] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#2440FF]/10 text-[#2440FF] border border-[#2440FF]/20">
+              <Compass className="h-4 w-4 animate-spin [animation-duration:12s]" />
+            </span>
+            <div>
+              <span className="font-mono text-[0.62rem] sm:text-xs uppercase tracking-[0.2em] text-[#2440FF] font-bold block">
+                ENTRANDO NO AMBIENTE 01 · ENGENHARIA OPERACIONAL
+              </span>
+              <p className="text-xs sm:text-sm text-[#4A453E] font-sans-editorial">
+                Conforme rola a tela, o esquemático à esquerda reage e ilustra a transformação da empresa em cada capítulo.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 font-mono text-xs text-[#8A837A] bg-[#FAF8F5] px-3 py-1.5 rounded-full border border-[rgba(18,17,16,0.08)] shrink-0">
+            <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
+            <span>TEMÁTICA ARQUITETURAL ATIVA</span>
+          </div>
+        </div>
+
         {/* Cabeçalho da Seção com navegação rápida de capítulos */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-[rgba(18,17,16,0.08)] pb-6 mb-8 sm:mb-12">
           <div className="space-y-2.5 max-w-2xl">
