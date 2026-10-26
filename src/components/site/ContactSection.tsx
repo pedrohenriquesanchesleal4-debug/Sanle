@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Mail, Linkedin, Copy, Check, ArrowUpRight, MapPin, Sparkles } from "lucide-react";
+import { MessageCircle, Mail, Linkedin, Copy, Check, ArrowUpRight, MapPin } from "lucide-react";
 import { brand } from "@/content/brand";
 
 export function ContactSection() {

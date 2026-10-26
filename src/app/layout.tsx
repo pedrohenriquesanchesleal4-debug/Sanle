@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { brand, siteUrl } from "@/content/brand";
+import { siteUrl } from "@/content/brand";
 import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
 
 const instrumentSerif = Instrument_Serif({

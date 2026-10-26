@@ -28,8 +28,9 @@ export function HeroPortal() {
 
     if (!container || !emblem || !maskHole || !curtainSvg || !heroContent) return;
 
-    // Raio base da abertura central da logo em pixels (diâmetro 84px)
-    const baseHoleRadius = 42;
+    const isMobile = window.innerWidth < 768;
+    // Raio base da abertura central da logo em pixels (diâmetro ~80px mobile / ~88px desktop)
+    const baseHoleRadius = isMobile ? 38 : 44;
 
     const updateZoom = () => {
       // 1. Cálculo de progresso de scroll dinâmico e enxuto (125vh mobile / 160vh desktop)
