@@ -53,15 +53,16 @@ export function ManifestoScroller() {
     if (!container || !pinSection) return;
 
     const cards = gsap.utils.toArray<HTMLElement>("[data-manifesto-card]");
+    const isMobile = window.innerWidth < 768;
 
     const ctx = gsap.context(() => {
-      // Timeline pinned que controla a progressão das declarações
+      // Timeline pinned com scroll enxuto e ágil
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: "+=3200",
-          scrub: 0.8,
+          end: isMobile ? "+=650" : "+=1150",
+          scrub: 0.5,
           pin: pinSection,
           anticipatePin: 1,
           onUpdate: (self) => {
@@ -79,9 +80,9 @@ export function ManifestoScroller() {
           // O primeiro card começa visível e desaparece quando entra o segundo
           tl.to(card, {
             opacity: 0,
-            y: -50,
-            scale: 0.96,
-            filter: "blur(8px)",
+            y: -35,
+            scale: 0.97,
+            filter: "blur(6px)",
             duration: 1,
             ease: "power2.inOut"
           }, 0.8);
@@ -90,7 +91,7 @@ export function ManifestoScroller() {
           // Entrada suave do card
           tl.fromTo(
             card,
-            { opacity: 0, y: 70, scale: 0.97, filter: "blur(10px)" },
+            { opacity: 0, y: 50, scale: 0.98, filter: "blur(6px)" },
             {
               opacity: 1,
               y: 0,
@@ -106,9 +107,9 @@ export function ManifestoScroller() {
           if (i < cards.length - 1) {
             tl.to(card, {
               opacity: 0,
-              y: -50,
-              scale: 0.96,
-              filter: "blur(8px)",
+              y: -35,
+              scale: 0.97,
+              filter: "blur(6px)",
               duration: 1,
               ease: "power2.inOut"
             }, startTime + 0.8);
@@ -129,26 +130,26 @@ export function ManifestoScroller() {
     >
       <div
         ref={pinSectionRef}
-        className="relative flex h-screen w-full flex-col justify-between overflow-hidden px-6 py-10 md:px-16 md:py-14"
+        className="relative flex h-[100dvh] w-full flex-col justify-between overflow-hidden px-4 py-4 sm:px-8 sm:py-6 md:px-16 md:py-14"
       >
-        {/* Luz de fundo atmosférica inspirada em why.zero.university */}
+        {/* Luz de fundo atmosférica */}
         <div
           className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[700px] w-[900px] rounded-full bg-gradient-to-b from-amber/15 via-cobalt/10 to-transparent blur-[160px]"
           aria-hidden="true"
         />
 
         {/* Top bar com index e badge */}
-        <div className="relative z-10 flex items-center justify-between border-b border-black/8 pb-5">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cobalt/10 text-cobalt">
-              <Sparkles className="h-3.5 w-3.5" />
+        <div className="relative z-10 flex items-center justify-between border-b border-black/8 pb-3 sm:pb-5">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-cobalt/10 text-cobalt">
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             </span>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-ink-mute">
+            <span className="font-mono text-[0.66rem] sm:text-xs uppercase tracking-[0.16em] sm:tracking-[0.2em] text-ink-mute font-semibold">
               Manifesto · Sanle Infraestrutura
             </span>
           </div>
 
-          <div className="flex items-center gap-4 font-mono text-xs text-ink-soft">
+          <div className="flex items-center gap-2 sm:gap-4 font-mono text-xs text-ink-soft">
             <span className="text-cobalt font-semibold">0{activeIndex + 1}</span>
             <span className="text-black/20">/</span>
             <span className="text-ink-mute">04</span>
@@ -165,19 +166,19 @@ export function ManifestoScroller() {
                 idx === 0 ? "opacity-100" : "opacity-0"
               }`}
             >
-              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-black/8 bg-white/80 px-4 py-1.5 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-cobalt shadow-sm">
+              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-black/8 bg-white/80 px-3 py-1 sm:px-4 sm:py-1.5 font-mono text-[0.65rem] sm:text-[0.72rem] uppercase tracking-[0.16em] sm:tracking-[0.18em] text-cobalt shadow-xs">
                 <span>{item.eyebrow}</span>
               </div>
 
-              <h2 className="mt-8 font-display text-[clamp(2.1rem,5vw,4.4rem)] font-medium leading-[1.08] tracking-tightest text-ink">
+              <h2 className="mt-4 sm:mt-8 font-display text-[clamp(1.35rem,4.5vw,4.2rem)] font-medium leading-[1.12] sm:leading-[1.08] tracking-tightest text-ink">
                 {item.headline}
               </h2>
 
-              <p className="mt-6 text-xl md:text-2xl font-light text-cobalt italic tracking-tight font-display">
+              <p className="mt-3 sm:mt-6 text-sm sm:text-xl md:text-2xl font-light text-cobalt italic tracking-tight font-display">
                 &ldquo;{item.accent}&rdquo;
               </p>
 
-              <p className="mx-auto mt-4 max-w-2xl text-base md:text-lg leading-relaxed text-ink-soft">
+              <p className="mx-auto mt-2 sm:mt-4 max-w-2xl text-xs sm:text-base md:text-lg leading-relaxed text-ink-soft line-clamp-3 sm:line-clamp-none">
                 {item.context}
               </p>
             </div>
@@ -185,18 +186,18 @@ export function ManifestoScroller() {
         </div>
 
         {/* Bottom bar com indicador de progresso e barra magnética */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-black/8 pt-5">
-          <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
+        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-4 border-t border-black/8 pt-3 sm:pt-5">
+          <p className="font-mono text-[0.62rem] sm:text-[0.72rem] uppercase tracking-[0.14em] sm:tracking-[0.16em] text-ink-mute">
             Role para avançar na narrativa operacional
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {STATEMENTS.map((_, i) => (
               <div
                 key={i}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
                   i === activeIndex
-                    ? "w-10 bg-cobalt"
+                    ? "w-8 sm:w-10 bg-cobalt"
                     : "w-2.5 bg-black/15"
                 }`}
               />
