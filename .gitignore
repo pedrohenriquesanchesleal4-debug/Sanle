@@ -49,3 +49,5 @@ docs/swarm/
 docs/prompt-redesign.md
 
 supabase/.temp/
+
+.env*
