@@ -33,7 +33,7 @@ export function HeroPortal() {
     const baseHoleRadius = isMobile ? 38 : 44;
 
     const updateZoom = () => {
-      // 1. Cálculo de progresso de scroll dinâmico e enxuto (125vh mobile / 160vh desktop)
+      // 1. Cálculo de progresso de scroll dinâmico e enxuto (105vh mobile / 120vh desktop)
       const rect = container.getBoundingClientRect();
       const scrollableDist = container.offsetHeight - window.innerHeight;
       if (scrollableDist <= 0) return;
@@ -45,17 +45,15 @@ export function HeroPortal() {
       if (Math.abs(progress - lastProgressRef.current) < 0.0004) return;
       lastProgressRef.current = progress;
 
-      const isMobile = window.innerWidth < 768;
-      const maxMultiplier = isMobile ? 22 : 36;
+      const maxMultiplier = isMobile ? 20 : 34;
+      const threshold = isMobile ? 0.2 : 0.3;
 
-      // 2. Curva rápida e fluida de aproximação tátil:
-      // Progress 0.00 a 0.35: Aproximação gradual (1x a 2.6x)
-      // Progress 0.35 a 0.70: Mergulho óptico suave
+      // 2. Curva rápida e imediata de aproximação tátil:
       let scale = 1;
-      if (progress < 0.32) {
-        scale = 1 + (progress / 0.32) * 1.6;
+      if (progress < threshold) {
+        scale = 1 + (progress / threshold) * 1.6;
       } else {
-        const t = (progress - 0.32) / 0.38;
+        const t = (progress - threshold) / (1 - threshold);
         scale = 2.6 + Math.pow(Math.min(1, t), 2) * maxMultiplier;
       }
 
@@ -66,12 +64,14 @@ export function HeroPortal() {
       const holeRadius = Math.max(baseHoleRadius, baseHoleRadius * scale);
       maskHole.setAttribute("r", holeRadius.toFixed(1));
 
-      // 4. Dissolução antecipada e suave da cortina
-      if (progress < 0.45) {
+      // 4. Dissolução imediata e suave da cortina no mobile
+      const fadeStart = isMobile ? 0.22 : 0.38;
+      const fadeEnd = isMobile ? 0.5 : 0.68;
+      if (progress < fadeStart) {
         emblem.style.opacity = "1";
         curtainSvg.style.opacity = "1";
-      } else if (progress < 0.7) {
-        const fade = Math.max(0, 1 - (progress - 0.45) / 0.25);
+      } else if (progress < fadeEnd) {
+        const fade = Math.max(0, 1 - (progress - fadeStart) / (fadeEnd - fadeStart));
         emblem.style.opacity = fade.toFixed(3);
         curtainSvg.style.opacity = fade.toFixed(3);
       } else {
@@ -80,13 +80,14 @@ export function HeroPortal() {
       }
 
       // 5. O Hero clareando e ganhando escala rapidamente
-      const heroOpacity = Math.min(1, 0.4 + progress * 0.75);
-      const heroScale = 0.9 + Math.min(1, progress / 0.7) * 0.1;
+      const heroOpacity = Math.min(1, (isMobile ? 0.6 : 0.45) + progress * 0.7);
+      const heroScale = 0.92 + Math.min(1, progress / (isMobile ? 0.5 : 0.7)) * 0.08;
       heroContent.style.opacity = heroOpacity.toFixed(3);
       heroContent.style.transform = `translate3d(0, 0, 0) scale(${heroScale.toFixed(3)})`;
 
-      // 6. Ativa interações quando ultrapassa 55% do percurso
-      if (progress >= 0.55) {
+      // 6. Ativa interações rapidamente
+      const revealThreshold = isMobile ? 0.35 : 0.5;
+      if (progress >= revealThreshold) {
         setIsRevealed(true);
         window.dispatchEvent(new CustomEvent("sanle:portal-entered"));
       } else {
@@ -96,12 +97,24 @@ export function HeroPortal() {
 
     updateZoom();
 
-    // GSAP Ticker integrado
-    gsap.ticker.add(updateZoom);
+    // Listener de scroll passivo throttled por requestAnimationFrame:
+    // Elimina chamadas desnecessárias de getBoundingClientRect() e zero layout thrashing no mobile
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateZoom();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateZoom, { passive: true });
 
     return () => {
-      gsap.ticker.remove(updateZoom);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", updateZoom);
     };
   }, []);
@@ -120,7 +133,7 @@ export function HeroPortal() {
     <section
       ref={containerRef}
       id="portal-hero-container"
-      className="relative w-full bg-[#FAF8F5] select-none h-[125vh] md:h-[160vh]"
+      className="relative w-full bg-[#FAF8F5] select-none h-[105vh] md:h-[125vh]"
       aria-label="Introdução: O Mergulho na Logo Sanle e Revelação do Site"
     >
       {/* Viewport Pinned 100% nativo com suporte a Dynamic Viewport Height (100dvh) */}
