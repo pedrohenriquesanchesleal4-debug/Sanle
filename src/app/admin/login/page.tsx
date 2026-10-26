@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { LoginForm } from "@/components/admin/LoginForm";
-import { authSetupHint } from "@/lib/auth";
 import { env } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
@@ -15,8 +14,8 @@ export default function LoginPage() {
         <Suspense fallback={null}>
           <LoginForm supabaseReady={env.supabase.configured} localDev={localDev} />
         </Suspense>
-        <p className="mt-5 text-center font-mono text-[11px] leading-relaxed text-[#969DA8]">
-          {authSetupHint()}
+        <p className="mt-5 text-center font-mono text-[11px] leading-relaxed text-[#969DA8]/70">
+          Acesso restrito e protegido por autenticação segura.
         </p>
       </div>
     </div>

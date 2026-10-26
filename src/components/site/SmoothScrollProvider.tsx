@@ -1,39 +1,53 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     gsap.registerPlugin(ScrollTrigger);
 
+    // Inicialização do Lenis com amortecimento responsivo e fluido
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.15,
+      syncTouch: true
     });
 
+    lenisRef.current = lenis;
+
+    // Sincroniza o ScrollTrigger a cada evento de scroll do Lenis
     lenis.on("scroll", ScrollTrigger.update);
 
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    // Ticker do GSAP como clock central: evita loops concorrentes e micro-stutter
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(tickerCallback);
+    // lagSmoothing(0) é obrigatório pela documentação do GSAP para evitar compensações bruscas
+    gsap.ticker.lagSmoothing(0);
+
+    // Fornece instância global opcional para âncoras suaves
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tickerCallback);
       lenis.destroy();
+      lenisRef.current = null;
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

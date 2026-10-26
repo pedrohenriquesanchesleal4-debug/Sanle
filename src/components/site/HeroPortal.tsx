@@ -14,7 +14,7 @@ export function HeroPortal() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const emblemRef = useRef<HTMLDivElement | null>(null);
   const maskHoleRef = useRef<SVGCircleElement | null>(null);
-  const curtainSvgRef = useRef<SVGSVGElement | null>(null);
+  const curtainSvgRef = useRef<HTMLDivElement | null>(null);
   const heroContentRef = useRef<HTMLDivElement | null>(null);
   const lastProgressRef = useRef<number>(-1);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -32,7 +32,7 @@ export function HeroPortal() {
     const baseHoleRadius = 42;
 
     const updateZoom = () => {
-      // 1. Cálculo de progresso de scroll relativo ao container de 240vh
+      // 1. Cálculo de progresso de scroll dinâmico e enxuto (125vh mobile / 160vh desktop)
       const rect = container.getBoundingClientRect();
       const scrollableDist = container.offsetHeight - window.innerHeight;
       if (scrollableDist <= 0) return;
@@ -40,34 +40,37 @@ export function HeroPortal() {
       const rawProgress = -rect.top / scrollableDist;
       const progress = Math.max(0, Math.min(1, rawProgress));
 
-      // Evita trabalho inútil se o progresso não variou
-      if (Math.abs(progress - lastProgressRef.current) < 0.0003) return;
+      // Evita recalcular se o progresso não mudou significativamente
+      if (Math.abs(progress - lastProgressRef.current) < 0.0004) return;
       lastProgressRef.current = progress;
 
-      // 2. Curva de aproximação tátil da logo:
-      // Progress 0.00 a 0.35: Aproximação gradual e cinematográfica (escala 1x a 2.8x)
-      // Progress 0.35 a 0.80: Mergulho exponencial através da lente (escala 2.8x a 38x)
+      const isMobile = window.innerWidth < 768;
+      const maxMultiplier = isMobile ? 22 : 36;
+
+      // 2. Curva rápida e fluida de aproximação tátil:
+      // Progress 0.00 a 0.35: Aproximação gradual (1x a 2.6x)
+      // Progress 0.35 a 0.70: Mergulho óptico suave
       let scale = 1;
-      if (progress < 0.35) {
-        scale = 1 + (progress / 0.35) * 1.8;
+      if (progress < 0.32) {
+        scale = 1 + (progress / 0.32) * 1.6;
       } else {
-        const t = (progress - 0.35) / 0.45;
-        scale = 2.8 + Math.pow(Math.min(1, t), 2.2) * 35.2;
+        const t = (progress - 0.32) / 0.38;
+        scale = 2.6 + Math.pow(Math.min(1, t), 2) * maxMultiplier;
       }
 
-      // Aplica a escala na logo física com GPU transform
+      // Aplica escala com GPU transform translate3d
       emblem.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(3)})`;
 
-      // 3. A abertura óptica da lente no SVG mask expande em sincronia exata com a logo
+      // 3. Abertura do orifício óptico na máscara SVG
       const holeRadius = Math.max(baseHoleRadius, baseHoleRadius * scale);
       maskHole.setAttribute("r", holeRadius.toFixed(1));
 
-      // 4. Dissolução da cortina e do anel conforme a câmera atravessa o portal
-      if (progress < 0.6) {
+      // 4. Dissolução antecipada e suave da cortina
+      if (progress < 0.45) {
         emblem.style.opacity = "1";
         curtainSvg.style.opacity = "1";
-      } else if (progress < 0.85) {
-        const fade = Math.max(0, 1 - (progress - 0.6) / 0.25);
+      } else if (progress < 0.7) {
+        const fade = Math.max(0, 1 - (progress - 0.45) / 0.25);
         emblem.style.opacity = fade.toFixed(3);
         curtainSvg.style.opacity = fade.toFixed(3);
       } else {
@@ -75,14 +78,14 @@ export function HeroPortal() {
         curtainSvg.style.opacity = "0";
       }
 
-      // 5. O site (Hero) crescendo e clareando de dentro do portal
-      const heroOpacity = Math.min(1, 0.45 + progress * 0.65);
-      const heroScale = 0.88 + Math.min(1, progress / 0.85) * 0.12;
+      // 5. O Hero clareando e ganhando escala rapidamente
+      const heroOpacity = Math.min(1, 0.4 + progress * 0.75);
+      const heroScale = 0.9 + Math.min(1, progress / 0.7) * 0.1;
       heroContent.style.opacity = heroOpacity.toFixed(3);
       heroContent.style.transform = `translate3d(0, 0, 0) scale(${heroScale.toFixed(3)})`;
 
-      // 6. Ativa interações e notifica header quando o portal é ultrapassado
-      if (progress >= 0.75) {
+      // 6. Ativa interações quando ultrapassa 55% do percurso
+      if (progress >= 0.55) {
         setIsRevealed(true);
         window.dispatchEvent(new CustomEvent("sanle:portal-entered"));
       } else {
@@ -90,17 +93,14 @@ export function HeroPortal() {
       }
     };
 
-    // Render inicial imediato no frame 0 (tela perfeitamente montada sem flash)
     updateZoom();
 
-    // GSAP Ticker garante atualização contínua e suave a 60fps/120fps em qualquer navegador
+    // GSAP Ticker integrado
     gsap.ticker.add(updateZoom);
-    window.addEventListener("scroll", updateZoom, { passive: true });
-    window.addEventListener("resize", updateZoom);
+    window.addEventListener("resize", updateZoom, { passive: true });
 
     return () => {
       gsap.ticker.remove(updateZoom);
-      window.removeEventListener("scroll", updateZoom);
       window.removeEventListener("resize", updateZoom);
     };
   }, []);
@@ -119,32 +119,30 @@ export function HeroPortal() {
     <section
       ref={containerRef}
       id="portal-hero-container"
-      className="relative w-full bg-[#FAF8F5] select-none"
-      style={{ height: "240vh" }}
+      className="relative w-full bg-[#FAF8F5] select-none h-[125vh] md:h-[160vh]"
       aria-label="Introdução: O Mergulho na Logo Sanle e Revelação do Site"
     >
-      {/* Viewport Pinned 100% nativo via CSS Sticky */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-[#FAF8F5]">
+      {/* Viewport Pinned 100% nativo com suporte a Dynamic Viewport Height (100dvh) */}
+      <div className="sticky top-0 h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-[#FAF8F5]">
         {/* Glow de fundo solar e alabastro muito sutil */}
         <div
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-[radial-gradient(circle,rgba(36,64,255,0.06)_0%,rgba(245,158,11,0.04)_40%,transparent_70%)] blur-[140px] z-0"
+          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] md:h-[800px] w-[500px] md:w-[800px] rounded-full bg-[radial-gradient(circle,rgba(36,64,255,0.06)_0%,rgba(245,158,11,0.04)_40%,transparent_70%)] blur-[100px] md:blur-[140px] z-0"
           aria-hidden="true"
         />
 
         {/* =========================================================================
             CAMADA 1: O SITE (HERO COMPLETO)
-            Fica posicionado atrás da cortina e é revelado através da abertura da logo.
            ========================================================================= */}
         <div
           ref={heroContentRef}
-          className="relative z-10 w-full h-full flex flex-col justify-between pt-20 pb-8 will-change-transform"
+          className="relative z-10 w-full h-full flex flex-col justify-between pt-16 md:pt-20 pb-6 md:pb-8 will-change-transform overflow-y-auto lg:overflow-visible"
           style={{
             opacity: 0.45,
-            transform: "translate3d(0, 0, 0) scale(0.88)",
+            transform: "translate3d(0, 0, 0) scale(0.9)",
             pointerEvents: isRevealed ? "auto" : "none"
           }}
         >
-          <div className="shell relative z-10 grid lg:grid-cols-[1.08fr_0.92fr] gap-8 lg:gap-12 items-center my-auto w-full max-w-7xl">
+          <div className="shell relative z-10 grid lg:grid-cols-[1.08fr_0.92fr] gap-6 lg:gap-12 items-center my-auto w-full max-w-7xl">
             {/* Lado Esquerdo: Mensagem e Tipografia Monumental em Tom Claro */}
             <div className="max-w-2xl">
               <div className="flex flex-wrap items-center gap-2">
@@ -161,7 +159,7 @@ export function HeroPortal() {
 
               <h1
                 id="hero-main-title"
-                className="mt-5 font-serif-editorial text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.98] tracking-[-0.035em] text-[#121110]"
+                className="mt-4 md:mt-5 font-serif-editorial text-[clamp(2.1rem,5vw,5rem)] leading-[1.02] tracking-[-0.03em] text-[#121110]"
               >
                 {heroContent.headlineTop}
                 <span className="block mt-1 font-serif-editorial">
@@ -172,13 +170,13 @@ export function HeroPortal() {
                 </span>
               </h1>
 
-              <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-[#4A453E] font-sans-editorial">
+              <p className="mt-3 md:mt-5 max-w-xl text-sm sm:text-base md:text-lg leading-relaxed text-[#4A453E] font-sans-editorial">
                 {heroContent.subheadline}
               </p>
 
               {/* Três capacidades arquiteturais de fluxo */}
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-xl">
-                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+              <div className="mt-5 md:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2 max-w-xl">
+                <div className="p-2 sm:p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
                   <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#2440FF] font-bold block">
                     01 · Ingestão
                   </span>
@@ -186,7 +184,7 @@ export function HeroPortal() {
                     WhatsApp & OCR direto
                   </span>
                 </div>
-                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+                <div className="p-2 sm:p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
                   <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#C8A24A] font-bold block">
                     02 · Regras
                   </span>
@@ -194,7 +192,7 @@ export function HeroPortal() {
                     Validação em 0.12s
                   </span>
                 </div>
-                <div className="p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
+                <div className="p-2 sm:p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/80 shadow-xs">
                   <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#10B981] font-bold block">
                     03 · ERP Sync
                   </span>
@@ -204,11 +202,11 @@ export function HeroPortal() {
                 </div>
               </div>
 
-              <div className="mt-7 flex flex-wrap items-center gap-3.5">
+              <div className="mt-6 md:mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link
                   href={heroContent.ctaPrimary.href}
                   onClick={handleCtaClick}
-                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#121110] text-white font-medium text-sm transition-all duration-200 hover:bg-[#2440FF] hover:shadow-[0_8px_20px_rgba(36,64,255,0.25)] active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#121110] text-white font-medium text-sm transition-all duration-200 hover:bg-[#2440FF] hover:shadow-[0_8px_20px_rgba(36,64,255,0.25)] active:scale-[0.98]"
                 >
                   <span>{heroContent.ctaPrimary.label}</span>
                   <ArrowRight className="h-4 w-4" />
@@ -217,20 +215,20 @@ export function HeroPortal() {
                 <button
                   type="button"
                   onClick={handleWhatsAppClick}
-                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#121110] text-sm hover:border-[#2440FF] hover:text-[#2440FF] transition-all shadow-sm active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#121110] text-sm hover:border-[#2440FF] hover:text-[#2440FF] transition-all shadow-sm active:scale-[0.98]"
                 >
                   <MessageCircle className="h-4 w-4 text-[#10B981]" />
                   <span>{heroContent.ctaSecondary.label}</span>
                 </button>
               </div>
 
-              <p className="mt-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[#8A837A]">
+              <p className="mt-4 md:mt-5 font-mono text-[0.66rem] sm:text-[0.68rem] uppercase tracking-[0.14em] text-[#8A837A]">
                 {heroContent.microProof}
               </p>
             </div>
 
-            {/* Lado Direito: O Console Tátil de Orquestração Operacional */}
-            <div className="w-full">
+            {/* Lado Direito: O Console Tátil (visível em desktop e tablets) */}
+            <div className="w-full hidden md:block">
               <TactileFlowConsole />
               
               <div className="mt-3 flex items-center justify-between px-2">
@@ -239,10 +237,10 @@ export function HeroPortal() {
                   className="inline-flex items-center gap-1.5 text-[0.68rem] font-mono text-[#4A453E] hover:text-[#2440FF] transition-colors"
                 >
                   <ChevronDown className="h-3 w-3 animate-bounce text-[#2440FF]" />
-                  <span>Role para ver a escultura física em movimento no Scrollytelling</span>
+                  <span>Role para ver o fluxo em movimento</span>
                 </a>
                 <span className="font-mono text-[0.62rem] text-[#8A837A]">
-                  4 CAPÍTULOS
+                  4 ETAPAS
                 </span>
               </div>
             </div>
@@ -256,65 +254,64 @@ export function HeroPortal() {
 
         {/* =========================================================================
             CAMADA 2: A CORTINA COM MÁSCARA SVG ÓPTICA
-            Cobre a tela inteira em #FAF8F5, exceto pelo orifício central da lente
-            que expande à medida que o usuário rola a página.
            ========================================================================= */}
-        <svg
+        <div
           ref={curtainSvgRef}
           className="pointer-events-none absolute inset-0 z-20 h-full w-full will-change-transform"
+          style={{ opacity: 1 }}
           aria-hidden="true"
         >
-          <defs>
-            <mask id="portal-aperture-mask">
-              {/* O retângulo branco mantém o fundo alabastro opaco */}
-              <rect width="100%" height="100%" fill="white" />
-              {/* O círculo preto fura a cortina no centro da tela */}
-              <circle
-                ref={maskHoleRef}
-                cx="50%"
-                cy="50%"
-                r="42"
-                fill="black"
-              />
-            </mask>
-          </defs>
-          <rect
-            width="100%"
-            height="100%"
-            fill="#FAF8F5"
-            mask="url(#portal-aperture-mask)"
-          />
-        </svg>
+          <svg className="h-full w-full" preserveAspectRatio="none">
+            <defs>
+              <mask id="hero-portal-mask">
+                <rect width="100%" height="100%" fill="white" />
+                <circle
+                  ref={maskHoleRef}
+                  cx="50%"
+                  cy="50%"
+                  r="42"
+                  fill="black"
+                />
+              </mask>
+            </defs>
+            <rect
+              width="100%"
+              height="100%"
+              fill="#FAF8F5"
+              mask="url(#hero-portal-mask)"
+            />
+          </svg>
+        </div>
 
         {/* =========================================================================
-            CAMADA 3: O EMBLEMA ESCULTURAL DA LOGO SANLE
-            No frame 0, a tela começa limpa: apenas a logo pequena no centro.
-            Conforme a pessoa rola a página, a logo e seu portal se aproximam e expandem.
+            CAMADA 3: O EMBLEMA ESCULTURAL SANLE (A LENTE FÍSICA)
            ========================================================================= */}
-        <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
-          <div
-            ref={emblemRef}
-            className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full flex items-center justify-center will-change-transform"
-            style={{
-              transformOrigin: "center center",
-              transform: "translate3d(0, 0, 0) scale(1)"
-            }}
-          >
-            {/* Anel de Latão Escultural com Centro Aberto */}
-            <div className="absolute inset-0 rounded-full border-[10px] sm:border-[13px] border-[#C8A24A] shadow-2xl shadow-stone-500/25 bg-transparent flex items-center justify-center">
-              {/* Anel Interno de Safira / Lente Óptica */}
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#2440FF]/70 bg-transparent shadow-inner flex items-center justify-center" />
+        <div
+          ref={emblemRef}
+          className="pointer-events-none absolute z-30 flex items-center justify-center will-change-transform"
+          style={{
+            transform: "translate3d(0, 0, 0) scale(1)",
+            opacity: 1
+          }}
+          aria-hidden="true"
+        >
+          <div className="relative flex items-center justify-center">
+            <div className="h-[84px] w-[84px] rounded-full border-[1.5px] border-[#121110]/15 shadow-xl bg-white/40 backdrop-blur-xs flex items-center justify-center">
+              <div className="h-[76px] w-[76px] rounded-full border border-[rgba(18,17,16,0.08)] bg-transparent flex items-center justify-center">
+                <span className="h-2 w-2 rounded-full bg-[#2440FF] shadow-[0_0_8px_rgba(36,64,255,0.6)]" />
+              </div>
             </div>
 
-            {/* Os Três Nós de Safira Azul Cobalto da Marca Sanle */}
-            {/* Nó 1 (Superior / 12 horas) */}
-            <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+            <div className="absolute inset-0 h-[84px] w-[84px] rounded-full border border-dashed border-[#2440FF]/25 animate-spin-slow pointer-events-none" />
 
-            {/* Nó 2 (Inferior Esquerdo / 7 horas) */}
-            <div className="absolute bottom-2.5 left-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
-
-            {/* Nó 3 (Inferior Direito / 5 horas) */}
-            <div className="absolute bottom-2.5 right-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center whitespace-nowrap">
+              <span className="font-serif-editorial text-xl tracking-[-0.03em] text-[#121110]">
+                sanle
+              </span>
+              <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-[#8A837A] mt-0.5">
+                Role para entrar
+              </span>
+            </div>
           </div>
         </div>
       </div>

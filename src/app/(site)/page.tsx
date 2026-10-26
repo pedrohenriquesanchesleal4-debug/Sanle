@@ -10,6 +10,7 @@ import { SegmentTabs } from "@/components/site/SegmentTabs";
 import { Solutions } from "@/components/site/Solutions";
 import { Cases } from "@/components/site/Cases";
 import { TrustSection } from "@/components/site/TrustSection";
+import { ContactSection } from "@/components/site/ContactSection";
 import { Method } from "@/components/site/Method";
 import { Faq } from "@/components/site/Faq";
 import { FinalCta } from "@/components/site/FinalCta";
@@ -78,7 +79,10 @@ export default function HomePage() {
       {/* 13. Perguntas Frequentes Acessíveis + JSON-LD */}
       <Faq />
 
-      {/* 14. Chamada Final + Formulário Curto de Diagnóstico */}
+      {/* 14. Canais Diretos de Contato & Liderança Técnica */}
+      <ContactSection />
+
+      {/* 15. Chamada Final + Formulário Curto de Diagnóstico */}
       <FinalCta />
     </>
   );

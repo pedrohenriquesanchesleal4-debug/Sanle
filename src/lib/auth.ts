@@ -72,13 +72,13 @@ export async function recordAdminAction(actor: string, action: string, target?: 
   await logAudit({ actor, action, target: target ?? null, detail: detail ?? null });
 }
 
-/** Explica como habilitar o acesso — usado na tela de login. */
+/** Explica como habilitar o acesso — sem vazar credenciais ou listas de e-mails. */
 export function authSetupHint(): string {
   if (env.supabase.configured) {
-    const envInfo = env.admin.emails.length > 0 ? ` (ENV: ${env.admin.emails.join(", ")})` : "";
-    return `Login via Supabase. Acesso permitido para e-mails cadastrados na tabela 'admin_users' ou na env SANLE_ADMIN_EMAILS${envInfo}.`;
+    return "Autenticação via Supabase ativa. Acesso restrito a administradores cadastrados.";
   }
-  if (env.admin.localDevLogin && !env.isProduction)
-    return "Modo local de desenvolvimento ativo (SANLE_LOCAL_ADMIN=true). Configure o Supabase para autenticação real.";
-  return "Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY e SANLE_ADMIN_EMAILS (ou adicione usuários na tabela admin_users) — ou, em desenvolvimento, SANLE_LOCAL_ADMIN=true.";
+  if (env.admin.localDevLogin && !env.isProduction) {
+    return "Modo local de desenvolvimento ativo (SANLE_LOCAL_ADMIN=true).";
+  }
+  return "Acesso restrito.";
 }
