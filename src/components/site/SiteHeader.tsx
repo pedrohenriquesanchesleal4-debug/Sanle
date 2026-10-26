@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { label: "Soluções", href: "/solucoes" },
   { label: "Como funciona", href: "/#como-funciona" },
   { label: "Segmentos", href: "/#para-quem" },
+  { label: "Contato", href: "/#contato" },
   { label: "Sobre", href: "/sobre" }
 ];
 
@@ -79,7 +80,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Links Desktop */}
-        <nav className="hidden md:flex items-center gap-8 font-sans-editorial text-sm text-[#4A453E]">
+        <nav className="hidden md:flex items-center gap-7 font-sans-editorial text-sm text-[#4A453E]">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -138,13 +139,13 @@ export function SiteHeader() {
             </button>
           </div>
 
-          <nav className="my-auto space-y-6">
+          <nav className="my-auto space-y-5">
             {NAV_LINKS.map((link, idx) => (
-              <div key={link.href} className="border-b border-[rgba(18,17,16,0.06)] pb-4">
+              <div key={link.href} className="border-b border-[rgba(18,17,16,0.06)] pb-3.5">
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-serif-editorial text-4xl block text-[#121110] hover:text-[#2440FF] transition-colors"
+                  className="font-serif-editorial text-3xl block text-[#121110] hover:text-[#2440FF] transition-colors"
                 >
                   <span className="font-mono text-xs text-[#2440FF] mr-3">0{idx + 1}</span>
                   {link.label}

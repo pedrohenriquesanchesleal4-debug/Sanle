@@ -21,15 +21,16 @@ export const brand = {
   contact: {
     // Somente dados REAIS. Enquanto não confirmados, a UI usa o formulário de
     // diagnóstico como canal primário e não exibe contato inventado.
-    email: process.env.NEXT_PUBLIC_SANLE_EMAIL ?? "",
-    whatsapp: process.env.NEXT_PUBLIC_SANLE_WHATSAPP ?? "",
-    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN ?? "",
+    email: process.env.NEXT_PUBLIC_SANLE_EMAIL || "pedrohenriquesanchesleal4@gmail.com",
+    whatsapp: process.env.NEXT_PUBLIC_SANLE_WHATSAPP || "5561981399051",
+    whatsappDisplay: "(61) 98139-9051",
+    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN || "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
     city: "Brasília · DF"
   },
   // Links sociais reais (preenchidos por env; vazios são ocultados na UI)
   social: {
-    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN ?? "",
-    github: process.env.NEXT_PUBLIC_SANLE_GITHUB ?? ""
+    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN || "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
+    github: process.env.NEXT_PUBLIC_SANLE_GITHUB || "https://github.com/pedrohenriquesanchesleal4-debug"
   }
 } as const;
 
