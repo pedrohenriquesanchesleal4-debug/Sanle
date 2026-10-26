@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight, User } from "lucide-react";
+import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 const NAV_LINKS = [
@@ -95,11 +95,11 @@ export function SiteHeader() {
         {/* CTA Desktop */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/admin/login"
+            href="/#contato"
             className="text-xs font-mono uppercase tracking-wider text-[#4A453E] hover:text-[#121110] transition-colors px-3 py-2 flex items-center gap-1.5"
           >
-            <User className="h-3.5 w-3.5" />
-            <span>Entrar</span>
+            <MessageCircle className="h-3.5 w-3.5 text-[#10B981]" />
+            <span>Falar com especialista</span>
           </Link>
           <Link
             href="/diagnostico"
@@ -155,23 +155,23 @@ export function SiteHeader() {
           </nav>
 
           <div className="pt-6 border-t border-[rgba(18,17,16,0.08)] space-y-3">
-            <div className="flex gap-2.5">
-              <Link
-                href="/admin/login"
-                onClick={() => setMobileOpen(false)}
-                className="w-1/3 inline-flex items-center justify-center py-3.5 rounded-full border border-[rgba(18,17,16,0.12)] bg-white text-[#121110] font-medium text-xs uppercase tracking-wider hover:border-[#2440FF] transition-colors"
-              >
-                Entrar
-              </Link>
-              <Link
-                href="/diagnostico"
-                onClick={handleCtaClick}
-                className="w-2/3 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-full bg-[#121110] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#2440FF] transition-colors"
-              >
-                <span>Mapear meu processo</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
+            <Link
+              href="/diagnostico"
+              onClick={handleCtaClick}
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#121110] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#2440FF] transition-colors shadow-sm"
+            >
+              <span>Mapear meu processo</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+
+            <Link
+              href="/#contato"
+              onClick={() => setMobileOpen(false)}
+              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-[#4A453E] font-mono text-xs uppercase tracking-wider hover:text-[#121110] transition-colors"
+            >
+              <MessageCircle className="h-3.5 w-3.5 text-[#10B981]" />
+              <span>Falar diretamente no WhatsApp</span>
+            </Link>
 
             <p className="font-mono text-[0.68rem] text-center uppercase tracking-[0.16em] text-[#8A837A] pt-2">
               AUTOMAÇÃO OPERACIONAL · BRASÍLIA · DF
