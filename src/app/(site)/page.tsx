@@ -9,6 +9,7 @@ import { DemoFlow } from "@/components/site/DemoFlow";
 import { SegmentTabs } from "@/components/site/SegmentTabs";
 import { Solutions } from "@/components/site/Solutions";
 import { Cases } from "@/components/site/Cases";
+import { TrustSection } from "@/components/site/TrustSection";
 import { Method } from "@/components/site/Method";
 import { Faq } from "@/components/site/Faq";
 import { FinalCta } from "@/components/site/FinalCta";
@@ -65,18 +66,20 @@ export default function HomePage() {
       {/* 9. As 4 Soluções Arquitetadas (Grade de Engenharia) */}
       <Solutions />
 
-      {/* 10. Prova Técnica sem Cases Falsos: Construído por Nós */}
+      {/* 10. Prova Técnica de Software: Sistemas em Operação */}
       <Cases />
 
-      {/* 11. Método de Trabalho em 4 Etapas */}
+      {/* 11. Padrões Corporativos, Segurança e Governança LGPD */}
+      <TrustSection />
+
+      {/* 12. Método de Trabalho em 4 Etapas */}
       <Method />
 
-      {/* 12. Perguntas Frequentes Acessíveis + JSON-LD */}
+      {/* 13. Perguntas Frequentes Acessíveis + JSON-LD */}
       <Faq />
 
-      {/* 13. Chamada Final + Formulário Curto de Diagnóstico */}
+      {/* 14. Chamada Final + Formulário Curto de Diagnóstico */}
       <FinalCta />
     </>
   );
 }
-

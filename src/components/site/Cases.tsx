@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ChevronDown, ShieldCheck, Sparkles, Building2, Layers, Cpu, Database } from "lucide-react";
+import { ChevronDown, ShieldCheck, Sparkles, Building2, Layers, Cpu, Database } from "lucide-react";
 
 interface ProductProof {
   name: string;
