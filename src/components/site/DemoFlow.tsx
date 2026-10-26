@@ -83,7 +83,7 @@ export function DemoFlow() {
   return (
     <section
       id="como-funciona"
-      className="relative scroll-mt-20 py-16 sm:py-24 md:py-32 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
       aria-labelledby="demo-flow-title"
     >
       <div className="shell max-w-6xl">

@@ -50,7 +50,7 @@ export function PinnedProblems() {
   return (
     <section
       id="problema"
-      className="relative bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] py-16 sm:py-24 md:py-32 select-none"
+      className="relative bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] py-10 sm:py-16 md:py-24 select-none"
       aria-label="Os 7 Trabalhos Invisíveis que Drenam a Operação"
     >
       {/* Luz ambiente de fundo */}
@@ -128,7 +128,7 @@ export function PinnedProblems() {
           </div>
 
           {/* Coluna Direita: Os 7 Trabalhos que vão aparecendo suavemente no scroll */}
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-5">
             {invisibleWork.map((item, index) => {
               const metric = IMPACT_METRICS[index] ?? {
                 tag: "Impacto Operacional",
@@ -145,36 +145,36 @@ export function PinnedProblems() {
                     itemsRef.current[index] = el;
                   }}
                   data-index={index}
-                  className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
+                  className={`group relative p-4 sm:p-6 md:p-7 rounded-2xl md:rounded-3xl border transition-all duration-300 ${
                     isActive
-                      ? "bg-white border-[#2440FF]/30 shadow-xl shadow-stone-300/40 translate-x-1"
+                      ? "bg-white border-[#2440FF]/30 shadow-lg shadow-stone-300/30 translate-x-0.5"
                       : "bg-white/70 hover:bg-white border-[rgba(18,17,16,0.08)] shadow-xs"
                   }`}
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[rgba(18,17,16,0.06)] pb-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#2440FF] font-bold">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-[rgba(18,17,16,0.06)] pb-2.5">
+                    <span className="font-mono text-[0.66rem] sm:text-xs uppercase tracking-[0.18em] text-[#2440FF] font-bold">
                       TRABALHO INVISÍVEL #{index + 1}
                     </span>
 
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#FAF8F5] border border-[rgba(18,17,16,0.08)] font-mono text-[0.66rem] uppercase tracking-wider text-[#4A453E]">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[rgba(18,17,16,0.08)] font-mono text-[0.62rem] sm:text-[0.66rem] uppercase tracking-wider text-[#4A453E]">
                       <AlertCircle className={`h-3 w-3 ${metric.color}`} />
                       <span>{metric.tag}</span>
                     </span>
                   </div>
 
-                  <div className="pt-4 space-y-2">
-                    <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl text-[#121110] tracking-tight group-hover:text-[#2440FF] transition-colors">
+                  <div className="pt-3 space-y-1.5">
+                    <h3 className="font-serif-editorial text-xl sm:text-2xl md:text-3xl text-[#121110] tracking-tight group-hover:text-[#2440FF] transition-colors">
                       {item.title}
                     </h3>
 
-                    <p className="text-base sm:text-lg text-[#4A453E] font-sans-editorial leading-relaxed">
+                    <p className="text-sm sm:text-base text-[#4A453E] font-sans-editorial leading-relaxed">
                       {item.note}
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-3 border-t border-dashed border-[rgba(18,17,16,0.08)] flex items-center justify-between font-mono text-xs">
-                    <span className="text-[0.7rem] text-[#8A837A]">Impacto no time:</span>
-                    <span className={`font-semibold text-xs ${metric.color}`}>
+                  <div className="mt-3.5 pt-2.5 border-t border-dashed border-[rgba(18,17,16,0.08)] flex items-center justify-between font-mono text-xs">
+                    <span className="text-[0.66rem] sm:text-[0.7rem] text-[#8A837A]">Impacto no time:</span>
+                    <span className={`font-semibold text-[0.7rem] sm:text-xs ${metric.color}`}>
                       {metric.label}
                     </span>
                   </div>
