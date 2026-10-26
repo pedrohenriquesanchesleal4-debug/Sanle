@@ -128,7 +128,7 @@ export function SanleScrollytelling() {
   return (
     <section
       id="historia-sanle"
-      className="relative bg-[#FAF8F5] text-[#121110] selection:bg-[#2440FF] selection:text-white py-10 sm:py-16 md:py-24 border-b border-[rgba(18,17,16,0.08)] select-none"
+      className="relative bg-[#FAF8F5] text-[#121110] selection:bg-[#2440FF] selection:text-white py-10 sm:py-16 md:py-24 border-b border-[rgba(18,17,16,0.08)] select-none overflow-hidden w-full max-w-full"
       aria-label="A História da Sanle · Engenharia Operacional"
     >
       {/* Glow de fundo solar e alabastro muito sutil para conforto visual */}

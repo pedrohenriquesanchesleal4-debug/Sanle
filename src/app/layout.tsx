@@ -134,8 +134,12 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-cobalt selection:text-white">
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-cobalt selection:text-white overflow-x-hidden w-full max-w-full relative">
+        <SmoothScrollProvider>
+          <div className="w-full max-w-full overflow-x-hidden relative">
+            {children}
+          </div>
+        </SmoothScrollProvider>
       </body>
     </html>
   );

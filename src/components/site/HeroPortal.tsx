@@ -133,7 +133,7 @@ export function HeroPortal() {
     <section
       ref={containerRef}
       id="portal-hero-container"
-      className="relative w-full bg-[#FAF8F5] select-none h-[105vh] md:h-[125vh]"
+      className="relative w-full max-w-full bg-[#FAF8F5] select-none h-[105vh] md:h-[125vh] overflow-hidden"
       aria-label="Introdução: O Mergulho na Logo Sanle e Revelação do Site"
     >
       {/* Viewport Pinned 100% nativo com suporte a Dynamic Viewport Height (100dvh) */}

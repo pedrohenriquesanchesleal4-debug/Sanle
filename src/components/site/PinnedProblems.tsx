@@ -50,7 +50,7 @@ export function PinnedProblems() {
   return (
     <section
       id="problema"
-      className="relative bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] py-10 sm:py-16 md:py-24 select-none"
+      className="relative bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] py-10 sm:py-16 md:py-24 select-none overflow-hidden w-full max-w-full"
       aria-label="Os 7 Trabalhos Invisíveis que Drenam a Operação"
     >
       {/* Luz ambiente de fundo */}
