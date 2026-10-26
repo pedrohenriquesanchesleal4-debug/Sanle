@@ -9,10 +9,7 @@ import {
   ShieldCheck, 
   Zap, 
   Sparkles, 
-  ChevronLeft, 
-  ChevronRight,
-  ArrowDown,
-  AlertTriangle
+  ChevronRight
 } from "lucide-react";
 import { OperationalBlueprintStage } from "@/components/site/OperationalBlueprintStage";
 
@@ -27,6 +24,7 @@ interface StoryChapter {
   kpiLabel: string;
   tag: string;
   icon: typeof Compass;
+  themeColor: string;
 }
 
 const CHAPTERS: StoryChapter[] = [
@@ -40,7 +38,8 @@ const CHAPTERS: StoryChapter[] = [
     kpi: "32% do tempo",
     kpiLabel: "Drenado em retrabalho e conferência",
     tag: "Atrito Crítico",
-    icon: Compass
+    icon: Compass,
+    themeColor: "#EF4444"
   },
   {
     id: "engenharia",
@@ -52,7 +51,8 @@ const CHAPTERS: StoryChapter[] = [
     kpi: "Zero migração",
     kpiLabel: "De softwares e ERPs atuais",
     tag: "Tubulação Ativa",
-    icon: Layers
+    icon: Layers,
+    themeColor: "#2440FF"
   },
   {
     id: "convergencia",
@@ -64,7 +64,8 @@ const CHAPTERS: StoryChapter[] = [
     kpi: "14x mais veloz",
     kpiLabel: "Velocidade média de conciliação",
     tag: "Precisão Estrita",
-    icon: ShieldCheck
+    icon: ShieldCheck,
+    themeColor: "#C8A24A"
   },
   {
     id: "fluxo",
@@ -76,350 +77,223 @@ const CHAPTERS: StoryChapter[] = [
     kpi: "100% auditável",
     kpiLabel: "Rastreabilidade e governança total",
     tag: "Fluxo Contínuo",
-    icon: Zap
+    icon: Zap,
+    themeColor: "#10B981"
   }
 ];
 
 export function SanleScrollytelling() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [activeChapter, setActiveChapter] = useState(0);
-  const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    if (typeof window === "undefined" || window.innerWidth < 1024) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number(entry.target.getAttribute("data-chapter-index"));
-            if (!Number.isNaN(idx)) {
-              setActiveChapter(idx);
-            }
-          }
-        });
-      },
-      {
-        rootMargin: "-25% 0px -45% 0px",
-        threshold: 0.2
+    let rafId = 0;
+    const updateProgress = () => {
+      const rect = container.getBoundingClientRect();
+      const scrollableDist = container.offsetHeight - window.innerHeight;
+      if (scrollableDist <= 0) return;
+
+      const raw = -rect.top / scrollableDist;
+      const progress = Math.max(0, Math.min(1, raw));
+      setScrollProgress(progress);
+
+      // Mapeia o progresso 0..1 nos 4 capítulos
+      if (progress < 0.28) {
+        setActiveChapter(0);
+      } else if (progress < 0.54) {
+        setActiveChapter(1);
+      } else if (progress < 0.80) {
+        setActiveChapter(2);
+      } else {
+        setActiveChapter(3);
       }
-    );
+    };
 
-    chapterRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateProgress);
+    };
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateProgress();
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
-  const scrollToChapter = (index: number) => {
-    setActiveChapter(index);
-    if (window.innerWidth >= 1024) {
-      const targetEl = chapterRefs.current[index];
-      if (targetEl) {
-        const topOffset = targetEl.getBoundingClientRect().top + window.scrollY - 140;
-        window.scrollTo({
-          top: topOffset,
-          behavior: "smooth"
-        });
-      }
-    }
-  };
+  const currentChapter = CHAPTERS[activeChapter] ?? CHAPTERS[0]!;
+  const Icon = currentChapter.icon;
 
-  const nextChapter = () => {
-    setActiveChapter((prev) => (prev + 1) % CHAPTERS.length);
-  };
-
-  const prevChapter = () => {
-    setActiveChapter((prev) => (prev - 1 + CHAPTERS.length) % CHAPTERS.length);
-  };
-
-  const currentMobileChapter = CHAPTERS[activeChapter] ?? CHAPTERS[0]!;
-  const MobileIcon = currentMobileChapter.icon;
+  // Efeito de Gate Zoom no final da seção para transicionar ao Ambiente 02
+  const gateZoomProgress = Math.max(0, (scrollProgress - 0.88) / 0.12);
 
   return (
     <section
       id="historia-sanle"
-      className="relative bg-[#FAF8F5] text-[#121110] selection:bg-[#2440FF] selection:text-white py-10 sm:py-16 md:py-24 border-b border-[rgba(18,17,16,0.08)] select-none overflow-hidden w-full max-w-full"
-      aria-label="Ambiente 01: Engenharia Operacional · A História da Construção do Fluxo Sanle"
+      ref={containerRef}
+      className="relative w-full h-[280vh] sm:h-[320vh] bg-[#FAF8F5] text-[#121110] select-none"
+      aria-label="Ambiente 01: Engenharia Operacional · Scrollytelling da Construção do Fluxo Sanle"
     >
-      {/* Glow de fundo solar e alabastro muito sutil para conforto visual */}
-      <div
-        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 h-[600px] w-[800px] rounded-full bg-[radial-gradient(circle,rgba(36,64,255,0.04)_0%,rgba(245,158,11,0.03)_40%,transparent_70%)] blur-[120px] z-0"
-        aria-hidden="true"
-      />
+      {/* =========================================================================
+          VIEWPORT FIXA DE SCROLLYTELLING (Sticky top-0 h-screen estilo why.zero.university)
+         ========================================================================= */}
+      <div 
+        className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between py-6 sm:py-8 md:py-10 px-4 sm:px-6 md:px-10 transition-colors duration-700"
+        style={{
+          backgroundColor: gateZoomProgress > 0.4 ? "#08090C" : "#FAF8F5",
+          color: gateZoomProgress > 0.4 ? "#F5F6F8" : "#121110"
+        }}
+      >
+        {/* Glow dinâmico de fundo que reage ao capítulo ativo */}
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-1000 blur-[140px] opacity-25"
+          style={{
+            background: `radial-gradient(circle at 50% 50%, ${currentChapter.themeColor} 0%, transparent 65%)`
+          }}
+          aria-hidden="true"
+        />
 
-      <div className="shell max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        {/* =========================================================================
-            GATE DE ENTRADA · AMBIENTE 01 (Transição temática estilo why.zero.university)
-           ========================================================================= */}
-        <div className="mb-8 sm:mb-12 p-4 sm:p-5 rounded-2xl bg-white border border-[rgba(18,17,16,0.08)] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* =======================================================================
+            BARRA DE CONTROLE SUPERIOR (Estilo HUD do why.zero.university)
+           ======================================================================= */}
+        <div className="relative z-20 flex items-center justify-between border-b border-current/10 pb-4 max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#2440FF]/10 text-[#2440FF] border border-[#2440FF]/20">
-              <Compass className="h-4 w-4 animate-spin [animation-duration:12s]" />
+            <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#2440FF]/10 text-[#2440FF] border border-[#2440FF]/20">
+              <Sparkles className="h-4 w-4" />
             </span>
             <div>
-              <span className="font-mono text-[0.62rem] sm:text-xs uppercase tracking-[0.2em] text-[#2440FF] font-bold block">
-                ENTRANDO NO AMBIENTE 01 · ENGENHARIA OPERACIONAL
-              </span>
-              <p className="text-xs sm:text-sm text-[#4A453E] font-sans-editorial">
-                Conforme rola a tela, o esquemático à esquerda reage e ilustra a transformação da empresa em cada capítulo.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 font-mono text-xs text-[#8A837A] bg-[#FAF8F5] px-3 py-1.5 rounded-full border border-[rgba(18,17,16,0.08)] shrink-0">
-            <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
-            <span>TEMÁTICA ARQUITETURAL ATIVA</span>
-          </div>
-        </div>
-
-        {/* Cabeçalho da Seção com navegação rápida de capítulos */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-[rgba(18,17,16,0.08)] pb-6 mb-8 sm:mb-12">
-          <div className="space-y-2.5 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-[#2440FF]/10 text-[#2440FF]">
-                <Sparkles className="h-3.5 w-3.5" />
-              </span>
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#2440FF] font-semibold">
+              <span className="font-mono text-[0.62rem] sm:text-xs uppercase tracking-[0.2em] font-bold block text-[#2440FF]">
                 AMBIENTE 01 · ENGENHARIA OPERACIONAL
               </span>
-            </div>
-
-            <h2 className="font-serif-editorial text-[clamp(1.85rem,3.6vw,3.4rem)] leading-[1.04] tracking-[-0.03em] text-[#121110]">
-              Como transformamos atrito manual em fluxos contínuos e autônomos.
-            </h2>
-
-            <p className="text-sm sm:text-base text-[#4A453E] font-sans-editorial leading-relaxed">
-              Conforme você rola a tela, acompanhe a evolução de um processo corporativo saindo do caos manual até atingir o regime de fluxo silencioso.
-            </p>
-          </div>
-
-          {/* Seletor de Capítulos Rápido */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-            {CHAPTERS.map((ch, idx) => {
-              const isActive = idx === activeChapter;
-              return (
-                <button
-                  key={ch.id}
-                  type="button"
-                  onClick={() => scrollToChapter(idx)}
-                  className={`flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 font-mono text-xs transition-all duration-200 ${
-                    isActive
-                      ? "bg-[#2440FF] text-white shadow-md shadow-[#2440FF]/25 font-semibold scale-105"
-                      : "bg-white text-[#4A453E] border border-[rgba(18,17,16,0.1)] hover:text-[#121110] hover:border-[#2440FF]"
-                  }`}
-                >
-                  <span className={isActive ? "text-amber-200" : "text-[#2440FF]"}>
-                    {ch.chapter}
-                  </span>
-                  <span>{ch.id.charAt(0).toUpperCase() + ch.id.slice(1)}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* =========================================================================
-            MODO MOBILE COMPACTO (lg:hidden)
-           ========================================================================= */}
-        <div className="lg:hidden space-y-4">
-          {/* Esquemático Operacional da História */}
-          <div className="w-full">
-            <OperationalBlueprintStage activeChapter={activeChapter} />
-          </div>
-
-          {/* Cartão Ativo do Capítulo Atual com Controles de Navegação */}
-          <div className="p-5 rounded-2xl bg-white border border-[#2440FF]/30 shadow-lg shadow-stone-300/30 space-y-3 transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-[rgba(18,17,16,0.06)] pb-2.5">
-              <div className="inline-flex items-center gap-1.5 text-[#2440FF] font-mono text-xs uppercase tracking-wider font-semibold">
-                <MobileIcon className="h-3.5 w-3.5" />
-                <span>{currentMobileChapter.kicker}</span>
-              </div>
-
-              {/* Botões de avançar/voltar no mobile */}
-              <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={prevChapter}
-                  className="p-1 rounded-full bg-[#FAF8F5] border border-[rgba(18,17,16,0.1)] hover:bg-stone-200 text-[#4A453E]"
-                  aria-label="Capítulo anterior"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                </button>
-                <span className="font-mono text-xs font-bold text-[#8A837A] px-1">
-                  0{activeChapter + 1}/04
-                </span>
-                <button
-                  type="button"
-                  onClick={nextChapter}
-                  className="p-1 rounded-full bg-[#FAF8F5] border border-[rgba(18,17,16,0.1)] hover:bg-stone-200 text-[#4A453E]"
-                  aria-label="Próximo capítulo"
-                >
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-serif-editorial text-xl text-[#121110] tracking-tight">
-                {currentMobileChapter.title}
-              </h3>
-              <p className="font-display text-xs text-[#2440FF] font-medium leading-snug">
-                {currentMobileChapter.lead}
-              </p>
-              <p className="text-xs text-[#4A453E] font-sans-editorial leading-relaxed">
-                {currentMobileChapter.body}
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-[rgba(18,17,16,0.06)] flex items-center justify-between gap-3">
-              <div>
-                <span className="font-mono text-base font-bold text-[#121110] block">
-                  {currentMobileChapter.kpi}
-                </span>
-                <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#8A837A] block">
-                  {currentMobileChapter.kpiLabel}
-                </span>
-              </div>
-
-              <Link
-                href="/diagnostico"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121110] text-white font-medium text-xs hover:bg-[#2440FF] transition-all shadow-sm"
-              >
-                <span>Mapear processo</span>
-                <ArrowUpRight className="h-3 w-3" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            MODO DESKTOP EXPANDIDO: O Palco Técnico acompanha a leitura da história
-           ========================================================================= */}
-        <div className="hidden lg:grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
-          {/* Lado Esquerdo: O Palco Técnico que reage a cada capítulo */}
-          <div className="lg:sticky lg:top-28 lg:self-start w-full space-y-4">
-            <OperationalBlueprintStage activeChapter={activeChapter} />
-
-            <div className="flex items-center justify-between px-2 font-mono text-xs text-[#8A837A] border-t border-[rgba(18,17,16,0.06)] pt-3">
-              <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
-                <span>SINCRONIZAÇÃO EM TEMPO REAL COM O SCROLL</span>
+              <span className="text-[0.62rem] sm:text-xs text-[#8A837A] font-mono hidden sm:inline">
+                A CONSTRUÇÃO DO FLUXO CONTÍNUO
               </span>
-              <span>CAPÍTULO 0{activeChapter + 1} DE 04</span>
             </div>
           </div>
 
-          {/* Lado Direito: Os 4 Capítulos com narrativa progressiva */}
-          <div className="space-y-6 sm:space-y-8">
+          {/* Timeline de Capítulos estilo Depth Meter */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {CHAPTERS.map((ch, idx) => {
-              const IconComp = ch.icon;
               const isActive = idx === activeChapter;
-
               return (
                 <div
                   key={ch.id}
-                  ref={(el) => {
-                    chapterRefs.current[idx] = el;
-                  }}
-                  data-chapter-index={idx}
-                  className={`p-6 sm:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full font-mono text-xs transition-all duration-300 ${
                     isActive
-                      ? "bg-white border-[#2440FF]/30 shadow-xl shadow-stone-300/40 translate-x-1"
-                      : "bg-white/60 hover:bg-white border-[rgba(18,17,16,0.08)] shadow-xs"
+                      ? "bg-[#2440FF] text-white font-bold shadow-md shadow-[#2440FF]/30 scale-105"
+                      : "bg-black/5 text-[#8A837A] opacity-60"
                   }`}
                 >
-                  <div className="flex items-center justify-between border-b border-[rgba(18,17,16,0.06)] pb-3">
-                    <div className="inline-flex items-center gap-2 text-[#2440FF] font-mono text-xs uppercase tracking-wider font-semibold">
-                      <IconComp className="h-4 w-4" />
-                      <span>{ch.kicker}</span>
-                    </div>
-
-                    <span className="font-mono text-xs font-bold text-[#8A837A]">
-                      0{idx + 1} / 04
-                    </span>
-                  </div>
-
-                  <div className="pt-4 space-y-3">
-                    <h3 className="font-serif-editorial text-2xl sm:text-3xl text-[#121110] tracking-tight">
-                      {ch.title}
-                    </h3>
-
-                    <p className="font-display text-sm sm:text-base text-[#2440FF] font-medium leading-snug">
-                      {ch.lead}
-                    </p>
-
-                    <p className="text-sm sm:text-base text-[#4A453E] font-sans-editorial leading-relaxed">
-                      {ch.body}
-                    </p>
-                  </div>
-
-                  {/* KPI e Ação do Capítulo */}
-                  <div className="mt-6 pt-4 border-t border-[rgba(18,17,16,0.06)] flex flex-wrap items-center justify-between gap-4">
-                    <div className="space-y-0.5">
-                      <span className="font-mono text-lg sm:text-xl font-bold text-[#121110] block">
-                        {ch.kpi}
-                      </span>
-                      <span className="font-mono text-[0.66rem] uppercase tracking-wider text-[#8A837A] block">
-                        {ch.kpiLabel}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href="/diagnostico"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#121110] text-white font-medium text-xs hover:bg-[#2440FF] transition-all shadow-sm"
-                      >
-                        <span>Mapear processo</span>
-                        <ArrowUpRight className="h-3.5 w-3.5" />
-                      </Link>
-                    </div>
-                  </div>
+                  <span>{ch.chapter}</span>
+                  <span className="hidden md:inline">{ch.id.toUpperCase()}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* =========================================================================
-            TRANSIÇÃO 1 ➔ 2: O PORTAL DE AUDITORIA FORENSE
-            (Abertura tipo lente / portal para entrar no Ambiente 02)
-           ========================================================================= */}
-        <div className="mt-14 sm:mt-20 pt-10 border-t border-[rgba(18,17,16,0.1)]">
-          <div className="relative rounded-3xl bg-[#08090C] text-[#F5F6F8] p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
-            {/* Anéis de portal óptico centralizados */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20" aria-hidden="true">
-              <div className="w-[500px] h-[500px] rounded-full border border-[#2440FF] animate-pulse" />
-              <div className="w-[350px] h-[350px] rounded-full border border-[#C8A24A]" />
-              <div className="w-[200px] h-[200px] rounded-full border border-red-500/50" />
+        {/* =======================================================================
+            PALCO PRINCIPAL CINEMATOGRÁFICO: DUAS COLUNAS EM LOCKSTEP
+           ======================================================================= */}
+        <div className="relative z-20 my-auto max-w-7xl mx-auto w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-10 md:gap-14 items-center">
+          {/* Lado Esquerdo: O Esquemático Operacional que Reage Dinamicamente ao Capítulo */}
+          <div className="w-full transform transition-all duration-500">
+            <OperationalBlueprintStage activeChapter={activeChapter} />
+          </div>
+
+          {/* Lado Direito: A Narrativa do Capítulo com Tipografia Editorial */}
+          <div className="space-y-4 sm:space-y-6">
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-semibold text-[#2440FF]">
+              <Icon className="h-4 w-4" />
+              <span>{currentChapter.kicker}</span>
             </div>
 
-            <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 font-mono text-xs uppercase tracking-wider">
-                <AlertTriangle className="h-3.5 w-3.5" />
-                <span>PORTAL DE TRANSIÇÃO · AMBIENTE 01 ➔ 02</span>
+            <h2 className="font-serif-editorial text-[clamp(1.8rem,3.8vw,3.6rem)] leading-[1.03] tracking-[-0.03em] transition-all duration-300">
+              {currentChapter.title}
+            </h2>
+
+            <p className="font-display text-sm sm:text-base md:text-lg text-[#2440FF] font-medium leading-snug">
+              {currentChapter.lead}
+            </p>
+
+            <p className="text-sm sm:text-base text-current opacity-80 font-sans-editorial leading-relaxed max-w-xl">
+              {currentChapter.body}
+            </p>
+
+            {/* Métrica de Impacto / KPI do Capítulo */}
+            <div className="pt-4 border-t border-current/10 flex items-center justify-between gap-4">
+              <div>
+                <span className="font-mono text-xl sm:text-2xl font-bold block">
+                  {currentChapter.kpi}
+                </span>
+                <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#8A837A] block">
+                  {currentChapter.kpiLabel}
+                </span>
               </div>
 
-              <h3 className="font-serif-editorial text-2xl sm:text-4xl md:text-5xl leading-tight text-white">
-                Mergulhar na Investigação Forense da Operação.
-              </h3>
-
-              <p className="text-sm sm:text-base text-stone-300 font-sans-editorial leading-relaxed">
-                Ao cruzar este portal, você sai da visão de arquitetura e entra no espaço forense escuro da Sanle para investigar exatamente onde as empresas perdem tempo e dinheiro em tarefas invisíveis.
-              </p>
-
-              <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href="#problema"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#2440FF] hover:bg-[#1A30CC] text-white font-medium text-xs uppercase tracking-[0.14em] transition-all shadow-xl shadow-[#2440FF]/30 scale-105"
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/diagnostico"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#121110] text-white font-medium text-xs hover:bg-[#2440FF] transition-all shadow-md"
                 >
-                  <span>Atravessar o portal & investigar</span>
-                  <ArrowDown className="h-4 w-4" />
-                </a>
+                  <span>Mapear processo</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </div>
           </div>
         </div>
+
+        {/* =======================================================================
+            RODAPÉ DE NAVEGAÇÃO E INDICADOR DE TRANSIÇÃO
+           ======================================================================= */}
+        <div className="relative z-20 flex items-center justify-between border-t border-current/10 pt-3 max-w-7xl mx-auto w-full font-mono text-xs">
+          <div className="flex items-center gap-2 text-[#8A837A]">
+            <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
+            <span className="text-[0.65rem] sm:text-xs">
+              ROLE PARA AVANÇAR NA HISTÓRIA ({(scrollProgress * 100).toFixed(0)}%)
+            </span>
+          </div>
+
+          <a
+            href="#problema"
+            className="flex items-center gap-1.5 text-[0.65rem] sm:text-xs text-[#2440FF] hover:underline"
+          >
+            <span>Pular para Custo Invisível</span>
+            <ChevronRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
+
+        {/* =======================================================================
+            GATE ZOOM PORTAL OVERLAY (Acionado no final da seção para transição estilo why.zero)
+           ======================================================================= */}
+        {gateZoomProgress > 0.05 && (
+          <div 
+            className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center transition-all duration-300"
+            style={{
+              opacity: gateZoomProgress,
+              transform: `scale(${1 + gateZoomProgress * 0.4})`
+            }}
+          >
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-[#2440FF]/60 flex items-center justify-center bg-black/40 backdrop-blur-md shadow-2xl">
+              <div className="w-44 h-44 sm:w-56 sm:h-56 rounded-full border border-[#C8A24A]/70 animate-ping [animation-duration:3s]" />
+              <div className="absolute text-center space-y-1">
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#78A9FF] font-bold block">
+                  ENTRANDO NO AMBIENTE 02
+                </span>
+                <span className="font-serif-editorial text-lg sm:text-xl text-white font-semibold block">
+                  Investigação Forense
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
