@@ -12,7 +12,6 @@ import {
   ChevronLeft, 
   ChevronRight,
   ArrowDown,
-  CheckCircle2,
   AlertTriangle
 } from "lucide-react";
 import { OperationalBlueprintStage } from "@/components/site/OperationalBlueprintStage";
