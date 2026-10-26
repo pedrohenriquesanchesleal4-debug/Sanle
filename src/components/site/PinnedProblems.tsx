@@ -393,11 +393,11 @@ export function PinnedProblems() {
                       /* Gargalo 6: Comunicação Fragmentada e Cobranças */
                       <div className="space-y-1.5 pt-1 font-mono text-[0.62rem]">
                         <div className="p-2 rounded bg-white border border-[rgba(18,17,16,0.06)] flex items-center justify-between">
-                          <span className="text-[#121110]">"Você já aprovou a fatura #402?"</span>
+                          <span className="text-[#121110]">&ldquo;Você já aprovou a fatura #402?&rdquo;</span>
                           <span className="text-[#8A837A]">10:14 · Lida sem resposta</span>
                         </div>
                         <div className="p-2 rounded bg-white border border-[rgba(18,17,16,0.06)] flex items-center justify-between">
-                          <span className="text-[#121110]">"Consegue olhar isso até as 17h?"</span>
+                          <span className="text-[#121110]">&ldquo;Consegue olhar isso até as 17h?&rdquo;</span>
                           <span className="text-red-500 font-semibold">16:48 · Prazo estourado</span>
                         </div>
                       </div>

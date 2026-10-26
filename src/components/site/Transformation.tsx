@@ -62,16 +62,16 @@ export function Transformation() {
       <div className="shell max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#FF5B1F]">
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#2440FF]">
               <Sparkles className="h-4 w-4" />
-              <span>DO ATRITO AO FLUXO</span>
+              <span>AMBIENTE 03 · DO ATRITO AO FLUXO</span>
             </div>
 
             <h2
               id="transf-title"
               className="mt-3 font-serif-editorial text-[clamp(2.1rem,5vw,4.8rem)] leading-[0.98] text-[#0A0A09]"
             >
-              O contraste de uma operação com fluxo.
+              O contraste de uma operação em regime de fluxo.
             </h2>
           </div>
 

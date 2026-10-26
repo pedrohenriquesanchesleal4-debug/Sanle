@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import gsap from "gsap";
 import { ArrowRight, MessageCircle, ChevronDown } from "lucide-react";
 import { heroContent } from "@/content/hero";
 import { buildWhatsAppLink } from "@/lib/whatsapp";

@@ -192,7 +192,7 @@ export function SanleArchitecture3D({
     // 8. Loop de Animação com rAF e Interpolação Suave
     let rafId = 0;
     let isVisible = true;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const targetPos1 = new THREE.Vector3();
     const targetPos2 = new THREE.Vector3();
@@ -308,8 +308,8 @@ export function SanleArchitecture3D({
       camera.position.lerp(targetCamPos, lerpFactor);
       camera.lookAt(targetCamLook);
 
-      // Rotação orbital sutil dos anéis em latão
-      const rotSpeed = 0.5 * dt;
+      // Rotação orbital sutil dos anéis em latão (pausada se o usuário preferir movimento reduzido)
+      const rotSpeed = reducedMotion ? 0 : 0.5 * dt;
       node1Group.children[0]!.rotation.x += rotSpeed * 0.8;
       node1Group.children[0]!.rotation.y += rotSpeed * 1.2;
       node2Group.children[0]!.rotation.x -= rotSpeed * 0.9;
@@ -379,7 +379,7 @@ export function SanleArchitecture3D({
         container.innerHTML = "";
       }
     };
-  }, [isMobile]);
+  }, [isMobile, reducedMotion]);
 
   if (!webglSupported) {
     // Fallback gracioso em SVG de alta precisão caso o dispositivo não suporte WebGL

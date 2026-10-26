@@ -13,7 +13,6 @@ import {
   ChevronRight,
   Box,
   Cpu,
-  Search,
   ArrowDown,
   AlertTriangle
 } from "lucide-react";
