@@ -284,34 +284,43 @@ export function HeroPortal() {
         </div>
 
         {/* =========================================================================
-            CAMADA 3: O EMBLEMA ESCULTURAL SANLE (A LENTE FÍSICA)
+            CAMADA 3: O EMBLEMA ESCULTURAL SANLE (A LENTE FÍSICA E OS TRÊS NÓS)
            ========================================================================= */}
         <div
           ref={emblemRef}
-          className="pointer-events-none absolute z-30 flex items-center justify-center will-change-transform"
+          className="pointer-events-none absolute z-30 flex flex-col items-center justify-center will-change-transform"
           style={{
+            transformOrigin: "center center",
             transform: "translate3d(0, 0, 0) scale(1)",
             opacity: 1
           }}
           aria-hidden="true"
         >
-          <div className="relative flex items-center justify-center">
-            <div className="h-[84px] w-[84px] rounded-full border-[1.5px] border-[#121110]/15 shadow-xl bg-white/40 backdrop-blur-xs flex items-center justify-center">
-              <div className="h-[76px] w-[76px] rounded-full border border-[rgba(18,17,16,0.08)] bg-transparent flex items-center justify-center">
-                <span className="h-2 w-2 rounded-full bg-[#2440FF] shadow-[0_0_8px_rgba(36,64,255,0.6)]" />
-              </div>
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full flex items-center justify-center">
+            {/* Anel de Latão Escultural com Centro Aberto */}
+            <div className="absolute inset-0 rounded-full border-[10px] sm:border-[13px] border-[#C8A24A] shadow-2xl shadow-stone-500/25 bg-transparent flex items-center justify-center">
+              {/* Anel Interno de Safira / Lente Óptica */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#2440FF]/70 bg-transparent shadow-inner flex items-center justify-center" />
             </div>
 
-            <div className="absolute inset-0 h-[84px] w-[84px] rounded-full border border-dashed border-[#2440FF]/25 animate-spin-slow pointer-events-none" />
+            {/* Os Três Nós de Safira Azul Cobalto da Marca Sanle */}
+            {/* Nó 1 (Superior / 12 horas) */}
+            <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
 
-            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center whitespace-nowrap">
-              <span className="font-serif-editorial text-xl tracking-[-0.03em] text-[#121110]">
-                sanle
-              </span>
-              <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-[#8A837A] mt-0.5">
-                Role para entrar
-              </span>
-            </div>
+            {/* Nó 2 (Inferior Esquerdo / 7 horas) */}
+            <div className="absolute bottom-2.5 left-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+
+            {/* Nó 3 (Inferior Direito / 5 horas) */}
+            <div className="absolute bottom-2.5 right-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+          </div>
+
+          <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center whitespace-nowrap">
+            <span className="font-serif-editorial text-xl sm:text-2xl tracking-[-0.03em] text-[#121110]">
+              sanle
+            </span>
+            <span className="font-mono text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.24em] text-[#8A837A] mt-0.5">
+              Role para entrar
+            </span>
           </div>
         </div>
       </div>
