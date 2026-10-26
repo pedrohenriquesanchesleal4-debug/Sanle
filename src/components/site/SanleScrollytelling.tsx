@@ -11,13 +11,11 @@ import {
   Sparkles, 
   ChevronLeft, 
   ChevronRight,
-  Box,
-  Cpu,
   ArrowDown,
+  CheckCircle2,
   AlertTriangle
 } from "lucide-react";
 import { OperationalBlueprintStage } from "@/components/site/OperationalBlueprintStage";
-import { SanleArchitecture3D } from "@/components/three/SanleArchitecture3D";
 
 interface StoryChapter {
   id: string;
@@ -85,7 +83,6 @@ const CHAPTERS: StoryChapter[] = [
 
 export function SanleScrollytelling() {
   const [activeChapter, setActiveChapter] = useState(0);
-  const [stageViewMode, setStageViewMode] = useState<"3d" | "blueprint">("3d");
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -144,7 +141,7 @@ export function SanleScrollytelling() {
     <section
       id="historia-sanle"
       className="relative bg-[#FAF8F5] text-[#121110] selection:bg-[#2440FF] selection:text-white py-10 sm:py-16 md:py-24 border-b border-[rgba(18,17,16,0.08)] select-none overflow-hidden w-full max-w-full"
-      aria-label="Ambiente 01: Engenharia Operacional · A Construção do Fluxo Sanle"
+      aria-label="Ambiente 01: Engenharia Operacional · A História da Construção do Fluxo Sanle"
     >
       {/* Glow de fundo solar e alabastro muito sutil para conforto visual */}
       <div
@@ -170,7 +167,7 @@ export function SanleScrollytelling() {
             </h2>
 
             <p className="text-sm sm:text-base text-[#4A453E] font-sans-editorial leading-relaxed">
-              Quatro etapas estruturadas para conectar canais, arquivos e sistemas legados sem migrações dolorosas.
+              Conforme você rola a tela, acompanhe a evolução de um processo corporativo saindo do caos manual até atingir o regime de fluxo silencioso.
             </p>
           </div>
 
@@ -200,59 +197,12 @@ export function SanleScrollytelling() {
         </div>
 
         {/* =========================================================================
-            MODO MOBILE COMPACTO (lg:hidden): Economiza mais de 2.000px de scroll vertical!
+            MODO MOBILE COMPACTO (lg:hidden)
            ========================================================================= */}
         <div className="lg:hidden space-y-4">
-          {/* Alternador de Modo de Visualização no Mobile */}
-          <div className="flex items-center justify-between px-1">
-            <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#8A837A]">
-              Palco de Arquitetura
-            </span>
-            <div className="flex items-center gap-1 bg-white p-1 rounded-full border border-[rgba(18,17,16,0.08)] shadow-xs">
-              <button
-                type="button"
-                onClick={() => setStageViewMode("3d")}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-mono text-[0.6rem] transition-all ${
-                  stageViewMode === "3d"
-                    ? "bg-[#2440FF] text-white font-semibold"
-                    : "text-[#4A453E] hover:text-[#121110]"
-                }`}
-              >
-                <Box className="h-3 w-3" />
-                <span>3D WebGL</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setStageViewMode("blueprint")}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-mono text-[0.6rem] transition-all ${
-                  stageViewMode === "blueprint"
-                    ? "bg-[#2440FF] text-white font-semibold"
-                    : "text-[#4A453E] hover:text-[#121110]"
-                }`}
-              >
-                <Cpu className="h-3 w-3" />
-                <span>Esquema 2D</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Palco Operacional */}
-          <div className="w-full rounded-2xl overflow-hidden border border-[rgba(18,17,16,0.1)] bg-[#0C0E14] shadow-md">
-            {stageViewMode === "3d" ? (
-              <div className="h-[260px] w-full relative">
-                <SanleArchitecture3D 
-                  environment="engenharia" 
-                  step={activeChapter} 
-                  className="h-full w-full"
-                />
-                <div className="pointer-events-none absolute bottom-2 left-3 right-3 flex items-center justify-between text-[0.58rem] font-mono text-stone-400 bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-md border border-white/10">
-                  <span className="text-[#C8A24A]">NÓS EM LATÃO & SAFIRA</span>
-                  <span>ETAPA 0{activeChapter + 1}/04</span>
-                </div>
-              </div>
-            ) : (
-              <OperationalBlueprintStage activeChapter={activeChapter} />
-            )}
+          {/* Esquemático Operacional da História */}
+          <div className="w-full">
+            <OperationalBlueprintStage activeChapter={activeChapter} />
           </div>
 
           {/* Cartão Ativo do Capítulo Atual com Controles de Navegação */}
@@ -321,80 +271,23 @@ export function SanleScrollytelling() {
         </div>
 
         {/* =========================================================================
-            MODO DESKTOP EXPANDIDO (hidden lg:grid): Duas colunas com rolagem paralela e companion
+            MODO DESKTOP EXPANDIDO: O Palco Técnico acompanha a leitura da história
            ========================================================================= */}
         <div className="hidden lg:grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
-          {/* Lado Esquerdo: O Palco Técnico com 3D WebGL / Blueprint que acompanha suavemente */}
+          {/* Lado Esquerdo: O Palco Técnico que reage a cada capítulo */}
           <div className="lg:sticky lg:top-28 lg:self-start w-full space-y-4">
-            {/* Barra de alternância 3D vs Blueprint 2D */}
-            <div className="flex items-center justify-between bg-white px-4 py-2 rounded-2xl border border-[rgba(18,17,16,0.08)] shadow-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
-                <span className="font-mono text-xs uppercase tracking-wider text-[#121110] font-semibold">
-                  Palco Arquitetural Sanle
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-full border border-[rgba(18,17,16,0.08)]">
-                <button
-                  type="button"
-                  onClick={() => setStageViewMode("3d")}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-xs transition-all ${
-                    stageViewMode === "3d"
-                      ? "bg-[#2440FF] text-white font-semibold shadow-xs"
-                      : "text-[#4A453E] hover:text-[#121110]"
-                  }`}
-                >
-                  <Box className="h-3.5 w-3.5" />
-                  <span>3D Espacial</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStageViewMode("blueprint")}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-xs transition-all ${
-                    stageViewMode === "blueprint"
-                      ? "bg-[#2440FF] text-white font-semibold shadow-xs"
-                      : "text-[#4A453E] hover:text-[#121110]"
-                  }`}
-                >
-                  <Cpu className="h-3.5 w-3.5" />
-                  <span>Esquema Vetorial</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Container do Palco */}
-            <div className="rounded-3xl overflow-hidden border border-[rgba(18,17,16,0.12)] bg-[#0C0E14] shadow-2xl shadow-stone-300/40">
-              {stageViewMode === "3d" ? (
-                <div className="h-[440px] w-full relative">
-                  <SanleArchitecture3D 
-                    environment="engenharia" 
-                    step={activeChapter} 
-                    className="h-full w-full"
-                  />
-                  <div className="pointer-events-none absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs font-mono text-stone-300 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/10">
-                    <span className="text-[#C8A24A] flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#C8A24A]" />
-                      <span>ARQUITETURA ESCULTURAL EM LATÃO & SAFIRA</span>
-                    </span>
-                    <span>SINCRONIA COM CAPÍTULO 0{activeChapter + 1}</span>
-                  </div>
-                </div>
-              ) : (
-                <OperationalBlueprintStage activeChapter={activeChapter} />
-              )}
-            </div>
+            <OperationalBlueprintStage activeChapter={activeChapter} />
 
             <div className="flex items-center justify-between px-2 font-mono text-xs text-[#8A837A] border-t border-[rgba(18,17,16,0.06)] pt-3">
               <span className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-pulse" />
-                <span>INTERPOLAÇÃO DINÂMICA DE FLUXO</span>
+                <span>SINCRONIZAÇÃO EM TEMPO REAL COM O SCROLL</span>
               </span>
               <span>CAPÍTULO 0{activeChapter + 1} DE 04</span>
             </div>
           </div>
 
-          {/* Lado Direito: Os 4 Capítulos com rolagem 100% natural e sem travas */}
+          {/* Lado Direito: Os 4 Capítulos com narrativa progressiva */}
           <div className="space-y-6 sm:space-y-8">
             {CHAPTERS.map((ch, idx) => {
               const IconComp = ch.icon;
@@ -466,65 +359,40 @@ export function SanleScrollytelling() {
         </div>
 
         {/* =========================================================================
-            TRANSIÇÃO 1 ➔ 2: A ARQUITETURA REVELA OS PONTOS DE ATRITO OCULTOS
-            (Ponte narrativa entre Engenharia Operacional e Custo Invisível)
+            TRANSIÇÃO 1 ➔ 2: O PORTAL DE AUDITORIA FORENSE
+            (Abertura tipo lente / portal para entrar no Ambiente 02)
            ========================================================================= */}
-        <div className="mt-12 sm:mt-16 pt-10 border-t border-[rgba(18,17,16,0.1)]">
-          <div className="p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl bg-[#0F1117] text-white border border-stone-800 relative overflow-hidden shadow-2xl">
-            {/* Luz de auditoria forense no card de transição */}
-            <div 
-              className="pointer-events-none absolute top-0 right-0 h-[300px] w-[300px] bg-[radial-gradient(circle,rgba(239,68,68,0.15)_0%,transparent_70%)] blur-2xl" 
-              aria-hidden="true" 
-            />
+        <div className="mt-14 sm:mt-20 pt-10 border-t border-[rgba(18,17,16,0.1)]">
+          <div className="relative rounded-3xl bg-[#08090C] text-[#F5F6F8] p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
+            {/* Anéis de portal óptico centralizados */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20" aria-hidden="true">
+              <div className="w-[500px] h-[500px] rounded-full border border-[#2440FF] animate-pulse" />
+              <div className="w-[350px] h-[350px] rounded-full border border-[#C8A24A]" />
+              <div className="w-[200px] h-[200px] rounded-full border border-red-500/50" />
+            </div>
 
-            <div className="relative z-10 grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
-              <div className="space-y-3.5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 font-mono text-xs">
-                  <AlertTriangle className="h-3.5 w-3.5" />
-                  <span>TRANSIÇÃO 1 ➔ 2 · AUDITORIA FORENSE</span>
-                </div>
-
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl leading-tight text-stone-100">
-                  Por trás da organização aparente, onde os dados ainda sangram?
-                </h3>
-
-                <p className="text-sm sm:text-base text-stone-300 font-sans-editorial leading-relaxed max-w-xl">
-                  Ao aproximar a inspeção da tubulação recém-organizada, revelam-se desvios silenciosos: documentos em rotas não indexadas, digitação duplicada entre softwares e conferências repetidas que custam caro todos os meses.
-                </p>
-
-                <div className="pt-2">
-                  <a
-                    href="#problema"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#2440FF] hover:bg-[#1A30CC] text-white font-medium text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#2440FF]/25"
-                  >
-                    <span>Investigar os 7 gargalos ocultos</span>
-                    <ArrowDown className="h-3.5 w-3.5" />
-                  </a>
-                </div>
+            <div className="relative z-10 max-w-2xl mx-auto text-center space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 font-mono text-xs uppercase tracking-wider">
+                <AlertTriangle className="h-3.5 w-3.5" />
+                <span>PORTAL DE TRANSIÇÃO · AMBIENTE 01 ➔ 02</span>
               </div>
 
-              {/* Métricas Forenses da Transição */}
-              <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-                <div className="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800">
-                  <span className="text-stone-400 text-[0.62rem] block uppercase">Desvio Médio</span>
-                  <span className="text-xl font-bold text-amber-400 block pt-1">32%</span>
-                  <span className="text-stone-400 text-[0.62rem]">Do tempo operacional</span>
-                </div>
-                <div className="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800">
-                  <span className="text-stone-400 text-[0.62rem] block uppercase">Gargalos Críticos</span>
-                  <span className="text-xl font-bold text-red-400 block pt-1">07</span>
-                  <span className="text-stone-400 text-[0.62rem]">Pontos de atrito manual</span>
-                </div>
-                <div className="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800">
-                  <span className="text-stone-400 text-[0.62rem] block uppercase">Auditoria Sanle</span>
-                  <span className="text-xl font-bold text-[#78A9FF] block pt-1">100%</span>
-                  <span className="text-stone-400 text-[0.62rem]">Mapeamento cirúrgico</span>
-                </div>
-                <div className="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800">
-                  <span className="text-stone-400 text-[0.62rem] block uppercase">Próximo Passo</span>
-                  <span className="text-xl font-bold text-emerald-400 block pt-1">R$</span>
-                  <span className="text-stone-400 text-[0.62rem]">Quantificar o prejuízo</span>
-                </div>
+              <h3 className="font-serif-editorial text-2xl sm:text-4xl md:text-5xl leading-tight text-white">
+                Mergulhar na Investigação Forense da Operação.
+              </h3>
+
+              <p className="text-sm sm:text-base text-stone-300 font-sans-editorial leading-relaxed">
+                Ao cruzar este portal, você sai da visão de arquitetura e entra no espaço forense escuro da Sanle para investigar exatamente onde as empresas perdem tempo e dinheiro em tarefas invisíveis.
+              </p>
+
+              <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="#problema"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#2440FF] hover:bg-[#1A30CC] text-white font-medium text-xs uppercase tracking-[0.14em] transition-all shadow-xl shadow-[#2440FF]/30 scale-105"
+                >
+                  <span>Atravessar o portal & investigar</span>
+                  <ArrowDown className="h-4 w-4" />
+                </a>
               </div>
             </div>
           </div>
