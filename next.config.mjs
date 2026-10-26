@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  serverExternalPackages: ["@supabase/supabase-js", "@supabase/ssr"],
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

@@ -2,7 +2,7 @@
   "name": "sanle",
   "version": "0.1.0",
   "private": true,
-  "description": "Sanle — automação de processos, integração de sistemas e IA aplicada. Site público cinematográfico + central de operação comercial (CRM + prospecção + assistente IA).",
+  "description": "Sanle — Inteligencia comercial B2B, automacao de processos operacionais e integracao de sistemas.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "seed": "node scripts/seed-demo.mjs",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "db:test": "node scripts/test-database.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

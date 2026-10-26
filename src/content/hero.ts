@@ -14,29 +14,29 @@ export interface HeroContent {
 }
 
 export const heroContent: HeroContent = {
-  eyebrow: "AUTOMAÇÃO OPERACIONAL · BRASÍLIA · DF",
-  headlineTop: "Menos trabalho manual.",
+  eyebrow: "ARQUITETURA DE OPERAÇÕES · BRASÍLIA - DF",
+  headlineTop: "Menos atrito manual.",
   headlineBottom: "Mais",
-  headlineItalic: "fluxo.",
+  headlineItalic: "fluxo contínuo.",
   subheadline:
-    "Conectamos documentos, sistemas e inteligência artificial para tirar da rotina da sua empresa o que ninguém deveria fazer à mão.",
+    "Substituímos o copia-e-cola de planilhas, a redigitação de notas e as cobranças manuais por uma malha de automação invisível — sem forçar sua empresa a trocar nenhum software que já utiliza.",
   ctaPrimary: {
     label: "Mapear meu processo",
     href: "/diagnostico"
   },
   ctaSecondary: {
-    label: "Chamar no WhatsApp",
+    label: "Falar com Engenheiro no WhatsApp",
     href: "#whatsapp"
   },
-  microProof: "Diagnóstico inicial · sem exigir troca de sistemas",
+  microProof: "Diagnóstico executivo de 30 min · Sem troca de softwares · Retorno de margem mensurável",
   abAlternatives: [
     {
-      title: "Seu time não deveria copiar dados o dia inteiro.",
-      sub: "Conectamos planilhas, ERPs e documentos em fluxos confiáveis e automáticos."
+      title: "Seu time não foi contratado para redigitar dados entre telas.",
+      sub: "Conectamos WhatsApp, ERPs e documentos em fluxos auditáveis e automáticos."
     },
     {
-      title: "O trabalho que ninguém vê é o que mais custa.",
-      sub: "Elimine gargalos operacionais invisíveis antes que eles limitem o crescimento."
+      title: "Onde o atrito manual termina, a engenharia de fluxo começa.",
+      sub: "Elimine gargalos invisíveis que drenam até 32% das horas úteis da sua equipe."
     }
   ]
 };

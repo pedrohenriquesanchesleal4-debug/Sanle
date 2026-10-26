@@ -34,11 +34,11 @@ const PHOTOS: PhotoCard[] = [
   {
     id: "pipeline",
     step: "02",
-    category: "IA & AUTOMAÇÃO APLICADA",
-    title: "Inteligência Conectada",
-    tagline: "Modelos neurais e automação integrados ao seu ERP.",
+    category: "AUTOMAÇÃO & REGRAS DE NEGÓCIO",
+    title: "Processamento & Conexão Contínua",
+    tagline: "Validação instantânea e sincronização com seu ERP.",
     description:
-      "Automatizamos conferência de contratos, conciliação fiscal e triagem de leads com regras de negócio blindadas, sem alucinações e em tempo real.",
+      "Automatizamos conferência de contratos, conciliação fiscal e qualificação de oportunidades com regras de negócio determinísticas em tempo real.",
     src: "/images/pipeline-light.jpg",
     icon: Layers,
     stats: { label: "Velocidade de processamento", value: "14x" }
@@ -62,7 +62,7 @@ const PHOTOS: PhotoCard[] = [
     title: "Fluxo Sem Fadiga",
     tagline: "Operação que cresce sem inchar a folha.",
     description:
-      "Infraestrutura ágil inspirada na precisão da Apple e Red Bull. A sua empresa dobra a capacidade de atendimento mantendo a mesma equipe concentrada em inovação.",
+      "Arquitetura operacional de alta precisão. Sua empresa amplia a capacidade de entrega e atendimento mantendo a equipe focada no que gera receita.",
     src: "/images/kinetic-flow.jpg",
     icon: Zap,
     stats: { label: "Escalabilidade operacional", value: "300%" }

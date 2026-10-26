@@ -170,7 +170,7 @@ export const solutions: Solution[] = [
     ],
     faq: [
       { q: "A plataforma faz disparos automáticos em massa?", a: "Não. O Sales Hunter prepara a abordagem personalizada e o profissional inicia a conversa com qualidade." },
-      { q: "Preciso de chave paga de IA?", a: "Não. Há geração determinística gratuita embutida, com suporte opcional a provedores LLM." }
+      { q: "Preciso de ferramentas ou assinaturas externas para começar?", a: "Não. O Sales Hunter conta com motor nativo integrado de geração contextual e bases territoriais gratuitas, sem depender de assinaturas adicionais." }
     ]
   },
   {
@@ -193,7 +193,7 @@ export const solutions: Solution[] = [
       "Pipeline comercial completo em 11 estágios",
       "Timeline auditável de atividades e notas por lead",
       "Sistema de lembretes e alertas de estagnação",
-      "Assistente comercial RAG integrado"
+      "Mecanismo de consulta e inteligência operacional integrada"
     ],
     faq: [
       { q: "Consigo saber quais leads estão parados?", a: "Sim. O painel destaca imediatamente todos os leads sem próxima ação ou com lembretes vencidos." },
