@@ -94,7 +94,7 @@ export function FinalCta() {
   return (
     <section
       id="diagnostico-inbound"
-      className="relative scroll-mt-20 py-24 md:py-36 bg-[#FAF8F5] text-[#121110] overflow-hidden border-t border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-12 sm:py-18 md:py-28 bg-[#FAF8F5] text-[#121110] overflow-hidden border-t border-[rgba(18,17,16,0.08)]"
       aria-labelledby="cta-final-title"
     >
       {/* Luz volumétrica suave em tom solar e cobalto */}

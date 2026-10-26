@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Mail, Linkedin, Copy, Check, ArrowUpRight, MapPin, Sparkles } from "lucide-react";
+import { MessageCircle, Mail, Linkedin, Copy, Check, ArrowUpRight, MapPin } from "lucide-react";
 import { brand } from "@/content/brand";
 
 export function ContactSection() {
@@ -20,7 +20,7 @@ export function ContactSection() {
   return (
     <section
       id="contato"
-      className="relative scroll-mt-20 py-24 md:py-32 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
       aria-labelledby="contact-section-title"
     >
       <div className="shell max-w-6xl">

@@ -56,7 +56,7 @@ export function Transformation() {
   return (
     <section
       id="transformacao"
-      className="relative scroll-mt-20 py-16 sm:py-24 md:py-32 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)] select-none"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)] select-none"
       aria-labelledby="transf-title"
     >
       <div className="shell max-w-6xl">
@@ -127,7 +127,7 @@ export function Transformation() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="mt-8 sm:mt-10 relative w-full h-[520px] sm:h-[480px] md:h-[460px] rounded-2xl border border-[rgba(10,10,9,0.15)] bg-white overflow-hidden shadow-xl cursor-ew-resize touch-none"
+          className="mt-6 sm:mt-10 relative w-full h-[440px] sm:h-[460px] md:h-[460px] rounded-2xl border border-[rgba(10,10,9,0.15)] bg-white overflow-hidden shadow-xl cursor-ew-resize touch-pan-y"
           aria-label="Comparativo interativo antes e depois"
         >
           {/* CAMADA 1 (DIREITA / DEPOIS: FLUXO ORGANIZADO) - Fica no fundo 100% esticada */}

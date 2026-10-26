@@ -51,7 +51,7 @@ export function TrustSection() {
   return (
     <section
       id="seguranca-governanca"
-      className="relative scroll-mt-20 py-24 md:py-32 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
       aria-labelledby="trust-section-title"
     >
       <div className="shell max-w-6xl">

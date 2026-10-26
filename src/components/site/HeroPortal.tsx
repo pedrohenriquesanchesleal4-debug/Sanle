@@ -28,11 +28,12 @@ export function HeroPortal() {
 
     if (!container || !emblem || !maskHole || !curtainSvg || !heroContent) return;
 
-    // Raio base da abertura central da logo em pixels (diâmetro 84px)
-    const baseHoleRadius = 42;
+    const isMobile = window.innerWidth < 768;
+    // Raio base da abertura central da logo em pixels (diâmetro ~80px mobile / ~88px desktop)
+    const baseHoleRadius = isMobile ? 38 : 44;
 
     const updateZoom = () => {
-      // 1. Cálculo de progresso de scroll dinâmico e enxuto (125vh mobile / 160vh desktop)
+      // 1. Cálculo de progresso de scroll dinâmico e enxuto (105vh mobile / 120vh desktop)
       const rect = container.getBoundingClientRect();
       const scrollableDist = container.offsetHeight - window.innerHeight;
       if (scrollableDist <= 0) return;
@@ -44,17 +45,15 @@ export function HeroPortal() {
       if (Math.abs(progress - lastProgressRef.current) < 0.0004) return;
       lastProgressRef.current = progress;
 
-      const isMobile = window.innerWidth < 768;
-      const maxMultiplier = isMobile ? 22 : 36;
+      const maxMultiplier = isMobile ? 20 : 34;
+      const threshold = isMobile ? 0.2 : 0.3;
 
-      // 2. Curva rápida e fluida de aproximação tátil:
-      // Progress 0.00 a 0.35: Aproximação gradual (1x a 2.6x)
-      // Progress 0.35 a 0.70: Mergulho óptico suave
+      // 2. Curva rápida e imediata de aproximação tátil:
       let scale = 1;
-      if (progress < 0.32) {
-        scale = 1 + (progress / 0.32) * 1.6;
+      if (progress < threshold) {
+        scale = 1 + (progress / threshold) * 1.6;
       } else {
-        const t = (progress - 0.32) / 0.38;
+        const t = (progress - threshold) / (1 - threshold);
         scale = 2.6 + Math.pow(Math.min(1, t), 2) * maxMultiplier;
       }
 
@@ -65,12 +64,14 @@ export function HeroPortal() {
       const holeRadius = Math.max(baseHoleRadius, baseHoleRadius * scale);
       maskHole.setAttribute("r", holeRadius.toFixed(1));
 
-      // 4. Dissolução antecipada e suave da cortina
-      if (progress < 0.45) {
+      // 4. Dissolução imediata e suave da cortina no mobile
+      const fadeStart = isMobile ? 0.22 : 0.38;
+      const fadeEnd = isMobile ? 0.5 : 0.68;
+      if (progress < fadeStart) {
         emblem.style.opacity = "1";
         curtainSvg.style.opacity = "1";
-      } else if (progress < 0.7) {
-        const fade = Math.max(0, 1 - (progress - 0.45) / 0.25);
+      } else if (progress < fadeEnd) {
+        const fade = Math.max(0, 1 - (progress - fadeStart) / (fadeEnd - fadeStart));
         emblem.style.opacity = fade.toFixed(3);
         curtainSvg.style.opacity = fade.toFixed(3);
       } else {
@@ -79,13 +80,14 @@ export function HeroPortal() {
       }
 
       // 5. O Hero clareando e ganhando escala rapidamente
-      const heroOpacity = Math.min(1, 0.4 + progress * 0.75);
-      const heroScale = 0.9 + Math.min(1, progress / 0.7) * 0.1;
+      const heroOpacity = Math.min(1, (isMobile ? 0.6 : 0.45) + progress * 0.7);
+      const heroScale = 0.92 + Math.min(1, progress / (isMobile ? 0.5 : 0.7)) * 0.08;
       heroContent.style.opacity = heroOpacity.toFixed(3);
       heroContent.style.transform = `translate3d(0, 0, 0) scale(${heroScale.toFixed(3)})`;
 
-      // 6. Ativa interações quando ultrapassa 55% do percurso
-      if (progress >= 0.55) {
+      // 6. Ativa interações rapidamente
+      const revealThreshold = isMobile ? 0.35 : 0.5;
+      if (progress >= revealThreshold) {
         setIsRevealed(true);
         window.dispatchEvent(new CustomEvent("sanle:portal-entered"));
       } else {
@@ -95,12 +97,24 @@ export function HeroPortal() {
 
     updateZoom();
 
-    // GSAP Ticker integrado
-    gsap.ticker.add(updateZoom);
+    // Listener de scroll passivo throttled por requestAnimationFrame:
+    // Elimina chamadas desnecessárias de getBoundingClientRect() e zero layout thrashing no mobile
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateZoom();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateZoom, { passive: true });
 
     return () => {
-      gsap.ticker.remove(updateZoom);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", updateZoom);
     };
   }, []);
@@ -119,7 +133,7 @@ export function HeroPortal() {
     <section
       ref={containerRef}
       id="portal-hero-container"
-      className="relative w-full bg-[#FAF8F5] select-none h-[125vh] md:h-[160vh]"
+      className="relative w-full max-w-full bg-[#FAF8F5] select-none h-[105vh] md:h-[125vh] overflow-hidden"
       aria-label="Introdução: O Mergulho na Logo Sanle e Revelação do Site"
     >
       {/* Viewport Pinned 100% nativo com suporte a Dynamic Viewport Height (100dvh) */}
@@ -284,34 +298,43 @@ export function HeroPortal() {
         </div>
 
         {/* =========================================================================
-            CAMADA 3: O EMBLEMA ESCULTURAL SANLE (A LENTE FÍSICA)
+            CAMADA 3: O EMBLEMA ESCULTURAL SANLE (A LENTE FÍSICA E OS TRÊS NÓS)
            ========================================================================= */}
         <div
           ref={emblemRef}
-          className="pointer-events-none absolute z-30 flex items-center justify-center will-change-transform"
+          className="pointer-events-none absolute z-30 flex flex-col items-center justify-center will-change-transform"
           style={{
+            transformOrigin: "center center",
             transform: "translate3d(0, 0, 0) scale(1)",
             opacity: 1
           }}
           aria-hidden="true"
         >
-          <div className="relative flex items-center justify-center">
-            <div className="h-[84px] w-[84px] rounded-full border-[1.5px] border-[#121110]/15 shadow-xl bg-white/40 backdrop-blur-xs flex items-center justify-center">
-              <div className="h-[76px] w-[76px] rounded-full border border-[rgba(18,17,16,0.08)] bg-transparent flex items-center justify-center">
-                <span className="h-2 w-2 rounded-full bg-[#2440FF] shadow-[0_0_8px_rgba(36,64,255,0.6)]" />
-              </div>
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full flex items-center justify-center">
+            {/* Anel de Latão Escultural com Centro Aberto */}
+            <div className="absolute inset-0 rounded-full border-[10px] sm:border-[13px] border-[#C8A24A] shadow-2xl shadow-stone-500/25 bg-transparent flex items-center justify-center">
+              {/* Anel Interno de Safira / Lente Óptica */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#2440FF]/70 bg-transparent shadow-inner flex items-center justify-center" />
             </div>
 
-            <div className="absolute inset-0 h-[84px] w-[84px] rounded-full border border-dashed border-[#2440FF]/25 animate-spin-slow pointer-events-none" />
+            {/* Os Três Nós de Safira Azul Cobalto da Marca Sanle */}
+            {/* Nó 1 (Superior / 12 horas) */}
+            <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
 
-            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center whitespace-nowrap">
-              <span className="font-serif-editorial text-xl tracking-[-0.03em] text-[#121110]">
-                sanle
-              </span>
-              <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-[#8A837A] mt-0.5">
-                Role para entrar
-              </span>
-            </div>
+            {/* Nó 2 (Inferior Esquerdo / 7 horas) */}
+            <div className="absolute bottom-2.5 left-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+
+            {/* Nó 3 (Inferior Direito / 5 horas) */}
+            <div className="absolute bottom-2.5 right-2.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#2440FF] shadow-lg shadow-[#2440FF]/60 border-2 border-white ring-2 ring-[#C8A24A]" />
+          </div>
+
+          <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center whitespace-nowrap">
+            <span className="font-serif-editorial text-xl sm:text-2xl tracking-[-0.03em] text-[#121110]">
+              sanle
+            </span>
+            <span className="font-mono text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.24em] text-[#8A837A] mt-0.5">
+              Role para entrar
+            </span>
           </div>
         </div>
       </div>

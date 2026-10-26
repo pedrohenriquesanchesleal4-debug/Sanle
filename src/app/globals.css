@@ -58,7 +58,8 @@
   html {
     -webkit-text-size-adjust: 100%;
     color-scheme: dark;
-    overflow-x: clip;
+    overflow-x: hidden !important;
+    max-width: 100%;
     background-color: #08090C;
   }
 
@@ -78,6 +79,10 @@
   body {
     background-color: #08090C;
     color: #F5F6F8;
+    overflow-x: hidden !important;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
     font-family: var(--font-sans), var(--font-space), system-ui, sans-serif;
     font-feature-settings: "ss01", "cv01", "cv02";
     -webkit-font-smoothing: antialiased;
@@ -122,9 +127,10 @@
 @layer components {
   .shell {
     width: 100%;
-    max-width: var(--shell);
+    max-width: min(var(--shell), 100%);
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 3.25rem);
+    padding-inline: clamp(1rem, 4vw, 3.25rem);
+    box-sizing: border-box;
   }
 
   .eyebrow {

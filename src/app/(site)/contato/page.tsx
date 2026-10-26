@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Mail, MessageCircle, Linkedin, ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MessageCircle, Linkedin, ArrowUpRight } from "lucide-react";
 import { brand } from "@/content/brand";
 
 export const metadata: Metadata = {

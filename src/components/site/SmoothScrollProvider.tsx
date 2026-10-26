@@ -14,16 +14,27 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Inicialização do Lenis com amortecimento responsivo e fluido
+    // Em dispositivos com toque ou telas menores que 1024px (celulares e tablets),
+    // desativamos o Lenis para preservar a rolagem nativa de 120Hz acelerada por hardware (GPU).
+    // Isso elimina completamente qualquer micro-trava, atraso ou conflito com gestos de toque no mobile.
+    const isTouchDevice =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.innerWidth < 1024;
+
+    if (isTouchDevice) {
+      // Dispositivos mobile rolam 100% nativamente, sem interceptação de eventos de toque
+      return;
+    }
+
+    // Inicialização do Lenis apenas em Desktop (mouse wheel) para inércia fluida
     const lenis = new Lenis({
       duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.95,
-      touchMultiplier: 1.15,
-      syncTouch: true
+      wheelMultiplier: 0.95
     });
 
     lenisRef.current = lenis;

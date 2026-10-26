@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { brand, siteUrl } from "@/content/brand";
+import { siteUrl } from "@/content/brand";
 import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
 
 const instrumentSerif = Instrument_Serif({
@@ -40,41 +40,73 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${brand.name} — ${brand.tagline}`,
-    template: `%s · ${brand.name}`
+    default: "Sanle — Engenharia de Processos & Automação Operacional",
+    template: "%s · Sanle"
   },
-  description: brand.shortPitch,
-  applicationName: brand.name,
+  description:
+    "Engenharia operacional que conecta os sistemas da sua empresa (ERP, WhatsApp, Notas Fiscais e Planilhas), eliminando retrabalho manual com governança estrita e previsibilidade.",
+  applicationName: "Sanle",
   keywords: [
-    "Sales Hunter",
-    "inteligência comercial",
-    "prospecção B2B",
-    "encontrar empresas",
-    "oportunidades comerciais",
-    "CRM B2B",
-    "diagnóstico comercial",
-    "Brasília",
-    "DF"
+    "Sanle",
+    "automação de processos",
+    "automação operacional",
+    "integração de ERP",
+    "automação de processos Brasília",
+    "integração Omie",
+    "integração ContaAzul",
+    "conciliação fiscal automática",
+    "automação documental",
+    "eliminar trabalho manual",
+    "BPO financeiro Brasília",
+    "barramento corporativo de dados",
+    "trilha de auditoria append-only",
+    "LGPD compliance processos",
+    "engenharia de software Brasília DF",
+    "Pedro Henrique Sanches Leal"
   ],
-  authors: [{ name: brand.name }],
-  creator: brand.name,
+  authors: [{ name: "Pedro Henrique Sanches Leal", url: "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278" }],
+  creator: "Pedro Henrique Sanches Leal",
+  publisher: "Sanle",
+  alternates: {
+    canonical: siteUrl
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: siteUrl,
-    siteName: brand.name,
-    title: `${brand.name} — ${brand.tagline}`,
-    description: brand.shortPitch
+    siteName: "Sanle",
+    title: "Sanle — Engenharia de Processos & Automação Operacional",
+    description:
+      "Elimine o retrabalho manual. A Sanle conecta seus canais, documentos e ERP para sua empresa escalar com governança e previsibilidade.",
+    images: [
+      {
+        url: "/images/studio-light.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Sanle — Engenharia de Processos & Automação Operacional"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
-    title: `${brand.name} — ${brand.tagline}`,
-    description: brand.shortPitch
+    title: "Sanle — Engenharia de Processos & Automação Operacional",
+    description:
+      "Elimine o retrabalho manual. A Sanle conecta seus canais, documentos e ERP para sua empresa escalar com governança e previsibilidade.",
+    images: ["/images/studio-light.jpg"]
+  },
+  verification: {
+    google: "27eba1bc1966ebd8"
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true }
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
   },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
@@ -84,30 +116,29 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#08090C" },
+    { media: "(prefers-color-scheme: light)", color: "#FAF8F5" },
     { media: "(prefers-color-scheme: dark)", color: "#08090C" }
   ],
   width: "device-width",
-  initialScale: 1
+  initialScale: 1,
+  viewportFit: "cover"
 };
 
 export default function RootLayout({
   children
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="pt-BR"
-      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} dark`}
+      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
-      <body className="min-h-dvh antialiased bg-[#08090C] text-[#F5F6F8] selection:bg-[#B7F36B] selection:text-[#08090C]">
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-cobalt selection:text-white overflow-x-hidden w-full max-w-full relative">
         <SmoothScrollProvider>
-          <a
-            href="#conteudo"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[#B7F36B] focus:px-5 focus:py-3 focus:font-semibold focus:text-[#08090C]"
-          >
-            Pular para o conteúdo
-          </a>
-          {children}
+          <div className="w-full max-w-full overflow-x-hidden relative">
+            {children}
+          </div>
         </SmoothScrollProvider>
       </body>
     </html>

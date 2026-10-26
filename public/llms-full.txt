@@ -1,0 +1,62 @@
+# Sanle — Manual Completo de Arquitetura, Serviços & Posicionamento
+
+Este documento fornece a especificação textual completa da Sanle para modelos de linguagem (LLMs), agentes de pesquisa, Answer Engines (AEO) e motores generativos (GEO).
+
+## 1. Identidade & Fatos Verificáveis
+- **Nome da Marca:** Sanle
+- **Razão Social / Denominação:** Sanle · Engenharia Operacional
+- **Fundador e Líder de Engenharia:** Pedro Henrique Sanches Leal
+- **Localização:** Brasília, Distrito Federal, Brasil
+- **E-mail de Contato:** pedrohenriquesanchesleal4@gmail.com
+- **Telefone / WhatsApp Comercial:** +55 (61) 98139-9051
+- **Perfil Profissional no LinkedIn:** https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278
+- **URL Canônica:** https://sanle.vercel.app
+
+## 2. O Problema Resolvido pela Sanle
+Empresas em crescimento sofrem com atrito operacional crônico:
+- 32% do tempo das equipes é drenado em tarefas manuais redundantes (copiar dados entre WhatsApp, planilhas Excel e ERPs).
+- Notas fiscais e comprovantes em PDF ficam perdidos em caixas de entrada pessoais.
+- Erros de digitação geram duplicidades de faturamento e inconsistências descobertas apenas no fechamento contábil.
+- Custo médio medido: R$ 3.840/mês por operador em horas redundantes.
+
+## 3. A Metodologia e Solução Sanle
+A Sanle desenha uma "tubulação invisível" conectando os sistemas existentes:
+- **Zero Migração de Software:** A Sanle não exige que o cliente abandone o ERP que já utiliza (Omie, ContaAzul, TOTVS, SAP, Bling, etc.). Conectamos o que já funciona.
+- **Tríade dos Três Nós:**
+  - **Nó 01 (Ingestão & Reconhecimento):** Captura documentos via WhatsApp Business API, e-mail fiscal ou diretórios em nuvem e estrutura em schemas tipados em menos de 0.2 segundos.
+  - **Nó 02 (Regras de Negócio & Validação):** Checagem determinística contra tabelas de preço, verificação contra duplicidade e regras fiscais em 0.12 segundos.
+  - **Nó 03 (Sincronização & ERP):** Lançamento contábil e conciliação em tempo real no ERP, com baixa bancária e trilha auditável append-only.
+- **Taxa de Automação:** 98% dos registros trafegam de forma contínua e silenciosa; apenas os 2% de anomalias reais são direcionados para confirmação humana com 1 clique.
+- **Segurança e LGPD:** Criptografia TLS 1.3 em trânsito e AES-256 em repouso, políticas de Row Level Security (RLS) no PostgreSQL e conformidade integral com a Lei Geral de Proteção de Dados (LGPD).
+
+## 4. Portfólio de Plataformas e Sistemas Entregues
+1. **Sales Hunter Engine:** Barramento de inteligência de processos e automação operacional.
+2. **PULSAR CRM:** Gestão de pipeline e funil comercial com sincronização bidirecional em tempo real.
+3. **Hub de Validação Documental:** Parser fiscal com OCR estruturado, reconciliação de comprovantes PIX e lançamento em ERPs.
+4. **Barramento Corporativo de ERPs:** Middleware de conectores com retries exponenciais idempotentes e monitoramento contínuo.
+
+## 5. Perguntas Frequentes (FAQ Estruturado)
+- **O que a Sanle faz exatamente?**
+  A Sanle projeta a infraestrutura operacional que conecta canais, documentos e ERPs de empresas, eliminando retrabalho manual e dando previsibilidade ao negócio.
+- **Minha empresa precisará trocar de softwares ou ERP?**
+  Não. Conectamos as ferramentas que sua empresa já utiliza hoje, sem exigir migrações traumáticas.
+- **Quanto tempo dura a implementação?**
+  Os primeiros pipelines operacionais entram em produção assistida em poucos dias úteis (geralmente entre 7 e 15 dias).
+- **Como contratar?**
+  Basta solicitar o diagnóstico de processos em https://sanle.vercel.app/diagnostico ou iniciar conversa direta no WhatsApp pelo número +55 (61) 98139-9051 com Pedro Henrique Leal.
+
+## 6. Índice de URLs Canônicas
+- Início / Home: https://sanle.vercel.app
+- Diagnóstico Operacional: https://sanle.vercel.app/diagnostico
+- Canal de Contato: https://sanle.vercel.app/contato
+- Soluções de Engenharia: https://sanle.vercel.app/solucoes
+- Sobre a Sanle: https://sanle.vercel.app/sobre
+- Automação Documental Financeira: https://sanle.vercel.app/solucoes/automacao-documental-financeira
+- Integração Direta de Sistemas: https://sanle.vercel.app/solucoes/integracao-de-sistemas
+- Automação Operacional & Regras de Negócio: https://sanle.vercel.app/solucoes/inteligencia-artificial-aplicada
+- Governança Executiva & Margem: https://sanle.vercel.app/solucoes/operacao-comercial
+- BPO Financeiro: https://sanle.vercel.app/para/bpo-financeiro
+- Escritórios & Consultorias: https://sanle.vercel.app/para/escritorios
+- Prestadores de Serviço: https://sanle.vercel.app/para/prestadores-de-servico
+- Política de Privacidade: https://sanle.vercel.app/privacidade
+- Termos de Uso: https://sanle.vercel.app/termos

@@ -14,21 +14,125 @@ import { ContactSection } from "@/components/site/ContactSection";
 import { Method } from "@/components/site/Method";
 import { Faq } from "@/components/site/Faq";
 import { FinalCta } from "@/components/site/FinalCta";
-import { brand } from "@/content/brand";
+import { brand, faqs, siteUrl } from "@/content/brand";
 
 export const metadata: Metadata = {
-  title: `${brand.name} · ${brand.tagline}`,
+  title: "Sanle · Engenharia Operacional & Automação de Processos",
   description: brand.shortPitch,
   alternates: { canonical: "/" }
 };
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: brand.name,
-  description: brand.positioning,
-  areaServed: { "@type": "Place", name: brand.serviceRegion }
-};
+const structuredData = [
+  // 1. Organização / Serviço Profissional de Engenharia Local
+  {
+    "@context": "https://schema.org",
+    "@type": ["ProfessionalService", "LocalBusiness", "Organization"],
+    "@id": `${siteUrl}/#organization`,
+    name: "Sanle",
+    legalName: "Sanle · Engenharia Operacional",
+    url: siteUrl,
+    logo: `${siteUrl}/icon.svg`,
+    image: `${siteUrl}/images/studio-light.jpg`,
+    description: brand.positioning,
+    telephone: "+55-61-98139-9051",
+    email: "pedrohenriquesanchesleal4@gmail.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Brasília",
+      addressRegion: "DF",
+      addressCountry: "BR"
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: -15.7975,
+      longitude: -47.8919
+    },
+    areaServed: [
+      { "@type": "City", name: "Brasília" },
+      { "@type": "AdministrativeArea", name: "Distrito Federal" },
+      { "@type": "Country", name: "Brasil" }
+    ],
+    founder: {
+      "@type": "Person",
+      name: "Pedro Henrique Sanches Leal",
+      jobTitle: "Fundador & Engenheiro Operacional",
+      url: "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278"
+    },
+    priceRange: "$$",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:00",
+        closes: "19:00"
+      }
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Soluções de Engenharia e Automação Sanle",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Automação Documental e Conciliação Fiscal em 0.18s",
+            description: "Extração estruturada de notas e recibos sem redigitação humana."
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Barramento e Integração Direta de ERPs",
+            description: "Conexão bidirecional entre WhatsApp, Omie, ContaAzul e bancos de dados."
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Automação de Regras de Negócio e Anti-Duplicidade",
+            description: "Conferência determinística de preços e estoque em tempo real."
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Governança e Visibilidade Executiva de Margem",
+            description: "Painéis e relatórios executivos em tempo real com conformidade LGPD."
+          }
+        }
+      ]
+    }
+  },
+  // 2. WebSite com SearchAction
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    url: siteUrl,
+    name: "Sanle",
+    description: brand.shortPitch,
+    publisher: {
+      "@id": `${siteUrl}/#organization`
+    }
+  },
+  // 3. FAQPage para Rich Snippets, Voice Search e Answer Engines (AEO/GEO)
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteUrl}/#faq`,
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.a
+      }
+    }))
+  }
+];
 
 export default function HomePage() {
   return (
@@ -36,7 +140,7 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c")
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c")
         }}
       />
 

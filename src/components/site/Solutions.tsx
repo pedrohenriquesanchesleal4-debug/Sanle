@@ -8,7 +8,7 @@ export function Solutions() {
   return (
     <section
       id="solucoes"
-      className="relative scroll-mt-20 py-24 md:py-32 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)]"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)]"
       aria-labelledby="solutions-title"
     >
       <div className="shell max-w-6xl">

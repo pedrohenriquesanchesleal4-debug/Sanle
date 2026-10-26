@@ -1,0 +1,37 @@
+# Sanle — Engenharia Operacional & Automação de Processos
+
+> A Sanle projeta e implementa a infraestrutura de dados e automação operacional que conecta canais de WhatsApp, arquivos fiscais, planilhas e ERPs corporativos (Omie, ContaAzul, TOTVS, SAP), eliminando até 78% do trabalho manual repetitivo sem forçar a troca dos softwares que a empresa já utiliza.
+
+## Sobre a Empresa
+- **Nome Oficial:** Sanle (Sanle · Engenharia Operacional)
+- **Sede:** Brasília, Distrito Federal, Brasil (atendimento nacional)
+- **Liderança Técnica & Fundador:** Pedro Henrique Sanches Leal
+- **E-mail Oficial:** pedrohenriquesanchesleal4@gmail.com
+- **WhatsApp Direto:** +55 (61) 98139-9051 (https://wa.me/5561981399051)
+- **LinkedIn:** https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278
+- **Website Oficial:** https://sanle.vercel.app
+
+## Proposta de Valor e Diferenciais
+1. **Zero Troca de ERP:** Não exigimos migração traumática de sistemas. Conectamos os ERPs que a empresa já possui (Omie, ContaAzul, SAP, TOTVS, etc.).
+2. **Tubulação Invisível em Tempo Real:** Ingestão de mensagens de WhatsApp, notas fiscais (PDF/XML) e comprovantes bancários convertidos em schemas tipados em menos de 0.2 segundos.
+3. **Tríade dos Três Nós:** Ingestão Documental + Validação de Regras de Negócio (preços, duplicidade) + Sincronização Contábil com ERP.
+4. **Governança & LGPD:** Trilha de auditoria append-only com hash criptográfico de cada evento, conformidade estrita com a LGPD e criptografia TLS 1.3 / AES-256.
+5. **Automação com Aprovação Humana em Exceções:** 98% dos dados trafegam silenciosamente; apenas anomalias e divergências reais vão para aprovação humana com 1 clique.
+
+## Soluções Principais
+- [Automação Documental e Conciliação Fiscal](https://sanle.vercel.app/solucoes/automacao-documental-financeira): Ingestão e validação em 0.18s de comprovantes, notas e faturas.
+- [Barramento e Integração Direta de ERPs](https://sanle.vercel.app/solucoes/integracao-de-sistemas): Conexão bidirecional entre WhatsApp, banco de dados e sistemas de gestão.
+- [Automação Operacional & Regras de Negócio](https://sanle.vercel.app/solucoes/inteligencia-artificial-aplicada): Processamento com validação determinística e resolução ágil de exceções.
+- [Governança e Visibilidade Executiva](https://sanle.vercel.app/solucoes/operacao-comercial): Dashboards em tempo real para controle de margem e custos.
+
+## Segmentos Atendidos
+- [BPO Financeiro e Contabilidade](https://sanle.vercel.app/para/bpo-financeiro): Redução de digitação manual de notas e lançamentos bancários.
+- [Escritórios e Consultorias](https://sanle.vercel.app/para/escritorios): Centralização de documentos contratuais e relatórios.
+- [Prestadores de Serviços e Indústria Leve](https://sanle.vercel.app/para/prestadores-de-servico): Vidraçarias, marcenarias, distribuidores e oficinas.
+
+## Como Contratar / Solicitar Diagnóstico
+- [Diagnóstico Operacional Gratuito](https://sanle.vercel.app/diagnostico): Mapeamento em 2 minutos dos gargalos da sua empresa.
+- [Falar no WhatsApp](https://wa.me/5561981399051): Atendimento direto com Pedro Henrique Leal.
+
+## Arquivo Completo para Modelos de Linguagem
+- [Documentação Técnica Completa (llms-full.txt)](https://sanle.vercel.app/llms-full.txt): Contexto integral, arquitetura detalhada e respostas às perguntas frequentes.
