@@ -34,7 +34,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative scroll-mt-20 border-t border-[#F5F6F8]/8 bg-[#08090C] py-10 sm:py-16 md:py-24 text-[#F5F6F8]"
+      className="relative scroll-mt-20 border-t border-[#F5F6F8]/8 bg-[#08090C] py-10 sm:py-16 md:py-24 text-[#F5F6F8] overflow-hidden w-full max-w-full"
       aria-labelledby="faq-title"
     >
       <script

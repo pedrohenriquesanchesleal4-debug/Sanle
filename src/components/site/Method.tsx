@@ -6,7 +6,7 @@ export function Method() {
   return (
     <section
       id="metodo"
-      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] overflow-hidden w-full max-w-full"
       aria-labelledby="method-title"
     >
       <div className="shell max-w-6xl">

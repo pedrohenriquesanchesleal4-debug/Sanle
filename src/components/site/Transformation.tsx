@@ -56,7 +56,7 @@ export function Transformation() {
   return (
     <section
       id="transformacao"
-      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)] select-none"
+      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)] select-none overflow-hidden w-full max-w-full"
       aria-labelledby="transf-title"
     >
       <div className="shell max-w-6xl">
