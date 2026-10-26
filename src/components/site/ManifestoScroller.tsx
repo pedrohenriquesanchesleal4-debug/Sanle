@@ -32,7 +32,7 @@ const STATEMENTS = [
     eyebrow: "A Solução Sanle",
     headline: "A Sanle projeta o fluxo onde a informação corre sem atrito. Do primeiro lead ao financeiro.",
     accent: "Infraestrutura humana & digital integrada.",
-    context: "Automação profunda, integração de APIs e agentes de IA que trabalham 24/7 com precisão militar."
+    context: "Automação de processos, integração direta entre sistemas e inteligência operacional contínua e auditável."
   }
 ];
 
