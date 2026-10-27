@@ -49,7 +49,7 @@ export function OperationalBlueprintStage({
   }, [activeChapter]);
 
   return (
-    <div className="relative w-full h-full min-h-[220px] sm:min-h-[300px] md:min-h-[440px] rounded-2xl md:rounded-3xl border border-white/10 bg-[#111318]/90 p-3.5 sm:p-5 md:p-7 flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-xl select-none text-[#F5F6F8]">
+    <div className="relative w-full h-full min-h-[260px] sm:min-h-[320px] md:min-h-[390px] rounded-2xl md:rounded-3xl border border-white/10 bg-[#111318]/90 p-3.5 sm:p-5 md:p-6 flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-xl select-none text-[#F5F6F8]">
       {/* Grid de régua técnica e marcas de engenharia */}
       <div 
         className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(#ffffff_1.5px,transparent_1.5px)] [background-size:20px_20px]" 

@@ -58,7 +58,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     color-scheme: dark;
-    overflow-x: hidden !important;
+    overflow-x: clip;
     max-width: 100%;
     background-color: #08090C;
   }
@@ -79,7 +79,7 @@
   body {
     background-color: #08090C;
     color: #F5F6F8;
-    overflow-x: hidden !important;
+    overflow-x: clip;
     max-width: 100%;
     width: 100%;
     position: relative;
