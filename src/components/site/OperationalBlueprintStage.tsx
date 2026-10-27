@@ -49,40 +49,40 @@ export function OperationalBlueprintStage({
   }, [activeChapter]);
 
   return (
-    <div className="relative w-full h-full min-h-[220px] sm:min-h-[300px] md:min-h-[440px] rounded-2xl md:rounded-3xl border border-[rgba(18,17,16,0.12)] bg-[#FDFCFB] p-3.5 sm:p-5 md:p-7 flex flex-col justify-between overflow-hidden shadow-2xl shadow-stone-300/40 select-none">
+    <div className="relative w-full h-full min-h-[220px] sm:min-h-[300px] md:min-h-[440px] rounded-2xl md:rounded-3xl border border-white/10 bg-[#111318]/90 p-3.5 sm:p-5 md:p-7 flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-xl select-none text-[#F5F6F8]">
       {/* Grid de régua técnica e marcas de engenharia */}
       <div 
-        className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(#121110_1.5px,transparent_1.5px)] [background-size:20px_20px]" 
+        className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(#ffffff_1.5px,transparent_1.5px)] [background-size:20px_20px]" 
         aria-hidden="true" 
       />
 
       {/* Parafusos de hardware de precisão nos cantos */}
-      <span className="pointer-events-none absolute top-3 left-3 h-2 w-2 rounded-full border border-stone-300 bg-stone-200/80 shadow-inner" aria-hidden="true" />
-      <span className="pointer-events-none absolute top-3 right-3 h-2 w-2 rounded-full border border-stone-300 bg-stone-200/80 shadow-inner" aria-hidden="true" />
-      <span className="pointer-events-none absolute bottom-3 left-3 h-2 w-2 rounded-full border border-stone-300 bg-stone-200/80 shadow-inner" aria-hidden="true" />
-      <span className="pointer-events-none absolute bottom-3 right-3 h-2 w-2 rounded-full border border-stone-300 bg-stone-200/80 shadow-inner" aria-hidden="true" />
+      <span className="pointer-events-none absolute top-3 left-3 h-2 w-2 rounded-full border border-white/20 bg-white/10 shadow-inner" aria-hidden="true" />
+      <span className="pointer-events-none absolute top-3 right-3 h-2 w-2 rounded-full border border-white/20 bg-white/10 shadow-inner" aria-hidden="true" />
+      <span className="pointer-events-none absolute bottom-3 left-3 h-2 w-2 rounded-full border border-white/20 bg-white/10 shadow-inner" aria-hidden="true" />
+      <span className="pointer-events-none absolute bottom-3 right-3 h-2 w-2 rounded-full border border-white/20 bg-white/10 shadow-inner" aria-hidden="true" />
 
       {/* =========================================================================
           CABEÇALHO TÉCNICO DO ESQUEMÁTICO
          ========================================================================= */}
-      <div className="relative z-10 flex items-center justify-between border-b border-[rgba(18,17,16,0.08)] pb-2.5 sm:pb-3">
+      <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-2.5 sm:pb-3">
         <div className="flex items-center gap-2 sm:gap-2.5">
-          <span className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-md bg-[#2440FF]/10 text-[#2440FF]">
+          <span className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-md bg-[#2440FF]/20 text-[#78A9FF] border border-[#2440FF]/30">
             <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </span>
           <div className="flex flex-col">
-            <span className="font-mono text-[0.62rem] sm:text-[0.66rem] uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[#121110] font-bold">
+            <span className="font-mono text-[0.62rem] sm:text-[0.66rem] uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[#F5F6F8] font-bold">
               ESQUEMA TÉCNICO OPERACIONAL
             </span>
-            <span className="font-mono text-[0.55rem] sm:text-[0.6rem] text-[#8A837A]">
-              VETOR NATIVO · ARQUITETURA SANLE
+            <span className="font-mono text-[0.55rem] sm:text-[0.6rem] text-[#969DA8]">
+              VETOR NATIVO · THE OPPORTUNITY ENGINE
             </span>
           </div>
         </div>
 
         {/* Indicador de fase em tempo real */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[0.58rem] sm:text-[0.64rem] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white border border-[rgba(18,17,16,0.08)] text-[#121110] font-medium shadow-xs">
+          <span className="font-mono text-[0.58rem] sm:text-[0.64rem] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/[0.05] border border-white/10 text-[#F5F6F8] font-medium shadow-xs">
             {activeChapter === 0 && "01 · CAOS MANUAL"}
             {activeChapter === 1 && "02 · INGESTÃO"}
             {activeChapter === 2 && "03 · TRÊS NÓS"}
@@ -100,9 +100,9 @@ export function OperationalBlueprintStage({
            ----------------------------------------------------------------------- */}
         {activeChapter === 0 && (
           <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-900 font-mono text-[0.64rem] sm:text-[0.68rem]">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 font-mono text-[0.64rem] sm:text-[0.68rem]">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-600 animate-pulse" />
+                <AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-400 animate-pulse" />
                 <span className="font-bold">DESCONEXÃO CRÍTICA DETECTADA</span>
               </div>
               <span className="hidden sm:inline">32% DO TEMPO PERDIDO EM DIGITAÇÃO</span>
@@ -110,51 +110,51 @@ export function OperationalBlueprintStage({
 
             {/* Três pacotes desarticulados no espaço */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-red-300 bg-red-50/40 relative">
-                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-red-100 text-red-700 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-red-500/40 bg-red-950/20 relative">
+                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-red-900/60 text-red-300 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold border border-red-500/30">
                   FILA: 18h
                 </span>
-                <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 mb-1" />
-                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#121110] block">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-red-400 mb-1" />
+                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#F5F6F8] block">
                   NF-e #4910 (PDF)
                 </span>
-                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#6A6359] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
+                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#969DA8] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
                   Presa no WhatsApp do comercial. Ninguém lançou no financeiro ainda.
                 </p>
               </div>
 
-              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-amber-300 bg-amber-50/40 relative">
-                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-amber-500/40 bg-amber-950/20 relative">
+                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-amber-900/60 text-amber-300 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold border border-amber-500/30">
                   DIVERGÊNCIA
                 </span>
-                <Layers className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600 mb-1" />
-                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#121110] block">
+                <Layers className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400 mb-1" />
+                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#F5F6F8] block">
                   Excel Controle_v3.xlsx
                 </span>
-                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#6A6359] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
+                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#969DA8] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
                   Planilha paralela não bate com o faturamento do ERP. Erro descoberto só no mês seguinte.
                 </p>
               </div>
 
-              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-amber-300 bg-amber-50/40 relative">
-                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-dashed border-amber-500/40 bg-amber-950/20 relative">
+                <span className="absolute -top-1.5 right-2 px-1.5 py-0.2 rounded bg-amber-900/60 text-amber-300 font-mono text-[0.55rem] sm:text-[0.58rem] font-bold border border-amber-500/30">
                   SEM DONO
                 </span>
-                <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600 mb-1" />
-                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#121110] block">
+                <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400 mb-1" />
+                <span className="font-mono text-[0.62rem] sm:text-[0.64rem] font-bold text-[#F5F6F8] block">
                   Comprovante PIX
                 </span>
-                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#6A6359] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
+                <p className="text-[0.62rem] sm:text-[0.66rem] text-[#969DA8] mt-0.5 leading-snug line-clamp-2 sm:line-clamp-none">
                   Print de banco sem identificação. Operador precisa perguntar no grupo quem pagou.
                 </p>
               </div>
             </div>
 
-            <div className="p-2 sm:p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white/70 flex items-center justify-between text-xs font-mono">
-              <span className="text-[#8A837A] text-[0.64rem] sm:text-[0.68rem]">
+            <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between text-xs font-mono">
+              <span className="text-[#969DA8] text-[0.64rem] sm:text-[0.68rem]">
                 CUSTO DO PROCESSO MANUAL:
               </span>
-              <span className="text-red-600 font-bold text-[0.68rem] sm:text-[0.72rem]">
+              <span className="text-red-400 font-bold text-[0.68rem] sm:text-[0.72rem]">
                 R$ 3.840/mês por operador em horas redundantes
               </span>
             </div>
@@ -166,7 +166,7 @@ export function OperationalBlueprintStage({
            ----------------------------------------------------------------------- */}
         {activeChapter === 1 && (
           <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between p-2 rounded-lg bg-[#2440FF]/10 border border-[#2440FF]/20 text-[#2440FF] font-mono text-[0.64rem] sm:text-[0.68rem]">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-[#2440FF]/15 border border-[#2440FF]/30 text-[#78A9FF] font-mono text-[0.64rem] sm:text-[0.68rem]">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <Activity className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-pulse" />
                 <span className="font-bold">TUBULAÇÃO INVISÍVEL ATIVA</span>
@@ -176,43 +176,39 @@ export function OperationalBlueprintStage({
 
             {/* Conversão em Schema Tipado em Tempo Real */}
             <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-2.5 sm:gap-3">
-              <div className="p-2.5 sm:p-3 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white space-y-1.5 sm:space-y-2">
-                <span className="font-mono text-[0.58rem] sm:text-[0.62rem] uppercase tracking-wider text-[#2440FF] font-bold block">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-white/10 bg-white/[0.02] space-y-1.5 sm:space-y-2">
+                <span className="font-mono text-[0.58rem] sm:text-[0.62rem] uppercase tracking-wider text-[#78A9FF] font-bold block">
                   Canais Conectados:
                 </span>
                 <div className="space-y-1 sm:space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-[#FAF8F5] border border-black/5">
-                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#121110]">WhatsApp API</span>
-                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-emerald-600 font-bold">200 OK</span>
+                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-white/[0.03] border border-white/5">
+                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#F5F6F8]">WhatsApp API</span>
+                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-[#B7F36B] font-bold">200 OK</span>
                   </div>
-                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-[#FAF8F5] border border-black/5">
-                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#121110]">Parser Fiscal / PDF</span>
-                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-emerald-600 font-bold">200 OK</span>
+                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-white/[0.03] border border-white/5">
+                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#F5F6F8]">Parser Fiscal / PDF</span>
+                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-[#B7F36B] font-bold">200 OK</span>
                   </div>
-                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-[#FAF8F5] border border-black/5">
-                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#121110]">Omie / ContaAzul</span>
-                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-emerald-600 font-bold">SYNC ATIVO</span>
+                  <div className="flex items-center justify-between p-1 sm:p-1.5 rounded bg-white/[0.03] border border-white/5">
+                    <span className="font-mono text-[0.64rem] sm:text-[0.68rem] text-[#F5F6F8]">Omie / ContaAzul</span>
+                    <span className="font-mono text-[0.58rem] sm:text-[0.62rem] text-[#78A9FF] font-bold">SYNC ATIVO</span>
                   </div>
                 </div>
               </div>
 
               {/* Payload estruturado limpo */}
-              <div className="p-2.5 sm:p-3 rounded-xl bg-[#121110] text-emerald-400 font-mono text-[0.58rem] sm:text-[0.64rem] overflow-x-auto shadow-md leading-relaxed max-h-[140px] sm:max-h-none">
-                <span className="text-stone-400 block pb-1 border-b border-stone-800 text-[0.54rem] sm:text-[0.58rem]">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-[#08090C] text-[#B7F36B] font-mono text-[0.58rem] sm:text-[0.64rem] overflow-x-auto shadow-md leading-relaxed border border-white/10 max-h-[140px] sm:max-h-none">
+                <span className="text-[#969DA8] block pb-1 border-b border-white/10 text-[0.54rem] sm:text-[0.58rem]">
                   {"// DADOS EXTRAÍDOS EM 0.18s COM SCHEMA TIPADO"}
                 </span>
                 <pre className="mt-1 overflow-x-auto">
-                  {JSON.stringify(
-                    {
-                      documento: "NF-e 4910",
-                      valor_total: 14850.0,
-                      cnpj: "12.345.678/0001-90",
-                      duplicatas: 0,
-                      status: "VALIDADO_AUTOMATICO"
-                    },
-                    null,
-                    2
-                  )}
+{`{
+  "documento": "NF-e 4910",
+  "valor_total": 14850.0,
+  "cnpj": "12.345.678/0001-90",
+  "duplicatas": 0,
+  "status": "VALIDADO_AUTOMATICO"
+}`}
                 </pre>
               </div>
             </div>
@@ -224,9 +220,9 @@ export function OperationalBlueprintStage({
            ----------------------------------------------------------------------- */}
         {activeChapter === 2 && (
           <div className="space-y-2.5 sm:space-y-3.5 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 font-mono text-[0.64rem] sm:text-[0.68rem]">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-[#B7F36B] font-mono text-[0.64rem] sm:text-[0.68rem]">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-600" />
+                <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#B7F36B]" />
                 <span className="font-bold">TRÍADE MECÂNICA SANLE CONVERGIDA</span>
               </div>
               <span className="hidden sm:inline">98% AUTOMÁTICO · 2% EXCEÇÕES</span>
@@ -234,130 +230,119 @@ export function OperationalBlueprintStage({
 
             {/* A Tríade de Nós em Formato de Hardware */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
-              <div className="p-2.5 sm:p-3 rounded-xl border border-[#2440FF]/30 bg-blue-50/50 relative">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-[#2440FF]/40 bg-[#2440FF]/10 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-[#2440FF]">NÓ 01</span>
-                  <span className="h-2 w-2 rounded-full bg-[#2440FF]" />
+                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-[#78A9FF]">NÓ 01</span>
+                  <span className="h-2 w-2 rounded-full bg-[#2440FF] shadow-[0_0_8px_#2440FF]" />
                 </div>
-                <strong className="block text-[0.72rem] sm:text-xs text-[#121110] mt-1">
+                <strong className="block text-[0.72rem] sm:text-xs text-[#F5F6F8] mt-1">
                   Documentos & Ingestão
                 </strong>
-                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#6A6359] mt-0.5">
+                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#969DA8] mt-0.5">
                   Reconhecimento ótico e extração tabular com validação sintática estrita.
                 </p>
               </div>
 
-              <div className="p-2.5 sm:p-3 rounded-xl border border-[#C8A24A]/40 bg-amber-50/50 relative">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-[#C8A24A]/40 bg-[#C8A24A]/10 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-[#927022]">NÓ 02</span>
-                  <span className="h-2 w-2 rounded-full bg-[#C8A24A]" />
+                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-[#C8A24A]">NÓ 02</span>
+                  <span className="h-2 w-2 rounded-full bg-[#C8A24A] shadow-[0_0_8px_#C8A24A]" />
                 </div>
-                <strong className="block text-[0.72rem] sm:text-xs text-[#121110] mt-1">
+                <strong className="block text-[0.72rem] sm:text-xs text-[#F5F6F8] mt-1">
                   Regras de Negócio
                 </strong>
-                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#6A6359] mt-0.5">
-                  Conferência fiscal de preços, prazos e anti-duplicidade em 0.12s.
+                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#969DA8] mt-0.5">
+                  Preços, alçadas, validação de duplicidade e impostos retidos.
                 </p>
               </div>
 
-              <div className="p-2.5 sm:p-3 rounded-xl border border-emerald-300 bg-emerald-50/50 relative">
+              <div className="p-2.5 sm:p-3 rounded-xl border border-[#10B981]/40 bg-[#10B981]/10 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-emerald-700">NÓ 03</span>
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="font-mono text-[0.58rem] sm:text-[0.6rem] font-bold text-[#B7F36B]">NÓ 03</span>
+                  <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981]" />
                 </div>
-                <strong className="block text-[0.72rem] sm:text-xs text-[#121110] mt-1">
-                  Sincronização & ERP
+                <strong className="block text-[0.72rem] sm:text-xs text-[#F5F6F8] mt-1">
+                  ERP & Escrituração
                 </strong>
-                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#6A6359] mt-0.5">
-                  Lançamento contábil e confirmação instantânea para o cliente.
+                <p className="text-[0.6rem] sm:text-[0.65rem] text-[#969DA8] mt-0.5">
+                  Lançamento contábil e conciliação bancária direta sem redigitação.
                 </p>
               </div>
             </div>
 
-            <div className="p-2 sm:p-2.5 rounded-xl border border-[rgba(18,17,16,0.08)] bg-white flex items-center justify-between text-xs font-mono">
-              <span className="text-[#8A837A] text-[0.62rem] sm:text-[0.66rem]">
-                PORTÃO DE GOVERNANÇA:
+            <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between text-xs font-mono">
+              <span className="text-[#969DA8] text-[0.64rem] sm:text-[0.68rem]">
+                TAXA DE PASSAGEM DIRETA:
               </span>
-              <span className="text-[#10B981] font-bold text-[0.64rem] sm:text-[0.7rem] flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                <span>Intervenção humana apenas onde há divergência</span>
+              <span className="text-[#B7F36B] font-bold text-[0.68rem] sm:text-[0.72rem]">
+                98.2% dos lançamentos sem intervenção humana
               </span>
             </div>
           </div>
         )}
 
         {/* -----------------------------------------------------------------------
-            ESTÁGIO 4: O FLUXO PERMANENTE (A MÁQUINA EM SILÊNCIO)
+            ESTÁGIO 4: FLUXO PERMANENTE E MONITORAMENTO LIVE
            ----------------------------------------------------------------------- */}
         {activeChapter === 3 && (
           <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 font-mono text-[0.64rem] sm:text-[0.68rem]">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30 text-[#B7F36B] font-mono text-[0.64rem] sm:text-[0.68rem]">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="font-bold">MÁQUINA EM REGIME PERMANENTE</span>
+                <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#B7F36B]" />
+                <span className="font-bold">REGIME SILENCIOSO · FEED AO VIVO</span>
               </div>
-              <span className="text-emerald-700 font-bold hidden sm:inline">100% AUDITÁVEL (APPEND-ONLY)</span>
+              <span className="hidden sm:inline">ZERO FADIGA DE EQUIPE</span>
             </div>
 
-            {/* Feed de Telemetria ao Vivo */}
-            <div className="rounded-xl border border-[rgba(18,17,16,0.1)] bg-white p-2.5 sm:p-3 space-y-1.5 sm:space-y-2">
-              <div className="flex items-center justify-between text-[0.58rem] sm:text-[0.64rem] font-mono text-[#8A837A] pb-1 border-b border-black/5">
-                <span>FEED OPERACIONAL AO VIVO</span>
-                <span>LATÊNCIA MÉDIA: 0.28s</span>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                {events.slice(0, 3).map((ev) => (
-                  <div 
-                    key={ev.id} 
-                    className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-[#FAF8F5] border border-black/5 text-xs font-mono transition-all"
-                  >
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <span className="text-[#8A837A] text-[0.58rem] sm:text-[0.62rem]">{ev.time}</span>
-                      <strong className="text-[#121110] text-[0.64rem] sm:text-[0.68rem]">{ev.doc}</strong>
-                      <span className="text-[#6A6359] text-[0.6rem] sm:text-[0.64rem] hidden sm:inline">
-                        {ev.flow}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <span className="text-emerald-600 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded text-[0.58rem] sm:text-[0.62rem] font-bold border border-emerald-200">
-                        {ev.status}
-                      </span>
-                      <span className="text-[#8A837A] text-[0.55rem] sm:text-[0.6rem]">{ev.latency}</span>
-                    </div>
+            {/* Feed Dinâmico de Eventos que se atualiza sozinho */}
+            <div className="space-y-1.5 sm:space-y-2">
+              {events.map((ev) => (
+                <div
+                  key={ev.id}
+                  className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between text-xs animate-in slide-in-from-top-1 duration-300"
+                >
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="font-mono text-[0.58rem] sm:text-[0.64rem] text-[#969DA8]">
+                      {ev.time}
+                    </span>
+                    <span className="font-mono text-[0.62rem] sm:text-[0.68rem] font-bold text-[#F5F6F8]">
+                      {ev.doc}
+                    </span>
+                    <span className="text-[0.6rem] sm:text-[0.66rem] text-[#969DA8] hidden sm:inline">
+                      {ev.flow}
+                    </span>
                   </div>
-                ))}
-              </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[0.58rem] sm:text-[0.64rem] text-[#B7F36B]">
+                      {ev.latency}
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-[#10B981]/20 text-[#B7F36B] font-mono text-[0.54rem] sm:text-[0.58rem] font-bold border border-[#10B981]/30">
+                      {ev.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-center font-mono">
-              <div className="p-1.5 sm:p-2 rounded-lg bg-white border border-[rgba(18,17,16,0.06)]">
-                <span className="text-[0.55rem] sm:text-[0.6rem] text-[#8A837A] block">TEMPO POUPADO</span>
-                <strong className="text-[0.7rem] sm:text-xs text-[#2440FF]">+18h/semana</strong>
-              </div>
-              <div className="p-1.5 sm:p-2 rounded-lg bg-white border border-[rgba(18,17,16,0.06)]">
-                <span className="text-[0.55rem] sm:text-[0.6rem] text-[#8A837A] block">ERRO DE DIGITAÇÃO</span>
-                <strong className="text-[0.7rem] sm:text-xs text-[#10B981]">0.00%</strong>
-              </div>
-              <div className="p-1.5 sm:p-2 rounded-lg bg-white border border-[rgba(18,17,16,0.06)]">
-                <span className="text-[0.55rem] sm:text-[0.6rem] text-[#8A837A] block">GOVERNANÇA</span>
-                <strong className="text-[0.7rem] sm:text-xs text-[#121110]">Total</strong>
-              </div>
+            <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-between text-xs font-mono">
+              <span className="text-[#969DA8] text-[0.64rem] sm:text-[0.68rem]">
+                CAPACIDADE OPERACIONAL:
+              </span>
+              <span className="text-[#78A9FF] font-bold text-[0.68rem] sm:text-[0.72rem]">
+                Escala para 10.000+ documentos/mês sem novas contratações
+              </span>
             </div>
           </div>
         )}
       </div>
 
       {/* =========================================================================
-          RODAPÉ DO ESQUEMÁTICO: MÉTRICA DE ENGENHARIA
+          RODAPÉ DO ESQUEMÁTICO: PADRÃO DE GOVERNANÇA TÉCNICA
          ========================================================================= */}
-      <div className="relative z-10 pt-2 sm:pt-3 border-t border-[rgba(18,17,16,0.08)] flex items-center justify-between font-mono text-[0.58rem] sm:text-[0.62rem] text-[#8A837A]">
-        <span>ARQUITETURA DE DADOS SILENCIOSA</span>
-        <span className="hidden sm:inline">SANLE · SISTEMA DE FLUXO v3.4</span>
+      <div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-2 sm:pt-2.5 text-[0.56rem] sm:text-[0.62rem] font-mono text-[#969DA8]">
+        <span>CONFORMIDADE LGPD · CRIPTOGRAFIA AES-256</span>
+        <span>TRILHA APPEND-ONLY</span>
       </div>
     </div>
   );

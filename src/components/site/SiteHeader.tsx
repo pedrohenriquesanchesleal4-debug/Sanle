@@ -21,8 +21,8 @@ export function SiteHeader() {
 
   useEffect(() => {
     const onScroll = () => {
-      // O header se torna visível após ultrapassar a entrada da logo (~750px)
-      const portalThreshold = 750;
+      // O header se torna visível após ultrapassar a entrada da logo (~500px)
+      const portalThreshold = 500;
       const isPastPortal = window.scrollY >= portalThreshold;
       setInPortal(!isPastPortal);
       setScrolled(window.scrollY > portalThreshold + 40);
@@ -66,26 +66,26 @@ export function SiteHeader() {
           : "opacity-100 translate-y-0 pointer-events-auto"
       } ${
         scrolled
-          ? "bg-[#FAF8F5]/92 backdrop-blur-md border-b border-[rgba(18,17,16,0.08)] py-3.5 shadow-sm text-[#121110]"
-          : "bg-transparent border-b border-transparent py-5 text-[#121110]"
+          ? "bg-[#08090C]/85 backdrop-blur-xl border-b border-white/10 py-3.5 shadow-2xl text-[#F5F6F8]"
+          : "bg-transparent border-b border-transparent py-5 text-[#F5F6F8]"
       }`}
     >
-      <div className="shell flex items-center justify-between">
+      <div className="shell flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Logo sanle em minúsculas com nó cobalto */}
         <Link
           href="/"
-          className="font-serif-editorial text-2xl md:text-3xl tracking-[-0.03em] text-[#121110] hover:text-[#2440FF] transition-colors"
+          className="font-serif-editorial text-2xl md:text-3xl tracking-[-0.03em] text-[#F5F6F8] hover:text-[#78A9FF] transition-colors"
         >
           sanle
         </Link>
 
         {/* Links Desktop */}
-        <nav className="hidden md:flex items-center gap-7 font-sans-editorial text-sm text-[#4A453E]">
+        <nav className="hidden md:flex items-center gap-7 font-sans-editorial text-sm text-[#969DA8]">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-[#121110] transition-colors font-medium"
+              className="hover:text-[#F5F6F8] transition-colors font-medium"
             >
               {link.label}
             </Link>
@@ -96,15 +96,15 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/#contato"
-            className="text-xs font-mono uppercase tracking-wider text-[#4A453E] hover:text-[#121110] transition-colors px-3 py-2 flex items-center gap-1.5"
+            className="text-xs font-mono uppercase tracking-wider text-[#969DA8] hover:text-white transition-colors px-3 py-2 flex items-center gap-1.5"
           >
-            <MessageCircle className="h-3.5 w-3.5 text-[#10B981]" />
+            <MessageCircle className="h-3.5 w-3.5 text-[#B7F36B]" />
             <span>Falar com especialista</span>
           </Link>
           <Link
             href="/diagnostico"
             onClick={handleCtaClick}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#121110] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#2440FF] transition-all shadow-sm active:scale-95"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2440FF] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/25 active:scale-95"
           >
             <span>Mapear meu processo</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -115,7 +115,7 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 rounded-lg text-[#121110] hover:bg-black/5 transition-colors"
+          className="md:hidden p-2 rounded-lg text-[#F5F6F8] hover:bg-white/[0.05] transition-colors"
           aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -124,15 +124,15 @@ export function SiteHeader() {
 
       {/* Menu Mobile em Tela Cheia */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-[#FAF8F5] text-[#121110] p-8 flex flex-col justify-between animate-fade-up">
-          <div className="flex items-center justify-between border-b border-[rgba(18,17,16,0.08)] pb-6">
-            <span className="font-serif-editorial text-3xl tracking-[-0.03em] text-[#121110]">
+        <div className="md:hidden fixed inset-0 z-50 bg-[#08090C] text-[#F5F6F8] p-8 flex flex-col justify-between animate-fade-up">
+          <div className="flex items-center justify-between border-b border-white/10 pb-6">
+            <span className="font-serif-editorial text-3xl tracking-[-0.03em] text-[#F5F6F8]">
               sanle
             </span>
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
-              className="p-2 text-[#4A453E] hover:text-[#121110]"
+              className="p-2 text-[#969DA8] hover:text-white"
               aria-label="Fechar menu"
             >
               <X className="h-6 w-6" />
@@ -141,24 +141,24 @@ export function SiteHeader() {
 
           <nav className="my-auto space-y-5">
             {NAV_LINKS.map((link, idx) => (
-              <div key={link.href} className="border-b border-[rgba(18,17,16,0.06)] pb-3.5">
+              <div key={link.href} className="border-b border-white/10 pb-3.5">
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-serif-editorial text-3xl block text-[#121110] hover:text-[#2440FF] transition-colors"
+                  className="font-serif-editorial text-3xl block text-[#F5F6F8] hover:text-[#78A9FF] transition-colors"
                 >
-                  <span className="font-mono text-xs text-[#2440FF] mr-3">0{idx + 1}</span>
+                  <span className="font-mono text-xs text-[#78A9FF] mr-3">0{idx + 1}</span>
                   {link.label}
                 </Link>
               </div>
             ))}
           </nav>
 
-          <div className="pt-6 border-t border-[rgba(18,17,16,0.08)] space-y-3">
+          <div className="pt-6 border-t border-white/10 space-y-3">
             <Link
               href="/diagnostico"
               onClick={handleCtaClick}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#121110] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#2440FF] transition-colors shadow-sm"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#3856ff] transition-colors shadow-sm"
             >
               <span>Mapear meu processo</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -167,13 +167,13 @@ export function SiteHeader() {
             <Link
               href="/#contato"
               onClick={() => setMobileOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-[#4A453E] font-mono text-xs uppercase tracking-wider hover:text-[#121110] transition-colors"
+              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-[#969DA8] font-mono text-xs uppercase tracking-wider hover:text-white transition-colors"
             >
-              <MessageCircle className="h-3.5 w-3.5 text-[#10B981]" />
+              <MessageCircle className="h-3.5 w-3.5 text-[#B7F36B]" />
               <span>Falar diretamente no WhatsApp</span>
             </Link>
 
-            <p className="font-mono text-[0.68rem] text-center uppercase tracking-[0.16em] text-[#8A837A] pt-2">
+            <p className="font-mono text-[0.68rem] text-center uppercase tracking-[0.16em] text-[#969DA8]/70 pt-2">
               AUTOMAÇÃO OPERACIONAL · BRASÍLIA · DF
             </p>
           </div>

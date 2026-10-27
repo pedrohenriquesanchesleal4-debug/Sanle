@@ -73,7 +73,7 @@ export function CostCalculator() {
   return (
     <section
       id="calculadora"
-      className="relative scroll-mt-20 border-b border-white/[0.06] bg-[#08090C] py-10 sm:py-16 md:py-24 text-[#F5F6F8] overflow-hidden w-full max-w-full select-none"
+      className="relative scroll-mt-20 border-b border-white/[0.06] bg-[#08090C] py-12 sm:py-16 md:py-20 text-[#F5F6F8] overflow-hidden w-full max-w-full select-none"
       aria-labelledby="calc-title"
     >
       {/* Luz ambiente volumétrica de profundidade */}

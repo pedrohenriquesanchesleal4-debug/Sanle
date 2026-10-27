@@ -32,27 +32,27 @@ export function SegmentTabs() {
   return (
     <section
       id="para-quem"
-      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#F2EEE6] text-[#0A0A09] border-b border-[rgba(10,10,9,0.12)] overflow-hidden w-full max-w-full"
+      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] border-b border-white/10 overflow-hidden w-full max-w-full"
       aria-labelledby="segment-title"
     >
-      <div className="shell max-w-6xl">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#FF5B1F]">
+      <div className="shell max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#78A9FF]">
           <span>SEGMENTOS PRIORITÁRIOS</span>
         </div>
 
         <h2
           id="segment-title"
-          className="mt-4 font-serif-editorial text-[clamp(2.4rem,5.5vw,4.5rem)] leading-[0.98] text-[#0A0A09]"
+          className="mt-4 font-serif-editorial text-[clamp(2.4rem,5.5vw,4.5rem)] leading-[0.98] text-[#F5F6F8]"
         >
           Para quem foi pensada a Sanle.
         </h2>
 
-        <p className="mt-4 max-w-2xl text-lg text-[#5A564F] font-sans-editorial">
+        <p className="mt-4 max-w-2xl text-lg text-[#969DA8] font-sans-editorial">
           Selecione o segmento da sua empresa para entender o modelo de fluxo específico para a sua rotina.
         </p>
 
         {/* As 3 Abas Grandes */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-2 border-b border-[rgba(10,10,9,0.15)] pb-2">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-2.5 border-b border-white/10 pb-3">
           {SEGMENTS_DATA.map((s, idx) => {
             const isSelected = idx === activeIdx;
             return (
@@ -60,13 +60,15 @@ export function SegmentTabs() {
                 key={s.id}
                 type="button"
                 onClick={() => handleTabChange(idx)}
-                className={`p-5 text-left rounded-[2px] transition-all font-mono text-sm uppercase tracking-[0.12em] ${
+                className={`p-4 sm:p-5 text-left rounded-xl transition-all font-mono text-sm uppercase tracking-[0.12em] border ${
                   isSelected
-                    ? "bg-[#0A0A09] text-[#F2EEE6] shadow-md font-semibold"
-                    : "bg-white/60 text-[#5A564F] hover:bg-white hover:text-[#0A0A09]"
+                    ? "bg-[#2440FF] text-white shadow-lg shadow-[#2440FF]/25 border-[#2440FF] font-semibold"
+                    : "bg-white/[0.03] text-[#969DA8] border-white/5 hover:bg-white/[0.06] hover:text-white"
                 }`}
               >
-                <div className="text-[0.68rem] text-[#8F8A80] mb-1">0{idx + 1}</div>
+                <div className={`text-[0.68rem] mb-1 ${isSelected ? "text-white/80" : "text-[#78A9FF]"}`}>
+                  0{idx + 1}
+                </div>
                 {s.tabLabel}
               </button>
             );
@@ -74,24 +76,24 @@ export function SegmentTabs() {
         </div>
 
         {/* Conteúdo Bespoke do Segmento Selecionado */}
-        <div className="mt-10 p-8 md:p-12 rounded-[2px] bg-white border border-[rgba(10,10,9,0.12)] shadow-sm grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+        <div className="mt-8 p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl bg-[#111318]/90 border border-white/10 shadow-2xl backdrop-blur-xl grid lg:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-10 items-center">
           <div>
-            <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#FF5B1F]">
+            <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#78A9FF] font-semibold">
               DIAGNÓSTICO E FLUXO · {active.tabLabel.toUpperCase()}
             </span>
 
-            <h3 className="mt-4 font-serif-editorial text-2xl md:text-3xl leading-snug text-[#0A0A09]">
+            <h3 className="mt-4 font-serif-editorial text-2xl md:text-3xl leading-snug text-[#F5F6F8]">
               {active.headline}
             </h3>
 
-            <p className="mt-4 text-[#5A564F] text-base leading-relaxed font-sans-editorial">
+            <p className="mt-4 text-[#969DA8] text-base leading-relaxed font-sans-editorial">
               {active.description}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href={`/para/${active.slug}`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[2px] bg-[#0A0A09] text-white font-medium text-sm hover:bg-[#1E1E1B] transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/25 active:scale-95"
               >
                 <span>{active.ctaLabel}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -100,38 +102,38 @@ export function SegmentTabs() {
               <button
                 type="button"
                 onClick={handleWhatsApp}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-[2px] border border-[rgba(10,10,9,0.2)] text-[#0A0A09] text-sm hover:bg-[#F2EEE6] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full border border-white/15 bg-white/[0.04] text-white text-sm hover:bg-white/[0.08] hover:border-[#78A9FF] transition-all active:scale-95"
               >
-                <MessageCircle className="h-4 w-4 text-[#10B981]" />
+                <MessageCircle className="h-4 w-4 text-[#B7F36B]" />
                 <span>Conversar sobre este segmento</span>
               </button>
             </div>
           </div>
 
           {/* Exemplo de Fluxo e Métricas */}
-          <div className="p-6 md:p-8 rounded-[2px] bg-[#FAF8F5] border border-[rgba(10,10,9,0.1)]">
-            <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#0A0A09] font-bold">
+          <div className="p-6 md:p-8 rounded-xl md:rounded-2xl bg-[#08090C] border border-white/10">
+            <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#F5F6F8] font-bold block">
               Exemplo de fluxo automatizado
             </span>
 
-            <ol className="mt-5 space-y-3 font-sans-editorial text-sm text-[#4A463F]">
+            <ol className="mt-5 space-y-3 font-sans-editorial text-sm text-[#969DA8]">
               {active.flowExample.map((step, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <span className="font-mono text-xs text-[#FF5B1F] font-bold shrink-0 mt-0.5">
+                  <span className="font-mono text-xs text-[#78A9FF] font-bold shrink-0 mt-0.5">
                     {i + 1}.
                   </span>
-                  <span>{step}</span>
+                  <span className="text-[#F5F6F8]">{step}</span>
                 </li>
               ))}
             </ol>
 
-            <div className="mt-8 pt-6 border-t border-[rgba(10,10,9,0.1)] grid grid-cols-2 gap-4">
+            <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
               {active.metrics.map((m, i) => (
                 <div key={i}>
-                  <div className="font-serif-editorial text-2xl text-[#0A0A09] font-bold">
+                  <div className="font-serif-editorial text-2xl text-[#B7F36B] font-bold">
                     {m.val}
                   </div>
-                  <div className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[#8F8A80]">
+                  <div className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[#969DA8]">
                     {m.label}
                   </div>
                 </div>

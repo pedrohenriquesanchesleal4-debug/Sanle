@@ -94,51 +94,51 @@ export function FinalCta() {
   return (
     <section
       id="diagnostico-inbound"
-      className="relative scroll-mt-20 py-12 sm:py-18 md:py-28 bg-[#FAF8F5] text-[#121110] overflow-hidden border-t border-[rgba(18,17,16,0.08)]"
+      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] overflow-hidden border-t border-white/10"
       aria-labelledby="cta-final-title"
     >
-      {/* Luz volumétrica suave em tom solar e cobalto */}
+      {/* Luz volumétrica suave em tom cobalto e verde */}
       <div
-        className="pointer-events-none absolute -bottom-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(circle,rgba(36,64,255,0.05)_0%,rgba(245,158,11,0.03)_50%,transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -bottom-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(circle,rgba(36,64,255,0.08)_0%,rgba(183,243,107,0.04)_50%,transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="shell relative z-10 max-w-5xl">
+      <div className="shell relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[rgba(18,17,16,0.08)] font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#2440FF] font-semibold shadow-sm">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#78A9FF] font-semibold shadow-sm backdrop-blur-md">
             DIAGNÓSTICO INICIAL SEM COMPROMISSO
           </span>
 
           <h2
             id="cta-final-title"
-            className="mt-6 font-serif-editorial text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.96] text-[#121110]"
+            className="mt-5 font-serif-editorial text-[clamp(2.5rem,6.5vw,5.2rem)] leading-[0.96] text-[#F5F6F8]"
           >
             Qual etapa da sua operação não deveria mais depender de trabalho manual?
           </h2>
 
-          <p className="mt-5 text-lg md:text-xl text-[#4A453E] font-sans-editorial leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-4 text-lg md:text-xl text-[#969DA8] font-sans-editorial leading-relaxed max-w-2xl mx-auto">
             Descreva o processo. Nós mapeamos o fluxo, estimamos a viabilidade técnica e
             propomos um caminho claro para reduzir o atrito da sua empresa.
           </p>
 
-          <p className="mt-4 font-mono text-xs uppercase tracking-[0.16em] text-[#8A837A]">
+          <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]/70">
             Leva 1 minuto · Sem compromisso · Não precisa trocar seus sistemas
           </p>
         </div>
 
         {/* Formulário Curto Embutido na Tela */}
-        <div className="mt-14 max-w-2xl mx-auto p-8 md:p-12 rounded-3xl bg-white border border-[rgba(18,17,16,0.08)] shadow-2xl shadow-stone-300/40">
+        <div className="mt-10 sm:mt-12 max-w-2xl mx-auto p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl bg-[#111318]/90 border border-white/10 shadow-2xl backdrop-blur-xl">
           {success ? (
             <div className="text-center py-8">
-              <div className="h-14 w-14 rounded-full bg-emerald-50 border border-emerald-500 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="h-14 w-14 rounded-full bg-[#10B981]/20 border border-[#10B981] text-[#B7F36B] flex items-center justify-center mx-auto shadow-lg shadow-[#10B981]/20">
                 <CheckCircle2 className="h-7 w-7" />
               </div>
 
-              <h3 className="mt-6 font-serif-editorial text-3xl text-[#121110]">
+              <h3 className="mt-6 font-serif-editorial text-3xl text-[#F5F6F8]">
                 Diagnóstico recebido com sucesso.
               </h3>
 
-              <p className="mt-3 text-base text-[#4A453E] font-sans-editorial max-w-md mx-auto">
+              <p className="mt-3 text-base text-[#969DA8] font-sans-editorial max-w-md mx-auto">
                 Nossa equipe técnica já começou a analisar o perfil do seu segmento. Responderemos
                 diretamente no seu WhatsApp com os primeiros direcionamentos.
               </p>
@@ -149,7 +149,7 @@ export function FinalCta() {
                     href={whatsappReturnUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#10B981] text-white font-medium text-sm hover:bg-[#059669] transition-all shadow-md shadow-emerald-500/20"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/25"
                   >
                     <MessageCircle className="h-4 w-4" />
                     <span>Continuar conversa agora no WhatsApp</span>
@@ -158,7 +158,7 @@ export function FinalCta() {
               )}
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5" onFocus={handleFirstInteraction}>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" onFocus={handleFirstInteraction}>
               {/* Campo oculto anti-robô */}
               <input
                 type="text"
@@ -173,7 +173,7 @@ export function FinalCta() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="inbound-nome" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium">
+                  <label htmlFor="inbound-nome" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                     Seu nome *
                   </label>
                   <input
@@ -183,12 +183,12 @@ export function FinalCta() {
                     placeholder="Ex: Carlos Silva"
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] text-sm focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded-xl text-[#F5F6F8] text-sm focus:outline-none focus:border-[#78A9FF] focus:bg-white/[0.06] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="inbound-empresa" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium">
+                  <label htmlFor="inbound-empresa" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                     Nome da empresa *
                   </label>
                   <input
@@ -198,14 +198,14 @@ export function FinalCta() {
                     placeholder="Ex: Alfa Soluções"
                     value={empresa}
                     onChange={(e) => setEmpresa(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] text-sm focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded-xl text-[#F5F6F8] text-sm focus:outline-none focus:border-[#78A9FF] focus:bg-white/[0.06] transition-colors"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="inbound-whatsapp" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium">
+                  <label htmlFor="inbound-whatsapp" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                     WhatsApp comercial *
                   </label>
                   <input
@@ -215,22 +215,22 @@ export function FinalCta() {
                     placeholder="(61) 99999-9999"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] text-sm font-mono focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded-xl text-[#F5F6F8] text-sm font-mono focus:outline-none focus:border-[#78A9FF] focus:bg-white/[0.06] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="inbound-segmento" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium">
+                  <label htmlFor="inbound-segmento" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                     Segmento de atuação *
                   </label>
                   <select
                     id="inbound-segmento"
                     value={segmento}
                     onChange={(e) => setSegmento(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] text-sm focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                    className="w-full px-4 py-3 bg-[#111318] border border-white/10 rounded-xl text-[#F5F6F8] text-sm focus:outline-none focus:border-[#78A9FF] transition-colors"
                   >
                     {segments.map((seg) => (
-                      <option key={seg} value={seg} className="bg-white text-[#121110]">
+                      <option key={seg} value={seg} className="bg-[#111318] text-[#F5F6F8]">
                         {seg}
                       </option>
                     ))}
@@ -239,7 +239,7 @@ export function FinalCta() {
               </div>
 
               <div>
-                <label htmlFor="inbound-dor" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#4A453E] mb-2 font-medium">
+                <label htmlFor="inbound-dor" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                   Descreva o processo ou gargalo manual (opcional)
                 </label>
                 <textarea
@@ -248,7 +248,7 @@ export function FinalCta() {
                   placeholder="Ex: Baixamos extratos de 30 clientes todo dia e digitamos as conciliações manualmente no sistema..."
                   value={dorTexto}
                   onChange={(e) => setDorTexto(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#FAF8F5] border border-[rgba(18,17,16,0.12)] rounded-xl text-[#121110] text-sm focus:outline-none focus:border-[#2440FF] focus:bg-white transition-colors"
+                  className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded-xl text-[#F5F6F8] text-sm focus:outline-none focus:border-[#78A9FF] focus:bg-white/[0.06] transition-colors"
                 />
               </div>
 
@@ -260,12 +260,12 @@ export function FinalCta() {
                   required
                   checked={consentimento}
                   onChange={(e) => setConsentimento(e.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-[rgba(18,17,16,0.2)] bg-white text-[#2440FF] focus:ring-[#2440FF]"
+                  className="mt-1 h-4 w-4 rounded border-white/20 bg-white/5 text-[#2440FF] focus:ring-[#2440FF]"
                 />
-                <label htmlFor="inbound-consent" className="text-xs text-[#4A453E] leading-relaxed">
+                <label htmlFor="inbound-consent" className="text-xs text-[#969DA8] leading-relaxed">
                   Concordo em receber contato da Sanle exclusivamente para fins deste diagnóstico,
                   conforme a{" "}
-                  <Link href="/privacidade" className="text-[#121110] underline font-medium hover:text-[#2440FF]">
+                  <Link href="/privacidade" className="text-[#F5F6F8] underline font-medium hover:text-[#78A9FF]">
                     Política de Privacidade
                   </Link>
                   .
@@ -273,7 +273,7 @@ export function FinalCta() {
               </div>
 
               {errorMsg && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+                <div className="p-3 bg-red-950/40 border border-red-500/30 text-red-300 text-xs rounded-xl">
                   {errorMsg}
                 </div>
               )}
@@ -282,7 +282,7 @@ export function FinalCta() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-[#121110] text-white font-medium text-sm transition-all hover:bg-[#2440FF] shadow-lg shadow-stone-900/10 disabled:opacity-50"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm transition-all hover:bg-[#3856ff] shadow-lg shadow-[#2440FF]/25 disabled:opacity-50 active:scale-95"
                 >
                   <span>{submitting ? "Processando..." : "Enviar diagnóstico"}</span>
                   <ArrowRight className="h-4 w-4" />
@@ -291,9 +291,9 @@ export function FinalCta() {
                 <button
                   type="button"
                   onClick={handleWhatsAppDirect}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#121110] text-sm hover:border-[#10B981] hover:text-[#10B981] transition-all shadow-sm"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm hover:border-[#B7F36B] hover:text-[#B7F36B] hover:bg-white/[0.08] transition-all shadow-sm active:scale-95"
                 >
-                  <MessageCircle className="h-4 w-4 text-[#10B981]" />
+                  <MessageCircle className="h-4 w-4 text-[#B7F36B]" />
                   <span>Prefiro chamar no WhatsApp</span>
                 </button>
               </div>
