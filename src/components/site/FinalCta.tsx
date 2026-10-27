@@ -2,12 +2,81 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessageCircle, ArrowUpRight } from "lucide-react";
 import { segments } from "@/content/brand";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
 
+interface CategoryOption {
+  id: string;
+  label: string;
+  shortTag: string;
+  questionHint: string;
+  placeholder: string;
+  waPrefix: string;
+}
+
+const CATEGORIES: CategoryOption[] = [
+  {
+    id: "site",
+    label: "Preciso de um site",
+    shortTag: "Sanle Digital",
+    questionHint: "Qual o objetivo do site (institucional, vendas, captação de leads) e se já possui domínio ou referências?",
+    placeholder: "Ex: Queremos renovar nosso site institucional e criar páginas de conversão para novos serviços corporativos...",
+    waPrefix: "gostaria de conversar sobre o desenvolvimento de um site / presença digital"
+  },
+  {
+    id: "sistema",
+    label: "Preciso de um sistema",
+    shortTag: "Sanle Systems",
+    questionHint: "Qual processo da sua empresa você precisa gerenciar no sistema (pedidos, CRM, ordens de serviço, clientes)?",
+    placeholder: "Ex: Precisamos de um painel web para nossa equipe de campo lançar laudos técnicos e a diretoria acompanhar prazos...",
+    waPrefix: "gostaria de conversar sobre o desenvolvimento de um sistema personalizado / software sob medida"
+  },
+  {
+    id: "agente_ia",
+    label: "Quero um agente de IA",
+    shortTag: "Sanle Agents",
+    questionHint: "Em qual canal o agente deve atuar (WhatsApp, site, interno) e quais dúvidas ou tarefas ele deve atender?",
+    placeholder: "Ex: Queremos um agente de WhatsApp para triagem 24/7 de orçamentos e um assistente interno para consulta a manuais...",
+    waPrefix: "tenho interesse em desenvolver um Agente de Inteligência Artificial para minha empresa"
+  },
+  {
+    id: "automacao",
+    label: "Quero automatizar um processo",
+    shortTag: "Sanle Automation",
+    questionHint: "Quais tarefas manuais repetitivas você quer eliminar (planilhas, documentos fiscais, conciliação)?",
+    placeholder: "Ex: Nossa equipe perde 3 horas por dia conferindo notas fiscais em PDFs e redigitando dados no ERP...",
+    waPrefix: "gostaria de conversar sobre automação de processos operacionais e eliminação de retrabalho manual"
+  },
+  {
+    id: "integracao",
+    label: "Preciso integrar sistemas",
+    shortTag: "APIs & Barramento",
+    questionHint: "Quais ferramentas ou ERPs sua empresa já utiliza e precisam conversar entre si em tempo real?",
+    placeholder: "Ex: Precisamos conectar nosso WhatsApp Business ao nosso ERP (Omie/ContaAzul) e ao banco de dados...",
+    waPrefix: "preciso integrar sistemas que já utilizamos na empresa (APIs, ERP e canais)"
+  },
+  {
+    id: "produto_digital",
+    label: "Quero desenvolver um produto digital",
+    shortTag: "MVP & SaaS",
+    questionHint: "Conte um pouco sobre o produto ou MVP que você quer tirar do papel e qual o público-alvo.",
+    placeholder: "Ex: Estamos desenhando uma plataforma B2B para o setor de logística e precisamos construir o MVP funcional...",
+    waPrefix: "quero desenvolver um produto digital / MVP de software com a Sanle"
+  },
+  {
+    id: "diagnostico_geral",
+    label: "Ainda não sei qual solução preciso",
+    shortTag: "Consultoria Inicial",
+    questionHint: "Descreva livremente o momento da sua empresa e o principal gargalo operacional ou comercial.",
+    placeholder: "Ex: Sentimos que a operação está sobrecarregada com rotinas manuais e queremos entender onde o software pode ajudar...",
+    waPrefix: "gostaria de agendar uma conversa para mapear onde o software pode ajudar minha empresa"
+  }
+];
+
 export function FinalCta() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("site");
   const [nome, setNome] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -21,12 +90,37 @@ export function FinalCta() {
   const [whatsappReturnUrl, setWhatsappReturnUrl] = useState<string | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  // Lê parâmetros da URL para pré-selecionar categoria vinda de outros CTAs
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const checkUrlParams = () => {
+      const url = new URL(window.location.href);
+      const catParam = url.searchParams.get("categoria");
+      if (catParam) {
+        const found = CATEGORIES.find((c) => c.id === catParam);
+        if (found) {
+          setSelectedCategory(found.id);
+        }
+      }
+    };
+
+    checkUrlParams();
+    window.addEventListener("hashchange", checkUrlParams);
+    window.addEventListener("popstate", checkUrlParams);
+    return () => {
+      window.removeEventListener("hashchange", checkUrlParams);
+      window.removeEventListener("popstate", checkUrlParams);
+    };
+  }, []);
+
   // Escuta evento customizado disparado pela calculadora
   useEffect(() => {
     const handlePrefill = (e: Event) => {
       const custom = e as CustomEvent<{ dorTexto?: string }>;
       if (custom.detail?.dorTexto) {
         setDorTexto(custom.detail.dorTexto);
+        setSelectedCategory("automacao");
       }
     };
 
@@ -37,13 +131,16 @@ export function FinalCta() {
   const handleFirstInteraction = () => {
     if (!hasInteracted) {
       setHasInteracted(true);
-      trackEvent("form_iniciado", { local: "final_cta_inbound" });
+      trackEvent("form_iniciado", { local: "final_cta_inbound", categoria: selectedCategory });
     }
   };
 
+  const activeCatObj = CATEGORIES.find((c) => c.id === selectedCategory) ?? CATEGORIES[0]!;
+
   const handleWhatsAppDirect = () => {
-    trackEvent("whatsapp_aberto", { local: "final_cta", segmento });
-    const url = buildWhatsAppLink({ empresa, segmento });
+    trackEvent("whatsapp_aberto", { local: "final_cta", categoria: selectedCategory, segmento });
+    const customText = `Olá Pedro! Vim pelo site da Sanle e ${activeCatObj.waPrefix}${empresa ? ` para a empresa ${empresa}` : ""}.`;
+    const url = buildWhatsAppLink({ customText });
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -58,6 +155,9 @@ export function FinalCta() {
 
     setSubmitting(true);
 
+    // Concatena a categoria escolhida junto à descrição do projeto para persistência
+    const compositeDor = `[CATEGORIA: ${activeCatObj.label}] ${dorTexto.trim()}`;
+
     try {
       const res = await fetch("/api/site/inbound", {
         method: "POST",
@@ -67,7 +167,7 @@ export function FinalCta() {
           empresa,
           whatsapp,
           segmento,
-          dorTexto: dorTexto.trim() || undefined,
+          dorTexto: compositeDor,
           consentimentoLgpd: consentimento,
           hp
         })
@@ -82,8 +182,9 @@ export function FinalCta() {
       }
 
       setSuccess(true);
-      setWhatsappReturnUrl(data.whatsappUrl || buildWhatsAppLink({ empresa, segmento }));
-      trackEvent("form_enviado", { empresa, segmento, leadId: data.leadId });
+      const customText = `Olá Pedro! Enviei minha solicitação pelo site da Sanle (${activeCatObj.label}) para a ${empresa}.`;
+      setWhatsappReturnUrl(data.whatsappUrl || buildWhatsAppLink({ customText }));
+      trackEvent("form_enviado", { empresa, segmento, categoria: selectedCategory, leadId: data.leadId });
     } catch {
       setErrorMsg("Erro de conexão. Por favor, chame diretamente no WhatsApp.");
     } finally {
@@ -93,11 +194,11 @@ export function FinalCta() {
 
   return (
     <section
-      id="diagnostico-inbound"
-      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] overflow-hidden border-t border-white/10"
+      id="contato"
+      className="relative scroll-mt-16 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] overflow-clip border-t border-white/10 select-none"
       aria-labelledby="cta-final-title"
     >
-      {/* Luz volumétrica suave em tom cobalto e verde */}
+      {/* Glow volumétrico */}
       <div
         className="pointer-events-none absolute -bottom-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(circle,rgba(36,64,255,0.08)_0%,rgba(183,243,107,0.04)_50%,transparent_70%)] blur-3xl"
         aria-hidden="true"
@@ -106,28 +207,53 @@ export function FinalCta() {
       <div className="shell relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#78A9FF] font-semibold shadow-sm backdrop-blur-md">
-            DIAGNÓSTICO INICIAL SEM COMPROMISSO
+            JORNADA COMERCIAL & DIAGNÓSTICO
           </span>
 
           <h2
             id="cta-final-title"
-            className="mt-5 font-serif-editorial text-[clamp(2.5rem,6.5vw,5.2rem)] leading-[0.96] text-[#F5F6F8]"
+            className="mt-5 font-serif-editorial text-[clamp(2.3rem,6vw,4.8rem)] leading-[0.98] text-[#F5F6F8]"
           >
-            Qual etapa da sua operação não deveria mais depender de trabalho manual?
+            Vamos construir a solução adequada para a sua empresa.
           </h2>
 
-          <p className="mt-4 text-lg md:text-xl text-[#969DA8] font-sans-editorial leading-relaxed max-w-2xl mx-auto">
-            Descreva o processo. Nós mapeamos o fluxo, estimamos a viabilidade técnica e
-            propomos um caminho claro para reduzir o atrito da sua empresa.
-          </p>
-
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]/70">
-            Leva 1 minuto · Sem compromisso · Não precisa trocar seus sistemas
+          <p className="mt-4 text-base sm:text-lg text-[#969DA8] font-sans-editorial leading-relaxed max-w-2xl mx-auto">
+            Identifique sua necessidade abaixo. Nós mapeamos o escopo, estimamos a viabilidade técnica 
+            e propomos um caminho claro de engenharia sem burocracia.
           </p>
         </div>
 
-        {/* Formulário Curto Embutido na Tela */}
-        <div className="mt-10 sm:mt-12 max-w-2xl mx-auto p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl bg-[#111318]/90 border border-white/10 shadow-2xl backdrop-blur-xl">
+        {/* =======================================================================
+            SELETOR INTELIGENTE DE NECESSIDADE (Requisito da Seção 11)
+           ======================================================================= */}
+        <div className="mt-10 sm:mt-12 max-w-4xl mx-auto">
+          <span className="block font-mono text-xs uppercase tracking-wider text-[#969DA8] mb-3 text-center font-semibold">
+            1. SELECIONE A NATUREZA DO SEU PROJETO:
+          </span>
+
+          <div className="flex flex-wrap justify-center gap-2">
+            {CATEGORIES.map((cat) => {
+              const isSelected = cat.id === selectedCategory;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3.5 sm:px-4 py-2 rounded-full font-mono text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                    isSelected
+                      ? "bg-[#2440FF] text-white font-bold shadow-lg shadow-[#2440FF]/30 scale-105 border border-[#78A9FF]/50"
+                      : "bg-[#111319] text-[#969DA8] border border-white/10 hover:border-white/30 hover:text-white"
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Formulário Contextual Embutido */}
+        <div className="mt-8 max-w-2xl mx-auto p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl bg-[#111318]/90 border border-white/10 shadow-2xl backdrop-blur-xl">
           {success ? (
             <div className="text-center py-8">
               <div className="h-14 w-14 rounded-full bg-[#10B981]/20 border border-[#10B981] text-[#B7F36B] flex items-center justify-center mx-auto shadow-lg shadow-[#10B981]/20">
@@ -135,12 +261,12 @@ export function FinalCta() {
               </div>
 
               <h3 className="mt-6 font-serif-editorial text-3xl text-[#F5F6F8]">
-                Diagnóstico recebido com sucesso.
+                Solicitação recebida com sucesso.
               </h3>
 
               <p className="mt-3 text-base text-[#969DA8] font-sans-editorial max-w-md mx-auto">
-                Nossa equipe técnica já começou a analisar o perfil do seu segmento. Responderemos
-                diretamente no seu WhatsApp com os primeiros direcionamentos.
+                Registramos seu interesse em <strong className="text-white">{activeCatObj.label}</strong>. 
+                Nossa equipe técnica já está analisando seu briefing e responderá no WhatsApp comercial.
               </p>
 
               {whatsappReturnUrl && (
@@ -170,6 +296,14 @@ export function FinalCta() {
                 className="hidden"
                 aria-hidden="true"
               />
+
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs font-mono text-[#78A9FF]">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#B7F36B]" />
+                  <span>ÁREA: {activeCatObj.shortTag.toUpperCase()}</span>
+                </div>
+                <span className="text-[#969DA8]">Etapa 2 de 2</span>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -238,14 +372,15 @@ export function FinalCta() {
                 </div>
               </div>
 
+              {/* Campo Contextual Adaptado à Categoria Escolhida */}
               <div>
                 <label htmlFor="inbound-dor" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
-                  Descreva o processo ou gargalo manual (opcional)
+                  {activeCatObj.questionHint}
                 </label>
                 <textarea
                   id="inbound-dor"
                   rows={3}
-                  placeholder="Ex: Baixamos extratos de 30 clientes todo dia e digitamos as conciliações manualmente no sistema..."
+                  placeholder={activeCatObj.placeholder}
                   value={dorTexto}
                   onChange={(e) => setDorTexto(e.target.value)}
                   className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded-xl text-[#F5F6F8] text-sm focus:outline-none focus:border-[#78A9FF] focus:bg-white/[0.06] transition-colors"
@@ -253,7 +388,7 @@ export function FinalCta() {
               </div>
 
               {/* Consentimento LGPD */}
-              <div className="flex items-start gap-3 pt-2">
+              <div className="flex items-start gap-3 pt-1">
                 <input
                   id="inbound-consent"
                   type="checkbox"
@@ -263,8 +398,8 @@ export function FinalCta() {
                   className="mt-1 h-4 w-4 rounded border-white/20 bg-white/5 text-[#2440FF] focus:ring-[#2440FF]"
                 />
                 <label htmlFor="inbound-consent" className="text-xs text-[#969DA8] leading-relaxed">
-                  Concordo em receber contato da Sanle exclusivamente para fins deste diagnóstico,
-                  conforme a{" "}
+                  Concordo em receber contato da equipe técnica da Sanle para avaliação deste projeto,
+                  conforme as diretrizes da nossa{" "}
                   <Link href="/privacidade" className="text-[#F5F6F8] underline font-medium hover:text-[#78A9FF]">
                     Política de Privacidade
                   </Link>
@@ -278,24 +413,36 @@ export function FinalCta() {
                 </div>
               )}
 
+              {/* CTAs Principais (Seção 11) */}
               <div className="pt-3 flex flex-col sm:flex-row items-center gap-3">
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm transition-all hover:bg-[#3856ff] shadow-lg shadow-[#2440FF]/25 disabled:opacity-50 active:scale-95"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm transition-all hover:bg-[#3856ff] shadow-lg shadow-[#2440FF]/25 disabled:opacity-50 active:scale-95 cursor-pointer"
                 >
-                  <span>{submitting ? "Processando..." : "Enviar diagnóstico"}</span>
+                  <span>{submitting ? "Processando..." : "Conversar sobre meu projeto"}</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
 
                 <button
                   type="button"
                   onClick={handleWhatsAppDirect}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm hover:border-[#B7F36B] hover:text-[#B7F36B] hover:bg-white/[0.08] transition-all shadow-sm active:scale-95"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-xs hover:border-[#B7F36B] hover:text-[#B7F36B] hover:bg-white/[0.08] transition-all shadow-sm active:scale-95 cursor-pointer"
+                  title="Abrir WhatsApp com o briefing da categoria selecionada"
                 >
                   <MessageCircle className="h-4 w-4 text-[#B7F36B]" />
-                  <span>Prefiro chamar no WhatsApp</span>
+                  <span>Chamar no WhatsApp</span>
                 </button>
+              </div>
+
+              <div className="text-center pt-2">
+                <a
+                  href="#capacidades"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-[#969DA8] hover:text-white transition-colors"
+                >
+                  <span>Quer ver o que desenvolvemos antes? Ver demonstrações</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </a>
               </div>
             </form>
           )}

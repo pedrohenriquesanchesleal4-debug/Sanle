@@ -13,7 +13,7 @@ export type SanleStageId =
   | "prova";
 
 interface StageInfo {
-  environment: "01 · ENGENHARIA" | "02 · CUSTO INVISÍVEL" | "03 · FLUXO CONTÍNUO" | "04 · SOLUÇÕES";
+  environment: "01 · CAPACIDADES" | "02 · ENGENHARIA" | "03 · CUSTO INVISÍVEL" | "04 · FLUXO CONTÍNUO" | "05 · SOLUÇÕES";
   title: string;
   stageCode: string;
   progress: number; // 0..100
@@ -23,17 +23,26 @@ interface StageInfo {
 }
 
 const STAGES: Record<string, StageInfo> = {
-  "historia-sanle": {
-    environment: "01 · ENGENHARIA",
+  "capacidades": {
+    environment: "01 · CAPACIDADES",
     stageCode: "STG 01",
+    title: "Quatro Frentes de Software",
+    progress: 15,
+    icon: Compass,
+    accentColor: "#2440FF",
+    nextTarget: "#historia-sanle"
+  },
+  "historia-sanle": {
+    environment: "02 · ENGENHARIA",
+    stageCode: "STG 02",
     title: "Engenharia Operacional",
-    progress: 20,
+    progress: 30,
     icon: Compass,
     accentColor: "#78A9FF",
     nextTarget: "#problema"
   },
   "problema": {
-    environment: "02 · CUSTO INVISÍVEL",
+    environment: "03 · CUSTO INVISÍVEL",
     stageCode: "STG 02",
     title: "Investigação Forense (7 Gargalos)",
     progress: 40,
@@ -42,7 +51,7 @@ const STAGES: Record<string, StageInfo> = {
     nextTarget: "#calculadora"
   },
   "calculadora": {
-    environment: "02 · CUSTO INVISÍVEL",
+    environment: "03 · CUSTO INVISÍVEL",
     stageCode: "STG 03",
     title: "Impacto Financeiro em R$",
     progress: 60,
@@ -51,7 +60,7 @@ const STAGES: Record<string, StageInfo> = {
     nextTarget: "#transformacao"
   },
   "transformacao": {
-    environment: "03 · FLUXO CONTÍNUO",
+    environment: "04 · FLUXO CONTÍNUO",
     stageCode: "STG 04",
     title: "Do Atrito ao Fluxo Sanle",
     progress: 75,
@@ -60,7 +69,7 @@ const STAGES: Record<string, StageInfo> = {
     nextTarget: "#como-funciona"
   },
   "como-funciona": {
-    environment: "03 · FLUXO CONTÍNUO",
+    environment: "04 · FLUXO CONTÍNUO",
     stageCode: "STG 05",
     title: "Demonstração em 6 Etapas",
     progress: 88,
@@ -69,7 +78,7 @@ const STAGES: Record<string, StageInfo> = {
     nextTarget: "#solucoes"
   },
   "solucoes": {
-    environment: "04 · SOLUÇÕES",
+    environment: "05 · SOLUÇÕES",
     stageCode: "STG 06",
     title: "Arquitetura & Prova Técnica",
     progress: 100,
@@ -88,6 +97,7 @@ export function SanleStageHUD() {
     if (typeof window === "undefined") return;
 
     const sections = [
+      document.getElementById("capacidades"),
       document.getElementById("historia-sanle"),
       document.getElementById("problema"),
       document.getElementById("calculadora"),

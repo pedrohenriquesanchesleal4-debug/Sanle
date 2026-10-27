@@ -185,30 +185,38 @@ export function HeroPortal() {
                 {heroContent.subheadline}
               </p>
 
-              {/* Três capacidades arquiteturais de fluxo */}
-              <div className="mt-5 md:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2 max-w-xl">
-                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] shadow-xs backdrop-blur-sm">
-                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#78A9FF] font-bold block">
-                    01 · Ingestão
+              {/* Quatro capacidades essenciais da Sanle */}
+              <div className="mt-5 md:mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl">
+                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#78A9FF] font-bold block">
+                    01 · DIGITAL
                   </span>
-                  <span className="text-[0.72rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    WhatsApp & OCR direto
-                  </span>
-                </div>
-                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] shadow-xs backdrop-blur-sm">
-                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#C8A24A] font-bold block">
-                    02 · Regras
-                  </span>
-                  <span className="text-[0.72rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    Validação em 0.12s
+                  <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
+                    Sites & Landing
                   </span>
                 </div>
-                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.02] shadow-xs backdrop-blur-sm">
-                  <span className="font-mono text-[0.62rem] uppercase tracking-wider text-[#B7F36B] font-bold block">
-                    03 · ERP Sync
+                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#C8A24A] font-bold block">
+                    02 · SYSTEMS
                   </span>
-                  <span className="text-[0.72rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    Omie, ContaAzul & Ledger
+                  <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
+                    Sistemas & CRMs
+                  </span>
+                </div>
+                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#B7F36B] font-bold block">
+                    03 · AGENTS
+                  </span>
+                  <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
+                    IA & WhatsApp
+                  </span>
+                </div>
+                <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#10B981] font-bold block">
+                    04 · AUTO
+                  </span>
+                  <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
+                    APIs & Processos
                   </span>
                 </div>
               </div>
@@ -223,13 +231,22 @@ export function HeroPortal() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
 
+                <Link
+                  href={heroContent.ctaSecondary.href}
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm hover:border-[#78A9FF] hover:text-[#78A9FF] hover:bg-white/[0.08] transition-all shadow-sm active:scale-[0.98]"
+                >
+                  <span>{heroContent.ctaSecondary.label}</span>
+                  <ArrowRight className="h-3.5 w-3.5 text-[#78A9FF]" />
+                </Link>
+
                 <button
                   type="button"
                   onClick={handleWhatsAppClick}
-                  className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm hover:border-[#78A9FF] hover:text-[#78A9FF] hover:bg-white/[0.08] transition-all shadow-sm active:scale-[0.98]"
+                  className="hidden lg:inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-full bg-white/[0.02] border border-white/10 text-[#969DA8] text-xs hover:text-white hover:border-white/30 transition-all"
+                  title="Abrir WhatsApp oficial da Sanle"
                 >
-                  <MessageCircle className="h-4 w-4 text-[#B7F36B]" />
-                  <span>{heroContent.ctaSecondary.label}</span>
+                  <MessageCircle className="h-3.5 w-3.5 text-[#B7F36B]" />
+                  <span>WhatsApp</span>
                 </button>
               </div>
 

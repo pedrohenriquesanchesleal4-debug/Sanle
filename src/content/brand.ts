@@ -10,11 +10,11 @@
 export const brand = {
   name: "Sales Hunter",
   legalName: "Sanle · Sales Hunter",
-  tagline: "Engenharia de processos, automação operacional e conexão de sistemas",
+  tagline: "Software, sistemas web, agentes de inteligência artificial e automação de processos",
   positioning:
-    "Engenharia operacional que conecta os sistemas da sua empresa (ERP, WhatsApp, Notas Fiscais e Planilhas), eliminando retrabalho manual e dando previsibilidade ao negócio.",
+    "Construímos sites, sistemas personalizados, automações e agentes de inteligência artificial para transformar desafios operacionais e comerciais em soluções que funcionam na prática.",
   shortPitch:
-    "Elimine o retrabalho manual. A Sanle conecta seus canais, documentos e ERP para sua empresa escalar com governança e previsibilidade.",
+    "Seu próximo avanço não precisa continuar sendo manual. Desenvolvemos produtos digitais, sistemas e automações com IA para sua empresa escalar com governança.",
   founded: { city: "Brasília", uf: "DF", country: "Brasil" },
   serviceRegion:
     "Brasília e Distrito Federal, com arquitetura preparada para todo o território nacional.",
@@ -32,13 +32,15 @@ export const brand = {
 } as const;
 
 export const hero = {
-  eyebrow: "THE OPPORTUNITY ENGINE · ENGENHARIA OPERACIONAL & AUTOMAÇÃO",
-  headlineTop: "Toda grande empresa opera",
-  headlineBottom: "em regime de fluxo contínuo.",
+  eyebrow: "THE OPPORTUNITY ENGINE · SOFTWARE · SYSTEMS · AI · AUTOMATION",
+  headlineTop: "Seu próximo avanço não precisa",
+  headlineBottom: "continuar sendo",
+  headlineItalic: "manual.",
   subheadline:
-    "Sem troca de ERPs. Conectamos WhatsApp, arquivos fiscais, planilhas e sistemas para sua equipe focar no cliente e na margem.",
-  ctaPrimary: { label: "Mapear meu processo", href: "/diagnostico" },
-  ctaSecondary: { label: "Ver demonstração", href: "/#como-funciona" }
+    "Criamos sites, sistemas, automações e agentes de inteligência artificial para transformar desafios operacionais e comerciais em soluções que funcionam na prática.",
+  ctaPrimary: { label: "Vamos construir sua solução", href: "/#contato" },
+  ctaSecondary: { label: "Explorar capacidades", href: "/#capacidades" },
+  microProof: "Presença digital · Sistemas personalizados · Agentes de IA · Automação operacional"
 } as const;
 
 /** O problema invisível — tarefas que consomem tempo sem aparecer no resultado. */

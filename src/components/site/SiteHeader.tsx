@@ -6,12 +6,12 @@ import { Menu, X, ArrowRight, MessageCircle } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 const NAV_LINKS = [
-  { label: "Nossa História", href: "/#historia-sanle" },
+  { label: "Capacidades", href: "/#capacidades" },
+  { label: "Engenharia", href: "/#historia-sanle" },
+  { label: "Projetos", href: "/#prova" },
+  { label: "Contratação", href: "/#contratacao" },
   { label: "Soluções", href: "/solucoes" },
-  { label: "Como funciona", href: "/#como-funciona" },
-  { label: "Segmentos", href: "/#para-quem" },
-  { label: "Contato", href: "/#contato" },
-  { label: "Sobre", href: "/sobre" }
+  { label: "Contato", href: "/#contato" }
 ];
 
 export function SiteHeader() {
@@ -106,7 +106,7 @@ export function SiteHeader() {
             onClick={handleCtaClick}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2440FF] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/25 active:scale-95"
           >
-            <span>Mapear meu processo</span>
+            <span>Construir Solução</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
