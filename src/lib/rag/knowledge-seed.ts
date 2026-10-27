@@ -25,14 +25,19 @@ export function baseKnowledge(): { title: string; category: string; content: str
       "",
       `Região de atuação: ${brand.serviceRegion}`,
       "",
-      "## O que a Sanle faz",
-      "A Sanle identifica gargalos operacionais e cria soluções para reduzir trabalho manual, organizar informações e melhorar processos. Atua com automação documental e financeira, integração de sistemas, inteligência artificial aplicada e organização da operação comercial.",
+      "## O que a Sanle desenvolve e entrega",
+      "- Sites e Landing Pages de alta conversão: portais institucionais, páginas de venda e demonstrações comerciais interativas com foco em conversão e captação de clientes.",
+      "- Sistemas Web Personalizados: plataformas completas, portais empresariais, CRMs sob medida, dashboards operacionais e painéis administrativos.",
+      "- Automação Operacional e Comercial: automação de tarefas manuais, conciliação bancária, validação de documentos fiscais e integrações entre sistemas legados e ERPs.",
+      "- Agentes de Inteligência Artificial: assistentes de atendimento para WhatsApp, atendentes inteligentes de triagem, agentes internos para equipes e soluções RAG sobre bases de conhecimento empresariais.",
+      "- APIs e Integrações de Sistemas: conexão entre sistemas que a empresa já utiliza (CRMs, ERPs, gateways de pagamento, plataformas fiscais) para eliminar redigitação.",
+      "- Produtos Digitais e MVPs: desenvolvimento ágil de ferramentas próprias de software e produtos digitais completos e prontos para produção.",
       "",
       "## O que a Sanle NÃO faz",
-      "Não é uma software house genérica nem uma agência de criação de sites. Não substitui o sistema financeiro do cliente. Não promete resultados não comprovados.",
+      "Não vende templates prontos sem estratégia nem soluções de IA sem governança. Todas as aplicações têm engenharia robusta, código limpo e foco em resultados operacionais reais.",
       "",
       "## Princípios",
-      "Começa por um problema delimitado; mede indicadores; mantém revisão humana onde importa; não inventa dados."
+      "Começa pelo problema do negócio; foca em transformar desafios manuais em soluções eficientes; mantém revisão humana e governança rigorosa."
     ].join("\n")
   });
 

@@ -5,19 +5,22 @@ import { Panel, Field } from "@/components/admin/ui";
 import type { ProspectCandidate, ProspectProviderId } from "@/lib/providers/types";
 
 const PROVIDERS: { id: ProspectProviderId; label: string }[] = [
-  { id: "osm", label: "OpenStreetMap / Overpass (Gratuito Default)" },
-  { id: "google_places", label: "Google Places (Opcional / Chave própria)" },
-  { id: "csv", label: "CSV" },
-  { id: "manual", label: "Manual" }
+  { id: "sanle_ai", label: "Sanle AI — Radar de Empresas com Oportunidade Real (Recomendado)" },
+  { id: "osm", label: "OpenStreetMap / Overpass (Gratuito)" },
+  { id: "google_places", label: "Google Places (Chave própria)" },
+  { id: "csv", label: "Importação via CSV" },
+  { id: "manual", label: "Cadastro Manual" }
 ];
 
 const QUICK_NICHES = [
+  "Todos (Alta Chance de Venda)",
   "Vidraçaria",
-  "Oficina mecânica",
-  "Restaurante",
-  "Clínica odontológica",
-  "Barbearia",
-  "Contabilidade"
+  "Clínica Odontológica",
+  "Contabilidade / BPO",
+  "Distribuidora / Atacado",
+  "Oficina Mecânica",
+  "Despachante / Imobiliária",
+  "Restaurante"
 ] as const;
 
 export interface LeadSearchFormState {
@@ -78,20 +81,27 @@ export function LeadSearch({
           <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#969DA8]">
             Sugestões:
           </span>
-          {QUICK_NICHES.map((niche) => (
-            <button
-              key={niche}
-              type="button"
-              onClick={() => setForm((f) => ({ ...f, category: niche }))}
-              className={`rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] transition-colors ${
-                form.category.toLowerCase() === niche.toLowerCase()
-                  ? "border-[#B7F36B]/50 bg-[#B7F36B]/15 text-[#B7F36B]"
-                  : "border-[#F5F6F8]/10 bg-[#111318] text-[#969DA8] hover:text-[#F5F6F8]"
-              }`}
-            >
-              {niche}
-            </button>
-          ))}
+          {QUICK_NICHES.map((niche) => {
+            const isAll = niche.startsWith("Todos");
+            const isSelected = isAll
+              ? form.category.toLowerCase().includes("todo") || form.category === ""
+              : form.category.toLowerCase() === niche.toLowerCase();
+
+            return (
+              <button
+                key={niche}
+                type="button"
+                onClick={() => setForm((f) => ({ ...f, category: isAll ? "Todos" : niche }))}
+                className={`rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] transition-colors cursor-pointer ${
+                  isSelected
+                    ? "border-[#B7F36B]/60 bg-[#B7F36B]/20 text-[#B7F36B] font-bold shadow-sm"
+                    : "border-[#F5F6F8]/10 bg-[#111318] text-[#969DA8] hover:text-[#F5F6F8] hover:border-white/20"
+                }`}
+              >
+                {niche}
+              </button>
+            );
+          })}
         </div>
 
         <form onSubmit={onRunSearch} className="grid gap-3.5 md:grid-cols-12">
@@ -101,7 +111,7 @@ export function LeadSearch({
                 className="field"
                 value={form.category}
                 onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                placeholder="ex.: vidraçaria, oficina, clínica"
+                placeholder="ex.: Todos, vidraçaria, oficina, clínica"
                 required
               />
             </Field>
@@ -138,7 +148,7 @@ export function LeadSearch({
                 className="field"
                 value={form.district}
                 onChange={(e) => setForm((f) => ({ ...f, district: e.target.value }))}
-                placeholder="ex.: Asa Norte, SIA"
+                placeholder="ex.: Asa Norte, SIA, Taguatinga"
               />
             </Field>
           </div>
@@ -149,7 +159,7 @@ export function LeadSearch({
                 className="field"
                 value={form.terms}
                 onChange={(e) => setForm((f) => ({ ...f, terms: e.target.value }))}
-                placeholder="ex.: temperado, 24h"
+                placeholder="ex.: temperado, 24h, esquadrias"
               />
             </Field>
           </div>
@@ -191,13 +201,13 @@ export function LeadSearch({
                 className="field"
                 value={form.label}
                 onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))}
-                placeholder="ex.: Vidraçarias DF Outubro"
+                placeholder="ex.: Oportunidades DF Alta Probabilidade"
               />
             </Field>
           </div>
 
           <div className="mt-2 flex flex-wrap items-center justify-between gap-3 md:col-span-12">
-            <label className="flex items-center gap-2 text-xs text-[#969DA8]">
+            <label className="flex items-center gap-2 text-xs text-[#969DA8] cursor-pointer">
               <input
                 type="checkbox"
                 checked={form.save}
@@ -206,63 +216,66 @@ export function LeadSearch({
               Registrar busca no histórico
             </label>
 
-            <button type="submit" className="btn btn-primary" disabled={searching}>
+            <button type="submit" className="btn btn-primary cursor-pointer" disabled={searching}>
               {searching ? (
                 <Loader2 size={15} className="animate-spin" />
               ) : (
                 <Compass size={15} />
               )}
-              {searching ? "Varrendo território…" : "Encontrar oportunidades"}
+              {searching ? "Varrendo território com IA…" : "Encontrar oportunidades com chance real"}
             </button>
           </div>
         </form>
       </Panel>
 
+      {/* Painel lateral: Importação CSV complementar (Seção 15) */}
       <Panel
         className="lg:col-span-4"
-        title="Importar planilha CSV"
-        description="Colunas aceitas: empresa, telefone, site, email, cidade, uf, endereço, categoria."
+        title="Importar lista própria (CSV)"
+        description="Suba arquivos de entidades comerciais locais, exportações do Google Maps ou listas de prospecção."
       >
         <form onSubmit={onUploadCsv} className="space-y-3">
-          <div className="grid grid-cols-3 gap-2">
-            <input className="field !text-xs" name="city" placeholder="Cidade" />
-            <input className="field !text-xs" name="uf" maxLength={2} placeholder="UF" />
-            <input className="field !text-xs" name="category" placeholder="Nicho" />
-          </div>
           <input
             type="file"
             name="file"
-            accept=".csv,text/csv"
-            className="block w-full text-xs text-[#969DA8] file:mr-3 file:rounded-lg file:border-0 file:bg-[#111318] file:px-3.5 file:py-2 file:font-mono file:text-[11px] file:text-[#F5F6F8]"
+            accept=".csv,text/csv,text/plain"
             required
+            aria-label="Arquivo CSV para importação"
+            className="block w-full text-xs text-[#969DA8] file:mr-2.5 file:rounded-full file:border file:border-white/10 file:bg-[#111318] file:px-3 file:py-1.5 file:font-mono file:text-[11px] file:text-[#F5F6F8] file:transition-colors hover:file:border-white/30"
           />
-          <button type="submit" className="btn btn-ghost w-full justify-center text-xs" disabled={csvBusy}>
-            {csvBusy ? (
-              <Loader2 size={15} className="animate-spin" />
-            ) : (
-              <FileSpreadsheet size={15} />
-            )}
-            {csvBusy ? "Processando…" : "Validar arquivo CSV"}
+
+          <button
+            type="submit"
+            disabled={csvBusy}
+            className="btn btn-ghost w-full justify-center !py-2 text-xs"
+          >
+            {csvBusy ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
+            {csvBusy ? "Processando…" : "Validar e pré-visualizar"}
           </button>
         </form>
 
         {csv && (
-          <div className="mt-4 rounded-xl border border-[#B7F36B]/30 bg-[#111318] p-4">
-            <p className="text-xs text-[#F5F6F8]">
-              <strong>{csv.candidates.length}</strong> candidatos válidos de {csv.parsedRows} linhas
+          <div className="mt-4 space-y-3 rounded-lg border border-[#F5F6F8]/10 bg-[#111318] p-3 text-xs">
+            <div className="flex items-center gap-2 font-mono text-[11px] text-[#B7F36B]">
+              <FileSpreadsheet size={14} />
+              <span>{csv.candidates.length} registros válidos</span>
+            </div>
+            <p className="text-[11px] text-[#969DA8]">
+              Colunas mapeadas: {csv.columns.join(", ")}
             </p>
             {csv.errors.length > 0 && (
-              <p className="mt-1 text-[11px] text-[#F26464]">
-                {csv.errors.length} linhas ignoradas ({csv.errors[0]})
+              <p className="text-[11px] text-[#F26464]">
+                {csv.errors.length} avisos de formato
               </p>
             )}
             <button
               type="button"
               onClick={onImportCsv}
-              className="btn btn-primary mt-3 w-full justify-center text-xs"
-              disabled={importing}
+              disabled={importing || csv.candidates.length === 0}
+              className="btn btn-primary w-full justify-center !py-1.5 text-xs"
             >
-              <Upload size={14} /> Importar {csv.candidates.length} empresas
+              <Upload size={13} />
+              {importing ? "Importando…" : "Gravar candidatos no CRM"}
             </button>
           </div>
         )}

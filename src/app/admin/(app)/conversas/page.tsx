@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { RefreshCw, Send, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { RefreshCw, Send, ArrowLeft, Sparkles, ExternalLink } from "lucide-react";
 import { Panel, Badge, Spinner, Notice, EmptyState } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/client-api";
 import type { Conversation, ConversationMessage } from "@/lib/types";
@@ -15,6 +16,29 @@ export default function ConversasPage() {
   const [error, setError] = useState<string | null>(null);
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
+  const [suggesting, setSuggesting] = useState(false);
+
+  async function suggestReplyWithAI() {
+    if (!detail) return;
+    const lastUserMessage = [...detail.messages].reverse().find((m) => m.role === "user");
+    if (!lastUserMessage) return;
+
+    setSuggesting(true);
+    try {
+      const res = await api.post<{ recommendedReply: string }>("/api/crm/reply-assistant", {
+        clientReply: lastUserMessage.content,
+        leadId: detail.conversation.leadId || undefined,
+        channel: "whatsapp"
+      });
+      if (res?.recommendedReply) {
+        setReply(res.recommendedReply);
+      }
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSuggesting(false);
+    }
+  }
 
   const load = useCallback(async () => {
     setError(null);
@@ -113,7 +137,26 @@ export default function ConversasPage() {
                   </div>
                 ))}
               </div>
-              <form onSubmit={sendReply} className="mt-4 flex gap-2">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[var(--rule)] pt-3">
+                <button
+                  type="button"
+                  onClick={() => void suggestReplyWithAI()}
+                  disabled={suggesting}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-[#78A9FF] hover:underline disabled:opacity-50"
+                >
+                  <Sparkles size={13} />
+                  <span>{suggesting ? "Analisando com IA..." : "Sugerir réplica com IA para a última mensagem"}</span>
+                </button>
+                {detail.conversation.leadId && (
+                  <Link
+                    href={`/admin/leads/${detail.conversation.leadId}`}
+                    className="inline-flex items-center gap-1 font-mono text-xs text-[#B7F36B] hover:underline"
+                  >
+                    Ver Lead no CRM <ExternalLink size={11} />
+                  </Link>
+                )}
+              </div>
+              <form onSubmit={sendReply} className="mt-2 flex gap-2">
                 <textarea
                   className="field min-h-[64px] flex-1"
                   placeholder="Responder como Sanle…"

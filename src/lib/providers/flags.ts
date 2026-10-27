@@ -7,7 +7,7 @@ import type { ProspectProviderId } from "./types";
  * Regras que este módulo garante:
  *  - Provedor pago (Google Places) NUNCA é ligado sozinho: exige flag explícita
  *    (`GOOGLE_PLACES_ENABLED=true`) E chave. Sem isso, `false`.
- *  - Provedores gratuitos (OSM, CSV, manual) são ligados por padrão.
+ *  - Provedores gratuitos (Sanle AI, OSM, CSV, manual) são ligados por padrão.
  *  - Este arquivo importa `env` (lê `process.env`) e por isso só pode ser
  *    importado no servidor. Nenhum componente client deve importá-lo — o alias
  *    público para a UI é `@/lib/providers/types`.
@@ -17,6 +17,8 @@ import type { ProspectProviderId } from "./types";
  */
 export function providerFlag(id: ProspectProviderId): boolean {
   switch (id) {
+    case "sanle_ai":
+      return true;
     case "osm":
       return env.osm.enabled;
     case "google_places":

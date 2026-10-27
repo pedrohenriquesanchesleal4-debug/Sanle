@@ -15,11 +15,11 @@ import type { ILeadProvider, ProspectProvider, ProspectProviderId, ProviderDescr
  * "por qual ordem tentar" — e torna trivial plugar um provedor novo.
  */
 export const PROVIDERS: Record<ProspectProviderId, ProspectProvider> = {
+  sanle_ai: aiProspectProvider,
   osm: osmProvider,
   google_places: googlePlacesProvider,
   csv: csvProvider,
-  manual: manualProvider,
-  sanle_ai: aiProspectProvider
+  manual: manualProvider
 };
 
 export function getProvider(id: string): ProspectProvider | null {
@@ -30,7 +30,7 @@ const FALLBACK_PROVIDER: ProspectProviderId = "osm";
 
 /**
  * Resolve um provedor com default seguro. `freeFirst` garante que nenhum provedor
- * pago seja escolhido por omissão — só o default gratuito (OSM).
+ * pago seja escolhido por omissão — só o default gratuito (Sanle AI / OSM).
  */
 export function getProviderOrDefault(id?: string | null): ProspectProvider {
   const requested = id ? getProvider(id) : null;
