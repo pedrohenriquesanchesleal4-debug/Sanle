@@ -103,4 +103,25 @@ describe("Landing, Storytelling & Inbound Integration Tests", () => {
       expect(parsed.data.hp).toBe("http://spam.com");
     }
   });
+
+  it("creates and retrieves prospect pages (/p/[slug]) with robust resilience", async () => {
+    const { createProspectPage, getProspectPageBySlug } = await import("@/lib/db/repo");
+    const testSlug = `teste-prospect-${Date.now()}`;
+    const page = await createProspectPage({
+      slug: testSlug,
+      empresa: "Vidraçaria Alvorada",
+      cidade: "Brasília",
+      nicho: "Vidraçaria",
+      oportunidade: "Automação de orçamentos e agendamentos pelo WhatsApp"
+    });
+
+    expect(page).toBeDefined();
+    expect(page.slug).toBe(testSlug);
+    expect(page.empresa).toBe("Vidraçaria Alvorada");
+
+    const retrieved = await getProspectPageBySlug(testSlug);
+    expect(retrieved).not.toBeNull();
+    expect(retrieved?.slug).toBe(testSlug);
+    expect(retrieved?.nicho).toBe("Vidraçaria");
+  });
 });

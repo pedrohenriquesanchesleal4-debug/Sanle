@@ -5,7 +5,7 @@ import { env } from "@/lib/env";
 /**
  * Adaptador de tabela com duas implementações:
  *  - LocalTable: arrays dentro de um JSON em `.data/` (roda sem nenhuma chave).
- *  - SupabaseTable: tabelas Postgres via service role (produção).
+ *  - SupabaseTable: tabelas Postgres via service role (produção), com fallback resiliente para LocalTable.
  *
  * O repositório não sabe qual está por baixo. Conversão camelCase <-> snake_case
  * garante que o domínio em TS não depende do formato do Postgres.
@@ -132,10 +132,32 @@ export class LocalTable<T extends Row> implements Table<T> {
 type SupabaseAdmin = Awaited<ReturnType<typeof getSupabaseAdmin>>;
 
 export class SupabaseTable<T extends Row> implements Table<T> {
+  private localFallback: LocalTable<T>;
+
   constructor(
     private table: string,
-    private admin: NonNullable<SupabaseAdmin>
-  ) {}
+    private admin: NonNullable<SupabaseAdmin>,
+    private collection: Collection
+  ) {
+    this.localFallback = new LocalTable<T>(collection);
+  }
+
+  private isTableUnavailableError(error: unknown): boolean {
+    if (!error) return false;
+    const msg = String((error as { message?: string })?.message || error).toLowerCase();
+    const code = String((error as { code?: string })?.code || "");
+    return (
+      msg.includes("schema cache") ||
+      msg.includes("does not exist") ||
+      msg.includes("could not find the table") ||
+      msg.includes("invalid api key") ||
+      msg.includes("unauthorized") ||
+      msg.includes("failed to fetch") ||
+      code === "PGRST205" ||
+      code === "PGRST116" ||
+      code === "42P01"
+    );
+  }
 
   private toRow(input: Record<string, unknown>): Record<string, unknown> {
     return mapKeys(input, toSnakeKey);
@@ -145,55 +167,141 @@ export class SupabaseTable<T extends Row> implements Table<T> {
   }
 
   async all(): Promise<T[]> {
-    const { data, error } = await this.admin.from(this.table).select("*").limit(10000);
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
-    return (data ?? []).map((r) => this.fromRow(r as Record<string, unknown>));
+    try {
+      const { data, error } = await this.admin.from(this.table).select("*").limit(10000);
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          console.warn(`[Supabase Fallback] Tabela "${this.table}" indisponível no Supabase (${error.message}). Consultando LocalTable.`);
+          return await this.localFallback.all();
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+      return (data ?? []).map((r) => this.fromRow(r as Record<string, unknown>));
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.all();
+      }
+      throw err;
+    }
   }
 
   async get(id: string): Promise<T | null> {
-    const { data, error } = await this.admin.from(this.table).select("*").eq("id", id).maybeSingle();
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
-    return data ? this.fromRow(data as Record<string, unknown>) : null;
+    try {
+      const { data, error } = await this.admin.from(this.table).select("*").eq("id", id).maybeSingle();
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          return await this.localFallback.get(id);
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+      return data ? this.fromRow(data as Record<string, unknown>) : null;
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.get(id);
+      }
+      throw err;
+    }
   }
 
   async insert(input: Omit<T, "id"> & { id?: string }): Promise<T> {
-    const row = { id: input.id ?? newId(), ...input } as Record<string, unknown>;
-    const { data, error } = await this.admin.from(this.table).insert(this.toRow(row)).select("*").single();
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
-    return this.fromRow(data as Record<string, unknown>);
+    try {
+      const row = { id: input.id ?? newId(), ...input } as Record<string, unknown>;
+      const { data, error } = await this.admin.from(this.table).insert(this.toRow(row)).select("*").single();
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          console.warn(`[Supabase Fallback] Tabela "${this.table}" indisponível no Supabase (${error.message}). Gravando no LocalTable.`);
+          return await this.localFallback.insert(input);
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+      return this.fromRow(data as Record<string, unknown>);
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        console.warn(`[Supabase Fallback] Exceção em "${this.table}". Gravando no LocalTable.`);
+        return await this.localFallback.insert(input);
+      }
+      throw err;
+    }
   }
 
   async update(id: string, patch: Partial<T>): Promise<T | null> {
-    const { data, error } = await this.admin
-      .from(this.table)
-      .update(this.toRow(patch as Record<string, unknown>))
-      .eq("id", id)
-      .select("*")
-      .maybeSingle();
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
-    return data ? this.fromRow(data as Record<string, unknown>) : null;
+    try {
+      const { data, error } = await this.admin
+        .from(this.table)
+        .update(this.toRow(patch as Record<string, unknown>))
+        .eq("id", id)
+        .select("*")
+        .maybeSingle();
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          return await this.localFallback.update(id, patch);
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+      return data ? this.fromRow(data as Record<string, unknown>) : null;
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.update(id, patch);
+      }
+      throw err;
+    }
   }
 
   async remove(id: string): Promise<void> {
-    const { error } = await this.admin.from(this.table).delete().eq("id", id);
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
+    try {
+      const { error } = await this.admin.from(this.table).delete().eq("id", id);
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          return await this.localFallback.remove(id);
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.remove(id);
+      }
+      throw err;
+    }
   }
 
   async removeWhere(_pred: (row: T) => boolean): Promise<void> {
-    // Supabase: usar filtro por coluna é o correto; fallback remove por ids.
-    const rows = await this.all();
-    const ids = rows.filter(_pred).map((r) => r.id);
-    if (!ids.length) return;
-    const { error } = await this.admin.from(this.table).delete().in("id", ids);
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
+    try {
+      const rows = await this.all();
+      const ids = rows.filter(_pred).map((r) => r.id);
+      if (!ids.length) return;
+      const { error } = await this.admin.from(this.table).delete().in("id", ids);
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          return await this.localFallback.removeWhere(_pred);
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.removeWhere(_pred);
+      }
+      throw err;
+    }
   }
 
   async count(): Promise<number> {
-    const { count, error } = await this.admin
-      .from(this.table)
-      .select("id", { count: "exact", head: true });
-    if (error) throw new Error(`Supabase ${this.table}: ${error.message}`);
-    return count ?? 0;
+    try {
+      const { count, error } = await this.admin
+        .from(this.table)
+        .select("id", { count: "exact", head: true });
+      if (error) {
+        if (this.isTableUnavailableError(error)) {
+          return await this.localFallback.count();
+        }
+        throw new Error(`Supabase ${this.table}: ${error.message}`);
+      }
+      return count ?? 0;
+    } catch (err) {
+      if (this.isTableUnavailableError(err)) {
+        return await this.localFallback.count();
+      }
+      throw err;
+    }
   }
 }
 
@@ -221,7 +329,7 @@ const TABLE_NAMES: Record<Collection, string> = {
 export async function table<T extends Row>(collection: Collection): Promise<Table<T>> {
   if (env.supabase.admin) {
     const admin = await getSupabaseAdmin();
-    if (admin) return new SupabaseTable<T>(TABLE_NAMES[collection], admin);
+    if (admin) return new SupabaseTable<T>(TABLE_NAMES[collection], admin, collection);
   }
   return new LocalTable<T>(collection);
 }
