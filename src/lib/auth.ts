@@ -1,14 +1,9 @@
+import { cookies } from "next/headers";
 import { env } from "@/lib/env";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { logAudit, isAdminUser } from "@/lib/db/repo";
 
-/**
- * Autenticação do painel.
- * - Com Supabase configurado: sessão real (e-mail/senha, magic link) + verificação híbrida
- *   (tabela admin_users OU allowlist SANLE_ADMIN_EMAILS na env).
- * - Sem Supabase: modo local de desenvolvimento, liberado APENAS quando
- *   SANLE_LOCAL_ADMIN=true e NODE_ENV != production. Nunca finge ser produção.
- */
+export const ADMIN_SESSION_COOKIE = "sanle_admin_session";
 
 export type Session = {
   email: string;
@@ -20,7 +15,7 @@ export async function isAdminEmail(email: string | null | undefined): Promise<bo
   if (!email) return false;
   const normalized = email.trim().toLowerCase();
 
-  // 1. Allowlist da ENV (bootstrap / fallback permanente)
+  // 1. Allowlist da ENV + e-mails fundadores padrão
   if (env.admin.emails.includes(normalized)) {
     return true;
   }
@@ -37,6 +32,25 @@ export async function isAdminEmail(email: string | null | undefined): Promise<bo
 }
 
 export async function getSession(): Promise<Session | null> {
+  // 1. Sessão via cookie administrativo direto (suporta login híbrido e fallback resiliente)
+  try {
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+    if (sessionCookie) {
+      const normalized = decodeURIComponent(sessionCookie).trim().toLowerCase();
+      if (await isAdminEmail(normalized)) {
+        return {
+          email: normalized,
+          name: normalized === "admin@local" ? "Admin (local)" : "Administrador Sanle",
+          isLocalDev: normalized === "admin@local"
+        };
+      }
+    }
+  } catch {
+    // Ignorado fora de contexto de request
+  }
+
+  // 2. Sessão Supabase Auth
   const supabase = await getSupabaseServer();
   if (supabase) {
     try {
@@ -72,7 +86,6 @@ export async function recordAdminAction(actor: string, action: string, target?: 
   await logAudit({ actor, action, target: target ?? null, detail: detail ?? null });
 }
 
-/** Explica como habilitar o acesso — sem vazar credenciais ou listas de e-mails. */
 export function authSetupHint(): string {
   if (env.supabase.configured) {
     return "Autenticação via Supabase ativa. Acesso restrito a administradores cadastrados.";

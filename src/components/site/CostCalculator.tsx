@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Calculator, Sparkles, ArrowDown } from "lucide-react";
+import { ArrowRight, Calculator } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 export function CostCalculator() {
   const [teamSize, setTeamSize] = useState<string>("5");
-  const [hoursPerDay, setHoursPerDay] = useState<string>("2.5");
+  const [hoursPerDay, setHoursPerDay] = useState<string>("2");
   const [hourlyRate, setHourlyRate] = useState<string>("45");
   const [hasCalculated, setHasCalculated] = useState(false);
 
@@ -56,14 +56,14 @@ export function CostCalculator() {
       window.dispatchEvent(
         new CustomEvent("sanle:prefill-inbound", {
           detail: {
-            dorTexto: `Estimativa calculada: ${peopleNum} pessoas perdendo ~${monthlyHours}h/mês em trabalho manual repetitivo${
-              monthlyCost ? ` (custo estimado: R$ ${monthlyCost.toLocaleString("pt-BR")}/mês)` : ""
+            dorTexto: `Simulação operacional: equipe de ${peopleNum} pessoas dedicando ~${monthlyHours}h/mês em rotinas manuais repetitivas${
+              monthlyCost ? ` (custo operacional estimado em R$ ${monthlyCost.toLocaleString("pt-BR")}/mês)` : ""
             }.`
           }
         })
       );
 
-      const target = document.getElementById("diagnostico-inbound");
+      const target = document.getElementById("contato");
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });
       }
@@ -73,58 +73,56 @@ export function CostCalculator() {
   return (
     <section
       id="calculadora"
-      className="relative scroll-mt-20 border-b border-white/[0.06] bg-[#08090C] py-12 sm:py-16 md:py-20 text-[#F5F6F8] overflow-hidden w-full max-w-full select-none"
+      className="relative scroll-mt-20 border-b border-white/[0.06] bg-[#08090C] py-16 sm:py-20 md:py-24 text-[#F5F6F8] overflow-hidden w-full max-w-full"
       aria-labelledby="calc-title"
     >
-      {/* Luz ambiente volumétrica de profundidade */}
       <div 
         className="pointer-events-none absolute top-1/4 right-0 h-[500px] w-[500px] bg-[radial-gradient(circle,rgba(36,64,255,0.08)_0%,transparent_70%)] blur-[120px]" 
         aria-hidden="true" 
       />
 
       <div className="shell max-w-5xl relative z-10 px-4 sm:px-6 md:px-8 mx-auto">
-        {/* Cabeçalho do Clímax da Investigação Forense */}
         <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#78A9FF]">
           <Calculator className="h-4 w-4 text-[#B7F36B]" />
-          <span>CLÍMAX DA INVESTIGAÇÃO FORENSE · IMPACTO FINANCEIRO</span>
+          <span>SIMULADOR DE IMPACTO OPERACIONAL · ESTIMATIVA ILUSTRATIVA</span>
         </div>
 
         <h2
           id="calc-title"
-          className="mt-4 font-display text-[clamp(2rem,4.5vw,3.6rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-[#F5F6F8]"
+          className="mt-4 font-serif-editorial text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.03] tracking-[-0.03em] text-[#F5F6F8]"
         >
-          Quanto o custo invisível tira da sua empresa todos os meses?
+          Quanto o trabalho manual repetitivo custa para a sua operação?
         </h2>
 
-        <p className="mt-4 max-w-2xl text-base text-[#969DA8] md:text-lg">
-          Após mapear os 7 gargalos, informe os números reais da sua equipe. A fórmula baseia-se na média nacional de 22 dias úteis mensais.
+        <p className="mt-4 max-w-2xl text-base text-[#969DA8] md:text-lg font-sans-editorial leading-relaxed">
+          Simule o volume de horas e o custo operacional dedicado a tarefas que poderiam ser apoiadas por sistemas sob medida ou automações.
         </p>
 
-        {/* Presets Rápidos com 1 Toque */}
+        {/* Presets Rápidos */}
         <div className="mt-6 flex flex-wrap items-center gap-2">
           <span className="font-mono text-[0.66rem] uppercase tracking-wider text-[#969DA8] mr-1">
-            Simulações rápidas:
+            Cenários de referência:
           </span>
           <button
             type="button"
-            onClick={() => applyPreset(3, 2, 40)}
-            className="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] font-mono text-xs text-[#F5F6F8] transition-all"
+            onClick={() => applyPreset(3, 1.5, 40)}
+            className="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] font-mono text-xs text-[#F5F6F8] transition-all cursor-pointer"
           >
-            Pequena Operação (3 pessoas · 2h)
+            Equipe Enxuta (3 pessoas · 1.5h/dia)
           </button>
           <button
             type="button"
-            onClick={() => applyPreset(6, 2.5, 45)}
-            className="px-3 py-1.5 rounded-full bg-[#2440FF]/20 hover:bg-[#2440FF]/30 border border-[#2440FF]/40 font-mono text-xs text-white transition-all font-semibold"
+            onClick={() => applyPreset(5, 2, 45)}
+            className="px-3 py-1.5 rounded-full bg-[#2440FF]/20 hover:bg-[#2440FF]/30 border border-[#2440FF]/40 font-mono text-xs text-white transition-all font-semibold cursor-pointer"
           >
-            Média Operação (6 pessoas · 2.5h)
+            Operação em Expansão (5 pessoas · 2h/dia)
           </button>
           <button
             type="button"
-            onClick={() => applyPreset(12, 3, 50)}
-            className="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] font-mono text-xs text-[#F5F6F8] transition-all"
+            onClick={() => applyPreset(10, 2.5, 50)}
+            className="px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] font-mono text-xs text-[#F5F6F8] transition-all cursor-pointer"
           >
-            Operação Robusta (12 pessoas · 3h)
+            Operação Estruturada (10 pessoas · 2.5h/dia)
           </button>
         </div>
 
@@ -136,7 +134,7 @@ export function CostCalculator() {
                 htmlFor="calc-team"
                 className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
-                Número de pessoas na equipe que operam rotinas manuais
+                Pessoas envolvidas em rotinas manuais repetitivas
               </label>
               <input
                 id="calc-team"
@@ -157,7 +155,7 @@ export function CostCalculator() {
                 htmlFor="calc-hours"
                 className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
-                Horas por dia em tarefas repetitivas (por pessoa)
+                Horas por dia dedicadas a retrabalho ou conferência (por pessoa)
               </label>
               <input
                 id="calc-hours"
@@ -165,7 +163,7 @@ export function CostCalculator() {
                 step="0.5"
                 min="0.5"
                 max="8"
-                placeholder="Ex: 2.5"
+                placeholder="Ex: 2"
                 value={hoursPerDay}
                 onChange={(e) => {
                   setHoursPerDay(e.target.value);
@@ -180,7 +178,7 @@ export function CostCalculator() {
                 htmlFor="calc-rate"
                 className="mb-2 block font-mono text-[0.66rem] uppercase tracking-[0.14em] text-[#969DA8]"
               >
-                Custo médio da hora de trabalho (R$, base salarial + encargos)
+                Custo médio estimado da hora de trabalho (R$)
               </label>
               <input
                 id="calc-rate"
@@ -196,8 +194,8 @@ export function CostCalculator() {
               />
             </div>
 
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-[#969DA8]">
-              * Premissa auditada: 22 dias úteis de faturamento e operação mensal.
+            <p className="font-mono text-[0.62rem] leading-relaxed text-[#969DA8]">
+              * Estimativa ilustrativa calculada diretamente a partir dos parâmetros informados pelo usuário (considerando 22 dias úteis por mês).
             </p>
           </div>
 
@@ -205,12 +203,12 @@ export function CostCalculator() {
           <div className="flex min-h-[380px] flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#111318] p-6 sm:p-8 md:p-10 shadow-2xl">
             <div>
               <span className="inline-block rounded-full border border-white/[0.1] bg-[#191C22] px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[#969DA8]">
-                Estimativa calculada em tempo real
+                Cálculo ilustrativo em tempo real
               </span>
 
               <div className="mt-8">
                 <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]">
-                  Horas úteis drenadas por mês
+                  Horas operacionais consumidas por mês
                 </span>
                 <div className="mt-2 font-display text-[clamp(3rem,6vw,5rem)] font-semibold leading-none text-[#F5F6F8]">
                   {monthlyHours > 0 ? monthlyHours : "0"}
@@ -221,7 +219,7 @@ export function CostCalculator() {
               {monthlyCost !== null && (
                 <div className="mt-8 border-t border-white/[0.08] pt-6">
                   <span className="block font-mono text-xs uppercase tracking-[0.16em] text-[#969DA8]">
-                    Custo financeiro invisível desperdiçado
+                    Custo mensal estimado dessas horas
                   </span>
                   <div className="mt-2 font-display text-[clamp(2.2rem,4.5vw,3.6rem)] font-semibold leading-none text-[#B7F36B]">
                     R$ {monthlyCost.toLocaleString("pt-BR")}
@@ -236,53 +234,11 @@ export function CostCalculator() {
                 type="button"
                 onClick={handleCta}
                 disabled={monthlyHours === 0}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#B7F36B] px-6 py-4 text-sm font-semibold text-[#08090C] transition-all hover:bg-[#c8f789] disabled:pointer-events-none disabled:opacity-40 shadow-lg shadow-[#B7F36B]/20"
+                className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#B7F36B] px-6 py-4 text-sm font-semibold text-[#08090C] transition-all hover:bg-[#c8f789] disabled:pointer-events-none disabled:opacity-40 shadow-lg shadow-[#B7F36B]/20 cursor-pointer"
               >
-                <span>Quero converter essas horas em oportunidade</span>
+                <span>Avaliar automação para este cenário</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
-            </div>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            TRANSIÇÃO 2 ➔ 3: O SISTEMA SE REORGANIZA (DO ATRITO AO FLUXO)
-            (Ponte narrativa entre Investigação Forense e a Demonstração de Fluxo)
-           ========================================================================= */}
-        <div className="mt-12 sm:mt-16 pt-10 border-t border-white/[0.08]">
-          <div className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#111318] to-[#151922] border border-white/[0.1] relative overflow-hidden">
-            <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 items-center">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] font-mono text-xs">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  <span>TRANSIÇÃO 2 ➔ 3 · REORGANIZAÇÃO DO SISTEMA</span>
-                </div>
-
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl text-stone-100 leading-tight">
-                  Identificado o atrito, os caminhos redundantes são eliminados.
-                </h3>
-
-                <p className="text-sm text-stone-300 font-sans-editorial leading-relaxed max-w-xl">
-                  Os nós da arquitetura Sanle assumem o controle: os desvios desaparecem, as regras fiscais sincronizam instantaneamente com o ERP e a operação entra no terceiro ambiente: <strong>Do Atrito ao Fluxo</strong>.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
-                <a
-                  href="#transformacao"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white text-[#08090C] font-semibold text-xs uppercase tracking-wider hover:bg-stone-200 transition-all shadow-md"
-                >
-                  <span>Ver contraste de transformação</span>
-                  <ArrowDown className="h-3.5 w-3.5 text-[#2440FF]" />
-                </a>
-                <a
-                  href="#como-funciona"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/[0.1] font-mono text-xs transition-all"
-                >
-                  <span>Ver demonstração em 6 etapas</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </a>
-              </div>
             </div>
           </div>
         </div>

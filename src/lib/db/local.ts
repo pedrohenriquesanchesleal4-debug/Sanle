@@ -1,16 +1,33 @@
 import { promises as fs } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 
 /**
  * Armazenamento local em arquivo JSON — permite rodar a aplicação inteira sem
- * Supabase nem qualquer chave. Fica em `.data/` (gitignored).
- *
- * Não é um banco de produção: é o modo gratuito/honesto de desenvolvimento.
+ * Supabase nem qualquer chave. Em desenvolvimento local fica em `.data/` (gitignored).
+ * Em ambientes serverless (Vercel / AWS Lambda onde `/var/task` é somente-leitura),
+ * utiliza automaticamente `os.tmpdir()` (`/tmp/sanle-data`) com fallback em memória.
  */
 
-const DATA_DIR = path.join(process.cwd(), ".data");
-const DB_FILE = path.join(DATA_DIR, "sanle.json");
+export function resolveDataDir(opts?: { isServerless?: boolean; cwd?: string }): string {
+  const cwd = opts?.cwd ?? process.cwd();
+  const isServerless =
+    opts?.isServerless ??
+    Boolean(
+      process.env.VERCEL ||
+        process.env.AWS_LAMBDA_FUNCTION_NAME ||
+        process.env.LAMBDA_TASK_ROOT ||
+        cwd.startsWith("/var/task")
+    );
+  if (isServerless) {
+    return path.join(os.tmpdir(), "sanle-data");
+  }
+  return path.join(cwd, ".data");
+}
+
+let activeDataDir = resolveDataDir();
+const BUNDLED_DB_FILE = path.join(process.cwd(), ".data", "sanle.json");
 
 export type LocalDB = {
   version: number;
@@ -55,30 +72,52 @@ const EMPTY: LocalDB = {
 let cache: LocalDB | null = null;
 let writeQueue: Promise<void> = Promise.resolve();
 
-async function ensureDir() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-}
-
 export async function readDB(): Promise<LocalDB> {
   if (cache) return cache;
+  const dbFile = path.join(activeDataDir, "sanle.json");
   try {
-    const raw = await fs.readFile(DB_FILE, "utf8");
+    const raw = await fs.readFile(dbFile, "utf8");
     const parsed = JSON.parse(raw) as LocalDB;
     cache = { ...EMPTY, ...parsed };
+    return cache;
   } catch {
+    if (dbFile !== BUNDLED_DB_FILE) {
+      try {
+        const bundledRaw = await fs.readFile(BUNDLED_DB_FILE, "utf8");
+        const bundledParsed = JSON.parse(bundledRaw) as LocalDB;
+        cache = { ...EMPTY, ...bundledParsed };
+        return cache;
+      } catch {
+        // Sem arquivo pré-empacotado; segue com banco inicial vazio
+      }
+    }
     cache = structuredClone(EMPTY);
+    return cache;
   }
-  return cache;
 }
 
 export async function writeDB(mutator: (db: LocalDB) => void): Promise<void> {
   const db = await readDB();
   mutator(db);
   writeQueue = writeQueue.then(async () => {
-    await ensureDir();
-    const tmp = `${DB_FILE}.tmp`;
-    await fs.writeFile(tmp, JSON.stringify(db, null, 2), "utf8");
-    await fs.rename(tmp, DB_FILE);
+    const payload = JSON.stringify(db, null, 2);
+    try {
+      await fs.mkdir(activeDataDir, { recursive: true });
+      const dbFile = path.join(activeDataDir, "sanle.json");
+      const tmp = `${dbFile}.tmp`;
+      await fs.writeFile(tmp, payload, "utf8");
+      await fs.rename(tmp, dbFile);
+    } catch {
+      // Fallback imediato para os.tmpdir() caso o diretório atual seja somente leitura (ex: /var/task na Vercel)
+      try {
+        activeDataDir = path.join(os.tmpdir(), "sanle-data");
+        await fs.mkdir(activeDataDir, { recursive: true });
+        const fallbackFile = path.join(activeDataDir, "sanle.json");
+        await fs.writeFile(fallbackFile, payload, "utf8");
+      } catch (err) {
+        console.warn("[LocalDB] Sistema de arquivos somente-leitura; mantendo dados em memória:", err);
+      }
+    }
   });
   await writeQueue;
 }

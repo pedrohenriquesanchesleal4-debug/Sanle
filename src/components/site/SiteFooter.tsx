@@ -28,7 +28,7 @@ export function SiteFooter() {
               {brand.positioning}
             </p>
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#969DA8]/70">
-              Brasília · DF · Engenharia Operacional
+              Brasília · DF · Software, Sistemas, IA & Automação
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -37,25 +37,20 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Coluna 2: Soluções */}
+          {/* Coluna 2: As 4 Frentes */}
           <div className="md:col-span-3">
             <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-[#78A9FF]">
               {dict.header.solutions}
             </span>
             <ul className="mt-3 space-y-2 text-sm text-[#969DA8]">
               <li>
-                <Link href="/#historia-sanle" className="transition-colors hover:text-[#F5F6F8]">
-                  {dict.header.engineering}
-                </Link>
-              </li>
-              <li>
-                <Link href="/solucoes" className="transition-colors hover:text-[#F5F6F8]">
-                  {dict.header.solutions}
-                </Link>
-              </li>
-              <li>
                 <Link href="/#capacidades" className="transition-colors hover:text-[#F5F6F8]">
                   {dict.header.capabilities}
+                </Link>
+              </li>
+              <li>
+                <Link href="/#historia-sanle" className="transition-colors hover:text-[#F5F6F8]">
+                  {dict.header.engineering}
                 </Link>
               </li>
               <li>
@@ -64,8 +59,13 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/diagnostico" className="transition-colors hover:text-[#2440FF] font-medium">
-                  {dict.header.buildSolution}
+                <Link href="/#contratacao" className="transition-colors hover:text-[#F5F6F8]">
+                  {dict.header.contracting}
+                </Link>
+              </li>
+              <li>
+                <Link href="/solucoes" className="transition-colors hover:text-[#F5F6F8]">
+                  Catálogo de Soluções
                 </Link>
               </li>
             </ul>
@@ -88,13 +88,13 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#seguranca" className="transition-colors hover:text-[#F5F6F8]">
+                <Link href="/#seguranca-governanca" className="transition-colors hover:text-[#F5F6F8]">
                   Segurança & LGPD
                 </Link>
               </li>
               <li>
                 <Link href="/diagnostico" className="transition-colors hover:text-[#F5F6F8]">
-                  {dict.header.buildSolution}
+                  Diagnóstico Guiado
                 </Link>
               </li>
             </ul>
@@ -145,7 +145,7 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-4 font-mono text-[11px] text-[#969DA8]/70 sm:flex-row">
           <span>© {year} Sanle. {dict.footer.rights}</span>
-          <span>ENGENHARIA DE PROCESSOS & CONEXÃO DE SISTEMAS · BRASÍLIA · DF</span>
+          <span>BOAS IDEIAS MERECEM SAIR DO PAPEL · BRASÍLIA · DF</span>
         </div>
       </div>
     </footer>

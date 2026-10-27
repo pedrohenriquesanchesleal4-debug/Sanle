@@ -1,36 +1,29 @@
 import type { Metadata } from "next";
 import { HeroPortal } from "@/components/site/HeroPortal";
+import { CapabilitiesShowcase } from "@/components/site/CapabilitiesShowcase";
 import { SanleScrollytelling } from "@/components/site/SanleScrollytelling";
-import { MarqueeProblems } from "@/components/site/MarqueeProblems";
-import { PinnedProblems } from "@/components/site/PinnedProblems";
-import { CostCalculator } from "@/components/site/CostCalculator";
-import { Transformation } from "@/components/site/Transformation";
-import { DemoFlow } from "@/components/site/DemoFlow";
-import { SegmentTabs } from "@/components/site/SegmentTabs";
-import { Solutions } from "@/components/site/Solutions";
 import { Cases } from "@/components/site/Cases";
-import { TrustSection } from "@/components/site/TrustSection";
-import { ContactSection } from "@/components/site/ContactSection";
+import { CostCalculator } from "@/components/site/CostCalculator";
 import { Method } from "@/components/site/Method";
+import { TrustSection } from "@/components/site/TrustSection";
+import { CommercialModels } from "@/components/site/CommercialModels";
 import { Faq } from "@/components/site/Faq";
 import { FinalCta } from "@/components/site/FinalCta";
-import { SanleStageHUD } from "@/components/site/SanleStageHUD";
 import { brand, faqs, siteUrl } from "@/content/brand";
 
 export const metadata: Metadata = {
-  title: "Sanle · Software, Sistemas, Agentes de IA & Automação Empresarial",
+  title: "Sanle · Produtos Digitais, Sistemas Sob Medida, Agentes de IA & Automação",
   description: brand.shortPitch,
   alternates: { canonical: "/" }
 };
 
 const structuredData = [
-  // 1. Organização / Serviço Profissional de Engenharia Local
   {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "LocalBusiness", "Organization"],
     "@id": `${siteUrl}/#organization`,
     name: "Sanle",
-    legalName: "Sanle · Engenharia Operacional",
+    legalName: "Sanle · Engenharia de Software & Sistemas",
     url: siteUrl,
     logo: `${siteUrl}/icon.svg`,
     image: `${siteUrl}/images/studio-light.jpg`,
@@ -56,7 +49,7 @@ const structuredData = [
     founder: {
       "@type": "Person",
       name: "Pedro Henrique Sanches Leal",
-      jobTitle: "Fundador & Engenheiro Operacional",
+      jobTitle: "Fundador & Engenheiro de Software",
       url: "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278"
     },
     priceRange: "$$",
@@ -70,44 +63,43 @@ const structuredData = [
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Soluções de Engenharia e Automação Sanle",
+      name: "As 4 Frentes de Engenharia de Software da Sanle",
       itemListElement: [
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Automação Documental e Conciliação Fiscal em 0.18s",
-            description: "Extração estruturada de notas e recibos sem redigitação humana."
+            name: "Sanle Digital · Sites, Landing Pages e Experiências Digitais",
+            description: "Presença digital autoral, páginas de alta conversão, SEO técnico e integração com WhatsApp e CRM."
           }
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Barramento e Integração Direta de ERPs",
-            description: "Conexão bidirecional entre WhatsApp, Omie, ContaAzul e bancos de dados."
+            name: "Sanle Systems · Sistemas Web, Portais, CRMs e Dashboards",
+            description: "Aplicações web sob medida para organizar processos operacionais, clientes e dados em tempo real."
           }
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Automação de Regras de Negócio e Anti-Duplicidade",
-            description: "Conferência determinística de preços e estoque em tempo real."
+            name: "Sanle Agents · Agentes de IA, RAG e Atendimento Inteligente",
+            description: "Agentes de inteligência artificial conectados aos documentos da empresa com chamada de ferramentas e transbordo humano."
           }
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Governança e Visibilidade Executiva de Margem",
-            description: "Painéis e relatórios executivos em tempo real com conformidade LGPD."
+            name: "Sanle Automation · Automação de Processos, Documentos e APIs",
+            description: "Integração entre sistemas, leitura estruturada de documentos e eliminação de retrabalho manual."
           }
         }
       ]
     }
   },
-  // 2. WebSite com SearchAction
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -119,7 +111,6 @@ const structuredData = [
       "@id": `${siteUrl}/#organization`
     }
   },
-  // 3. FAQPage para Rich Snippets, Voice Search e Answer Engines (AEO/GEO)
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -145,53 +136,35 @@ export default function HomePage() {
         }}
       />
 
-      {/* 1. Portal Zoom Inicial + Revelação do Site (Máscara Óptica SVG na Logo Sanle) */}
+      {/* 1. Hero Editorial + Estúdio Interativo das 4 Frentes ("Boas ideias merecem sair do papel.") */}
       <HeroPortal />
 
-      {/* 2. O Grande Scrollytelling: A História da Sanle e os 4 Capítulos com Fotografia Real */}
+      {/* 2. As 4 Frentes Comerciais da Sanle (Digital, Sistemas, Agentes, Automação) + Demonstrações Reais */}
+      <CapabilitiesShowcase />
+
+      {/* 3. Scrollytelling Editorial: Do Diagnóstico à Operação Integrada em 4 Capítulos */}
       <SanleScrollytelling />
 
-      {/* 3. Faixa Marquee de Alabastro (Tarefas Manuais Mapeadas) */}
-      <MarqueeProblems />
-
-      {/* 4. O Problema: Os 7 Trabalhos Invisíveis Pinned */}
-      <PinnedProblems />
-
-      {/* 5. Calculadora Interativa do Custo Invisível */}
-      <CostCalculator />
-
-      {/* 6. Antes e Depois (Slider Interativo em Seção Clara) */}
-      <Transformation />
-
-      {/* 7. Demonstração Interativa em 6 Etapas */}
-      <DemoFlow />
-
-      {/* 8. Para quem é: Seletor de Segmentos com Abas */}
-      <SegmentTabs />
-
-      {/* 9. As 4 Soluções Arquitetadas (Grade de Engenharia) */}
-      <Solutions />
-
-      {/* 10. Prova Técnica de Software: Sistemas em Operação */}
+      {/* 4. Provas de Capacidade: Produtos Próprios, Sistemas Reais e Arquiteturas Demonstráveis */}
       <Cases />
 
-      {/* 11. Padrões Corporativos, Segurança e Governança LGPD */}
-      <TrustSection />
+      {/* 5. Simulador de Impacto Operacional (Estimativa Ilustrativa Transparente) */}
+      <CostCalculator />
 
-      {/* 12. Método de Trabalho em 4 Etapas */}
+      {/* 6. Método de Implementação em 4 Etapas */}
       <Method />
 
-      {/* 13. Perguntas Frequentes Acessíveis + JSON-LD */}
+      {/* 7. Arquitetura, Segurança, Privacidade & Governança */}
+      <TrustSection />
+
+      {/* 8. Modelos de Engajamento Comercial & Transparência de Custos Cloud/IA */}
+      <CommercialModels />
+
+      {/* 9. Perguntas Frequentes (FAQ) */}
       <Faq />
 
-      {/* 14. Canais Diretos de Contato & Liderança Técnica */}
-      <ContactSection />
-
-      {/* 15. Chamada Final + Formulário Curto de Diagnóstico */}
+      {/* 10. Seletor Inteligente de Necessidade, Briefing Contextual & Canais Diretos */}
       <FinalCta />
-
-      {/* 16. HUD Flutuante de Estágios e Profundidade (Inspirado no why.zero.university) */}
-      <SanleStageHUD />
     </>
   );
 }

@@ -1,80 +1,85 @@
 /**
  * SANLE — Fonte única da verdade para identidade, posicionamento e informações
- * institucionais. Nada de nome duplicado pelo código: tudo lê daqui.
+ * institucionais.
  *
  * Regra do projeto: NÃO inventar clientes, números, depoimentos, certificações ou
- * parcerias. Campos ainda não confirmados ficam explicitamente marcados como
- * pendentes e não são renderizados como prova.
+ * parcerias. Toda comunicação reflete arquitetura de software verificável.
  */
 
 export const brand = {
   name: "Sales Hunter",
-  legalName: "Sanle · Sales Hunter",
-  tagline: "Software, sistemas web, agentes de inteligência artificial e automação de processos",
+  legalName: "Sanle · Engenharia de Software & Sistemas",
+  tagline: "Produtos digitais, sistemas sob medida, agentes de inteligência artificial e automação operacional",
   positioning:
-    "Construímos sites, sistemas personalizados, automações e agentes de inteligência artificial para transformar desafios operacionais e comerciais em soluções que funcionam na prática.",
+    "Transformamos necessidades reais de negócio em produtos digitais, sistemas web personalizados, agentes de inteligência artificial e automações que funcionam na prática.",
   shortPitch:
-    "Seu próximo avanço não precisa continuar sendo manual. Desenvolvemos produtos digitais, sistemas e automações com IA para sua empresa escalar com governança.",
+    "Boas ideias merecem sair do papel. Projetamos e desenvolvemos sites autorais, sistemas sob medida, agentes de IA e automações operacionais com arquitetura sólida.",
   founded: { city: "Brasília", uf: "DF", country: "Brasil" },
   serviceRegion:
-    "Brasília e Distrito Federal, com arquitetura preparada para todo o território nacional.",
+    "Brasília e Distrito Federal, atendendo empresas em todo o território nacional.",
   contact: {
     email: process.env.NEXT_PUBLIC_SANLE_EMAIL || "pedrohenriquesanchesleal4@gmail.com",
     whatsapp: process.env.NEXT_PUBLIC_SANLE_WHATSAPP || "5561981399051",
     whatsappDisplay: "(61) 98139-9051",
-    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN || "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
+    linkedin:
+      process.env.NEXT_PUBLIC_SANLE_LINKEDIN ||
+      "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
     city: "Brasília · DF"
   },
   social: {
-    linkedin: process.env.NEXT_PUBLIC_SANLE_LINKEDIN || "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
-    github: process.env.NEXT_PUBLIC_SANLE_GITHUB || "https://github.com/pedrohenriquesanchesleal4-debug"
+    linkedin:
+      process.env.NEXT_PUBLIC_SANLE_LINKEDIN ||
+      "https://www.linkedin.com/in/pedro-henrique-sanches-leal-a7a721278",
+    github:
+      process.env.NEXT_PUBLIC_SANLE_GITHUB ||
+      "https://github.com/pedrohenriquesanchesleal4-debug"
   }
 } as const;
 
 export const hero = {
-  eyebrow: "THE OPPORTUNITY ENGINE · SOFTWARE · SYSTEMS · AI · AUTOMATION",
-  headlineTop: "Seu próximo avanço não precisa",
-  headlineBottom: "continuar sendo",
-  headlineItalic: "manual.",
+  eyebrow: "SANLE STUDIO · THE OPPORTUNITY ENGINE · DIGITAL · SISTEMAS · AGENTES · AUTOMAÇÃO",
+  headlineTop: "Boas ideias merecem",
+  headlineBottom: "sair do",
+  headlineItalic: "papel.",
   subheadline:
-    "Criamos sites, sistemas, automações e agentes de inteligência artificial para transformar desafios operacionais e comerciais em soluções que funcionam na prática.",
-  ctaPrimary: { label: "Vamos construir sua solução", href: "/#contato" },
-  ctaSecondary: { label: "Explorar capacidades", href: "/#capacidades" },
-  microProof: "Presença digital · Sistemas personalizados · Agentes de IA · Automação operacional"
+    "Transformamos necessidades de negócio em produtos digitais, sistemas sob medida, agentes de inteligência artificial e automações operacionais construídos para durar.",
+  ctaPrimary: { label: "Tirar meu projeto do papel", href: "/#contato" },
+  ctaSecondary: { label: "Explorar as 4 frentes", href: "/#capacidades" },
+  microProof: "Digital · Sistemas Web · Agentes de IA · Automação de Processos"
 } as const;
 
-/** O problema invisível — tarefas que consomem tempo sem aparecer no resultado. */
+/** O atrito operacional e comercial que motiva novos sistemas. */
 export const invisibleWork = [
-  { title: "Procurar documentos", note: "Arquivos espalhados entre pastas, e-mails e drives." },
-  { title: "Renomear arquivos", note: "Padronização manual, feita pessoa a pessoa." },
-  { title: "Conferir informações", note: "Conferência repetida que ninguém consegue auditar." },
-  { title: "Copiar dados entre sistemas", note: "Digitar o mesmo dado em três lugares diferentes." },
-  { title: "Corrigir inconsistências", note: "Erros descobertos só no fechamento do mês." },
-  { title: "Cobrar respostas", note: "Pendências que somem porque não têm dono nem prazo." },
-  { title: "Repetir as mesmas tarefas", note: "O mesmo trabalho, todos os dias, sem registro." }
+  { title: "Presença digital genérica", note: "Sites que não comunicam o valor real da empresa nem convertem visitantes." },
+  { title: "Operação refém de planilhas", note: "Controles paralelos frágeis que não acompanham o crescimento do negócio." },
+  { title: "Atendimento lento e sem triagem", note: "Oportunidades comerciais esfriando na fila por falta de qualificação estruturada." },
+  { title: "Sistemas que não conversam", note: "Equipes copiando os mesmos dados manualmente entre canais, financeiro e gestão." },
+  { title: "Conhecimento interno disperso", note: "Manuais, contratos e regras dependentes da memória individual de colaboradores." },
+  { title: "Falta de visibilidade executiva", note: "Decisões tomadas sem indicadores claros sobre funil, prazos e gargalos." },
+  { title: "Retrabalho operacional diário", note: "Horas técnicas drenadas em tarefas mecânicas que poderiam fluir por software." }
 ] as const;
 
-/** Transformação — antes e depois de um fluxo. Dados são ILUSTRATIVOS. */
+/** Transformação — contraste estrutural ilustrativo. */
 export const transformation = {
   before: {
-    label: "Antes",
+    label: "Operação Improvisada",
     items: [
-      "Documentos fiscais e recibos perdidos em caixas de entrada",
-      "Planilhas paralelas atualizadas manualmente com fórmulas frágeis",
-      "Redigitação repetida de dados no ERP e no financeiro",
-      "Erros e duplicidades notados tardiamente no fim do mês",
-      "Insegurança sobre a margem real e ausência de rastreabilidade"
+      "Presença online defasada ou igual a dezenas de templates prontos",
+      "Planilhas desconectadas substituindo um sistema de verdade",
+      "Atendimento manual repetitivo sem contexto nem histórico centralizado",
+      "Redigitação constante de informações entre ferramentas isoladas",
+      "Baixa previsibilidade sobre etapas, prazos e gargalos da operação"
     ]
   },
   after: {
-    label: "Depois",
+    label: "Engenharia Sanle",
     items: [
-      "Ingestão imediata de notas e recibos com extração estruturada",
-      "Conexão direta entre WhatsApp, e-mails e sistemas de gestão",
-      "Validação fiscal e contábil em tempo real com alerta de anomalias",
-      "Trilha de auditoria append-only 100% verificável",
-      "Intervenção humana necessária exclusivamente em divergências reais",
-      "Governança total e tempo devolvido à diretoria"
+      "Experiências digitais autorais pensadas para clareza, autoridade e conversão",
+      "Sistemas web, painéis e CRMs desenhados exatamente para a regra do negócio",
+      "Agentes de IA com base de conhecimento própria (RAG) e supervisão humana",
+      "Integrações via API e webhooks conectando canais aos sistemas existentes",
+      "Histórico estruturado e rastreável de cada etapa do fluxo",
+      "Autonomia técnica e governança clara sobre dados e processos"
     ]
   }
 } as const;
@@ -93,162 +98,178 @@ export type Solution = {
 
 export const solutions: Solution[] = [
   {
-    slug: "automacao-documental-financeira",
-    code: "A",
-    title: "Ingestão e Validação Documental Financeira",
-    short: "Conversão automática de comprovantes, notas fiscais e contratos em dados estruturados com conferência fiscal instantânea.",
+    slug: "presenca-digital-e-experiencias-web",
+    code: "01",
+    title: "Sanle Digital · Sites, Landing Pages & Experiências Web",
+    short: "Interfaces autorais, rápidas e responsivas que comunicam posicionamento e convertem visitantes em oportunidades comerciais.",
     audience:
-      "Empresas em crescimento, distribuidoras, escritórios de contabilidade, BPOs financeiros e prestadores de serviços corporativos.",
+      "Empresas que precisam elevar sua presença digital, lançar produtos ou captar oportunidades qualificadas.",
     problem:
-      "Horas gastas redigitando notas e conferindo boletos em planilhas sem rastreabilidade.",
+      "Sites lentos, genéricos ou desatualizados que não transmitem a maturidade real da empresa.",
     how: [
-      "Ingestão estruturada a partir de WhatsApp Business API, e-mails fiscais e pastas em nuvem",
-      "Classificação e extração de schemas tipados sem intervenção manual",
-      "Checagem determinística contra tabelas de preço, prazos e duplicidade",
-      "Integração contábil direta com ERPs (Omie, ContaAzul, SAP, TOTVS)",
-      "Trilha auditável append-only de cada processamento"
+      "Direção visual editorial sob medida, sem aparência de template genérico",
+      "Arquitetura de informação orientada à clareza comercial e tomada de decisão",
+      "Engenharia front-end em Next.js e React com foco em Core Web Vitals e SEO técnico",
+      "Formulários inteligentes e integração direta com WhatsApp e CRM",
+      "Painel administrativo opcional para gestão autônoma de conteúdo"
     ],
     deliverables: [
-      "Pipeline de ingestão documental zero-touch",
-      "Mecanismo de validação fiscal e anti-duplicidade",
-      "Conectores prontos para os principais ERPs do mercado",
-      "Painel de telemetria e reconciliação"
+      "Site institucional ou landing page de alta conversão",
+      "Design system responsivo (desktop, tablet e mobile)",
+      "Estrutura de SEO técnico, metadados e dados estruturados (Schema.org)",
+      "Integração com canais comerciais e analytics"
     ],
     faq: [
-      { q: "A Sanle exige troca de ERP?", a: "Não. A engenharia conecta-se ao ERP que sua empresa já utiliza, sem migrações traumáticas." },
-      { q: "O que acontece em caso de documento ilegível?", a: "O sistema sinaliza a exceção e encaminha para aprovação humana em fila única com 1 clique." }
+      { q: "O site funciona bem no celular?", a: "Sim. Cada composição é desenhada e testada para telas móveis, tablets e desktops." },
+      { q: "Já fica integrado ao WhatsApp e ao CRM?", a: "Sim. Os pontos de conversão podem enviar os dados diretamente para o seu WhatsApp comercial e para o painel de leads." }
     ]
   },
   {
-    slug: "integracao-de-sistemas",
-    code: "B",
-    title: "Barramento e Integração Direta de Sistemas",
-    short: "Sincronização bidirecional em tempo real entre seus canais de atendimento, bancos de dados e ERP.",
+    slug: "sistemas-web-e-aplicacoes-sob-medida",
+    code: "02",
+    title: "Sanle Systems · Sistemas Web, Painéis, Portais & CRMs",
+    short: "Software sob medida para estruturar operações, substituir planilhas críticas e centralizar a gestão do negócio.",
     audience:
-      "Operações que sofrem com sistemas desconectados e retrabalho entre setores.",
+      "Operações em crescimento cujos processos já não cabem em planilhas ou softwares engessados de prateleira.",
     problem:
-      "Vendas ocorrem no WhatsApp, o estoque está no sistema legado e o financeiro fica no escuro.",
+      "Processos espalhados em dezenas de abas de planilhas, sem controle de acesso, histórico ou visão executiva.",
     how: [
-      "Desenho de arquitetura de dados e eventos em tempo real",
-      "Conexão de APIs com retries idempotentes e tolerância a falhas",
-      "Sanitização e conformidade estrita com a LGPD",
-      "Redução da latência de sincronização para milissegundos",
-      "Monitoramento proativo com alertas de indisponibilidade"
+      "Mapeamento das entidades, permissões e regras de negócio reais da operação",
+      "Desenvolvimento de interfaces limpas e funcionais para equipes internas ou clientes",
+      "Modelagem de banco de dados relacional (PostgreSQL) com controle de acesso por perfil",
+      "Construção de APIs documentadas para comunicação com outras ferramentas",
+      "Entregas incrementais em ambiente de homologação antes da entrada em produção"
     ],
     deliverables: [
-      "Barramento de integração customizado",
-      "Webhooks seguros com verificação de integridade",
-      "Logs estruturados com retenção segura",
-      "Documentação técnica e manual de suporte"
+      "Aplicação web completa (painel gerencial, portal do cliente, CRM ou sistema interno)",
+      "Banco de dados estruturado com controle de permissões",
+      "Histórico de atividades e exportação de dados",
+      "Documentação técnica e passagem de conhecimento"
     ],
     faq: [
-      { q: "Quais bancos e ERPs são suportados?", a: "Qualquer sistema com API REST, banco relacional (PostgreSQL, SQL Server, MySQL) ou arquivos de exportação estruturados." },
-      { q: "Como é garantida a segurança?", a: "Criptografia ponta a ponta (TLS 1.3 e AES-256) e respeito rigoroso às diretrizes da LGPD." }
+      { q: "Vocês desenvolvem MVPs e produtos digitais do zero?", a: "Sim. Projetamos desde a primeira versão funcional (MVP) até plataformas corporativas completas." },
+      { q: "O sistema pode evoluir depois da entrega?", a: "Sim. A arquitetura é modular justamente para permitir novas funcionalidades conforme a operação cresce." }
     ]
   },
   {
-    slug: "inteligencia-artificial-aplicada",
-    code: "C",
-    title: "Automação Operacional & Regras de Negócio",
-    short: "Rotinas inteligentes com validação semântica e resolução de exceções sem burocracia.",
+    slug: "agentes-de-ia-e-assistentes-rag",
+    code: "03",
+    title: "Sanle Agents · Agentes de IA, RAG & Atendimento Inteligente",
+    short: "Assistentes conectados aos documentos e ferramentas da sua empresa para triar demandas, responder com contexto e apoiar a equipe.",
     audience:
-      "Gestores e equipes operacionais que buscam escalar o volume de atendimento mantendo o mesmo quadro de funcionários.",
+      "Empresas que desejam agilizar o atendimento comercial, padronizar a triagem ou consultar acervos técnicos e jurídicos com rapidez.",
     problem:
-      "Processos dependentes de memória de funcionários antigos, propensos a erros humanos e sem padronização.",
+      "Clientes esperando horas por respostas iniciais ou equipes perdendo tempo procurando informações em pastas e manuais.",
     how: [
-      "Codificação de regras de negócio em nós determinísticos de validação",
-      "Triagem e classificação semântica com guardrails estritos",
-      "Aprovação humana apenas em desvios e valores discrepantes",
-      "Histórico consultável de auditoria de decisões",
-      "Integração com bases de conhecimento proprietárias da empresa"
+      "Indexação organizada de manuais, catálogos, contratos e políticas da empresa (RAG)",
+      "Definição de escopo estrito de atuação e instruções de sistema alinhadas ao tom da marca",
+      "Integração com ferramentas (consulta de status, coleta de briefing, qualificação de lead)",
+      "Respostas fundamentadas com indicação da fonte consultada",
+      "Transferência estruturada para atendimento humano (human-in-the-loop) sempre que necessário"
     ],
     deliverables: [
-      "Motor de regras operacionais em regime permanente",
-      "Fluxo de contingência com aprovação humana rápida",
-      "Relatórios de eficiência e gargalos eliminados",
-      "Treinamento e passagem de bastão para a liderança interna"
+      "Agente conversacional para WhatsApp, web ou uso interno da equipe",
+      "Base de conhecimento indexada e atualizável",
+      "Painel de histórico de conversas e supervisão",
+      "Regras de transbordo para especialistas humanos"
     ],
     faq: [
-      { q: "O sistema toma decisões arriscadas sozinho?", a: "Não. Parâmetros críticos exigem confirmação explícita do operador humano." },
-      { q: "Quanto tempo dura a implementação?", a: "Geralmente os primeiros fluxos entram em operação plena dentro de 7 a 15 dias úteis." }
+      { q: "O agente inventa informações ou preços?", a: "Projetamos os agentes para operar sobre a base de conhecimento fornecida pela empresa (RAG) e transferir para um humano quando a pergunta foge do escopo." },
+      { q: "Um atendente humano pode assumir a conversa?", a: "Sim. O fluxo prevê transferência para a equipe com o resumo do que já foi coletado." }
     ]
   },
   {
-    slug: "operacao-comercial",
-    code: "D",
-    title: "Governança e Visibilidade Executiva em Tempo Real",
-    short: "Painéis e relatórios consolidados para diretores enxergarem margem, custos e prazos antes do fim do mês.",
+    slug: "automacao-de-processos-e-integracoes",
+    code: "04",
+    title: "Sanle Automation · Integrações, Documentos & Fluxos Operacionais",
+    short: "Pipelines automatizados que conectam sistemas, extraem dados de documentos e reduzem o trabalho manual repetitivo.",
     audience:
-      "Sócios e diretores que precisam de previsibilidade estratégica sem depender de planilhas defasadas.",
+      "Equipes financeiras, contábeis, jurídicas e operacionais sobrecarregadas com digitação, triagem e conciliação manual.",
     problem:
-      "Diretoria toma decisões no escuro com base em dados de fechamento do mês anterior.",
+      "Horas diárias gastas baixando anexos, conferindo valores e copiando dados manualmente entre sistemas.",
     how: [
-      "Consolidação de métricas em painel executivo responsivo",
-      "Alertas antecipados de desvios de margem ou custos fora do padrão",
-      "Rastreabilidade por centro de custo e contrato",
-      "Redução drástica do ciclo de fechamento contábil e financeiro",
-      "Autonomia total para exportação de dados"
+      "Captura estruturada de documentos e eventos vindos de e-mail, WhatsApp, formulários ou webhooks",
+      "Extração e validação de dados contra regras de negócio definidas pela operação",
+      "Sincronização automatizada via API ou arquivos estruturados com os sistemas utilizados",
+      "Separação clara entre casos padrão e exceções que exigem revisão humana",
+      "Registro detalhado de cada execução para conferência e governança"
     ],
     deliverables: [
-      "Dashboard executivo em tempo real",
-      "Automação de relatórios periódicos",
-      "Trilhas de auditoria para compliance",
-      "Mapeamento de KPIs críticos de margem"
+      "Pipeline de automação e transformação de dados",
+      "Conectores e webhooks de integração entre sistemas",
+      "Fila de revisão para tratamento de divergências",
+      "Logs de execução e monitoramento de falhas"
     ],
     faq: [
-      { q: "Consigo acompanhar métricas pelo celular?", a: "Sim, os painéis são 100% responsivos e desenhados para visualização rápida no celular e desktop." },
-      { q: "Como solicitar um diagnóstico inicial?", a: "Basta preencher o formulário no site ou falar diretamente com nosso especialista no WhatsApp." }
+      { q: "Preciso trocar o ERP ou software que minha empresa já usa?", a: "Não. Quando o objetivo é automação ou integração, conectamos as ferramentas que sua operação já utiliza." },
+      { q: "O que acontece quando um documento apresenta divergência?", a: "O fluxo não avança às cegas: ele separa o item divergente e notifica o responsável para validação." }
     ]
   }
 ];
 
-/** Método de trabalho em 4 etapas. */
+/** Método de trabalho em 4 etapas (aplicável às 4 frentes). */
 export const method = [
   {
     step: "01",
-    title: "Diagnóstico e Mapeamento",
-    body: "Analisamos cada etapa da sua rotina atual: onde dados são copiados manualmente, quais arquivos se perdem e onde estão os gargalos que drenam tempo."
+    title: "Imersão & Escopo Claro",
+    body: "Ouvimos a necessidade do negócio, entendemos o contexto atual e definimos o que realmente precisa ser construído — sem jargões desnecessários nem escopos inflados."
   },
   {
     step: "02",
-    title: "Arquitetura e Conexão",
-    body: "Projetamos a tubulação invisível entre seus canais, documentos e ERP sem exigir a troca de nenhum software que sua empresa já utiliza."
+    title: "Arquitetura & Prototipagem",
+    body: "Desenhamos a experiência visual, a estrutura de dados e as integrações antes de escalar o código, garantindo alinhamento sobre como a solução vai funcionar."
   },
   {
     step: "03",
-    title: "Implementação e Homologação",
-    body: "Implementamos os fluxos em regime de testes assistidos, com validação de regras fiscais e conferência de conciliação com precisão estrita."
+    title: "Construção & Integração",
+    body: "Desenvolvemos o site, sistema, agente ou automação com código limpo, tipagem estrita, testes automatizados e conexão com as ferramentas da sua operação."
   },
   {
     step: "04",
-    title: "Regime Permanente de Fluxo",
-    body: "A operação entra em regime silencioso e contínuo. A equipe ganha horas úteis diárias e a liderança passa a gerir com previsibilidade."
+    title: "Homologação & Evolução",
+    body: "Validamos cada fluxo junto à sua equipe, colocamos em produção com segurança e acompanhamos a evolução contínua conforme o negócio cresce."
   }
 ] as const;
 
-/** FAQ institucional da Sanle. */
+/** FAQ institucional da Sanle (cobrindo as 4 frentes). */
 export const faqs = [
-  { q: "O que a Sanle faz exatamente?", a: "Projetamos a infraestrutura operacional da sua empresa: conectamos seus sistemas existentes (ERPs como Omie, ContaAzul, canais de WhatsApp e arquivos fiscais) para que os dados fluam sem redigitação humana e sem retrabalho." },
-  { q: "Minha empresa precisará trocar de softwares ou ERP?", a: "Não. A nossa engenharia conecta os sistemas que sua empresa já utiliza hoje, sem exigir migrações arriscadas nem descarte de softwares em operação." },
-  { q: "Como contratar ou solicitar um projeto?", a: "Você pode solicitar um diagnóstico de processos diretamente pelo formulário do site ou entrar em contato pelo nosso WhatsApp institucional. Mapeamos seus fluxos e desenhamos a solução sob medida." },
-  { q: "Quanto tempo leva para implementar os primeiros fluxos?", a: "Geralmente os primeiros pipelines entram em operação em poucos dias úteis, com validação de regras fiscais e trilha auditável completa." },
-  { q: "Os dados da minha empresa ficam seguros?", a: "Sim. A arquitetura segue padrões rigorosos de segurança e LGPD, com isolamento de dados, criptografia em trânsito e em repouso e governança estrita de permissões." }
+  {
+    q: "Quais tipos de projetos a Sanle desenvolve?",
+    a: "Atuamos em quatro frentes complementares: 1) Digital (sites institucionais autorais, landing pages e experiências web); 2) Sistemas (aplicações web sob medida, painéis, portais, CRMs e APIs); 3) Agentes de IA (assistentes com RAG, atendimento inteligente e ferramentas contextualizadas); e 4) Automação (integrações entre sistemas, processamento documental e redução de rotinas manuais)."
+  },
+  {
+    q: "Posso contratar apenas um site, um sistema específico ou uma automação pontual?",
+    a: "Sim. Você não precisa contratar um pacote fechado. Começamos exatamente pela frente que traz retorno mais direto para o momento da sua empresa — seja tirar uma ideia de produto digital do papel, renovar sua presença online ou automatizar um processo crítico."
+  },
+  {
+    q: "Minha empresa precisará trocar as ferramentas que já utiliza?",
+    a: "Não obrigatoriamente. Quando você já utiliza um ERP, CRM ou canal que atende bem parte da operação, podemos integrar nossos sistemas, agentes e automações a ele via API ou webhooks. E quando uma planilha ou ferramenta antiga limita o crescimento, criamos o sistema sob medida para substituí-la com segurança."
+  },
+  {
+    q: "Como funcionam os prazos e o formato de contratação?",
+    a: "Trabalhamos tanto por escopo fechado (ideal para lançamento de sites, MVPs, sistemas delimitados e automações específicas) quanto por evolução contínua e sustentação. O prazo depende da complexidade do escopo; dividimos o projeto em entregas incrementais para que você acompanhe a evolução desde as primeiras semanas."
+  },
+  {
+    q: "Como a Sanle cuida da segurança e da privacidade dos dados?",
+    a: "Aplicamos boas práticas de engenharia de software desde o desenho da arquitetura: tráfego criptografado via HTTPS/TLS, separação de ambientes, controle de acesso por perfil, coleta mínima de dados alinhada à LGPD e supervisão humana em fluxos críticos de inteligência artificial."
+  }
 ] as const;
 
-/** Segmentos-alvo iniciais (usados no formulário de diagnóstico). */
+/** Segmentos atendidos (usados no formulário de contato/diagnóstico). */
 export const segments = [
-  "BPO financeiro e contabilidade",
-  "Vidraçaria / marcenaria / indústria leve",
-  "Distribuidora e logística",
-  "Clínica médica e odontológica",
-  "Escritório jurídico e consultoria",
-  "Prestador de serviços corporativos B2B"
+  "Serviços corporativos & consultorias B2B",
+  "BPO financeiro, contabilidade & finanças",
+  "Escritórios jurídicos & advocacia",
+  "Saúde, clínicas médicas & odontológicas",
+  "Comércio, distribuição & logística",
+  "Indústria leve, engenharia & serviços técnicos",
+  "Tecnologia, startups & novos produtos digitais"
 ] as const;
 
 export const finalCta = {
-  headline: "Pronto para eliminar o atrito da sua operação?",
-  body: "Mapeie seus processos com nossa equipe e descubra quanto tempo e margem sua empresa pode poupar a partir deste mês.",
-  cta: "Mapear meu processo"
+  headline: "Boas ideias merecem sair do papel.",
+  body: "Conte o que sua empresa precisa construir, organizar ou automatizar. Respondemos com uma análise técnica clara e o melhor caminho de implementação.",
+  cta: "Iniciar conversa sobre meu projeto"
 } as const;
 
 export const siteUrl =

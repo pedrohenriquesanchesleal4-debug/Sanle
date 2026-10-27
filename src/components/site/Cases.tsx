@@ -36,119 +36,119 @@ const PROJECTS_PORTFOLIO: ProjectProof[] = [
     name: "Sales Hunter Engine",
     category: "systems",
     categoryLabel: "Prospecção B2B & Inteligência Comercial",
-    badge: "Produto Próprio · Em Operação",
+    badge: "Produto Próprio · No Repositório",
     badgeType: "real",
-    problem: "Empresas perdem semanas construindo listas frias e desatualizadas de prospects sem dados territoriais confiáveis.",
-    solution: "Motor geoespacial integrado a fontes públicas abertas que audita a presença digital de empresas, calcula índice de oportunidade e gera abordagens 1-a-1 contextualizadas.",
+    problem: "Equipes comerciais perdem tempo pesquisando manualmente empresas e avaliando presença digital sem critério padronizado.",
+    solution: "Motor integrado a fontes públicas que analisa a presença digital de empresas, calcula índice de oportunidade e apoia abordagens comerciais contextualizadas.",
     verifiedFeatures: [
-      "Varredura territorial de CNPJs e estabelecimentos ativos",
-      "Auditoria automática de presença digital (site, SSL, mobile)",
-      "Cálculo determinístico de oportunidade (0 a 100)",
-      "Geração contextual de cópias de abordagem comercial"
+      "Consulta territorial de empresas e estabelecimentos ativos",
+      "Análise automatizada de presença digital (site, SSL, estrutura)",
+      "Cálculo determinístico de pontuação de oportunidade (0 a 100)",
+      "Geração assistida de roteiros de abordagem comercial"
     ],
-    metrics: { label: "Capacidade de análise", value: "Milhares de negócios" },
+    metrics: { label: "Módulo Proprietário", value: "Auditoria & Score B2B" },
     icon: Building2,
-    ctaText: "Quero um sistema de prospecção",
+    ctaText: "Quero um sistema comercial",
     ctaCategory: "sistema"
   },
   {
     id: "izanagi-ai",
     name: "Izanagi AI Framework",
     category: "agents",
-    categoryLabel: "Arquitetura de Agentes & Orquestração Multiagente",
-    badge: "Projeto de Software · Ativo",
+    categoryLabel: "Arquitetura de Agentes & Orquestração",
+    badge: "Framework Interno · Ativo",
     badgeType: "internal",
-    problem: "Agentes de IA genéricos sofrem com alucinação, código incompleto (stubs) e falta de governança estruturada.",
-    solution: "Framework meta para engenharia de software autônoma com 23 agentes especializados, memória persistente anti-repetição, 107 skills no catálogo e motor poliglota (Rust, Go, Python e TypeScript).",
+    problem: "Uso desorganizado de modelos de linguagem sem contexto de projeto, sem validação de qualidade e sem divisão clara de papéis.",
+    solution: "Framework de engenharia orientada a agentes especializados, catálogo de skills modulares e memória de contexto estruturada para desenvolvimento de software.",
     verifiedFeatures: [
-      "Orquestração em swarm com isolamento de contexto",
-      "Heurísticas anti-slop e qualidade de código em Rust",
-      "Análise sintática de AST multilíngue em Python",
-      "Memória persistente entre sessões (.agents/memoria/)"
+      "Orquestração de agentes especializados por domínio técnico",
+      "Catálogo modular de skills e regras de verificação",
+      "Memória persistente de decisões e aprendizados de projeto",
+      "Integração multi-linguagem para análise e automação"
     ],
-    metrics: { label: "Catálogo de agentes", value: "23 agentes especializados" },
+    metrics: { label: "Arquitetura", value: "Agentes & Skills Modulares" },
     icon: Bot,
     ctaText: "Quero implementar agentes de IA",
     ctaCategory: "agente_ia"
   },
   {
     id: "pulsar-crm",
-    name: "PULSAR CRM",
+    name: "Painel Comercial & CRM",
     category: "systems",
     categoryLabel: "Pipeline Comercial & Gestão de Funil B2B",
-    badge: "Módulo Ativo · Em Operação",
+    badge: "Módulo Proprietário · Integrado",
     badgeType: "real",
-    problem: "Vendas B2B estagnadas por falta de visibilidade entre as etapas de qualificação, proposta e fechamento.",
-    solution: "Plataforma de alta precisão para condução do ciclo de vendas: visualização Kanban em 11 estágios, alertas de estagnação de negociações, timeline auditável e permissões seguras.",
+    problem: "Falta de visibilidade sobre o estágio de cada oportunidade comercial, histórico de contatos e próximas ações da equipe.",
+    solution: "Ambiente administrativo para condução do funil comercial: visualização de oportunidades por etapa, gerador de páginas demonstrativas e registro de eventos.",
     verifiedFeatures: [
-      "Kanban de vendas com 11 fases operacionais configuráveis",
-      "Isolamento multi-tenant seguro com Row Level Security (RLS)",
-      "Registro de atividades e histórico de interações com clientes",
-      "Lembretes automáticos para acompanhamento de propostas"
+      "Gestão de oportunidades e leads por estágio operacional",
+      "Controle de acesso e autenticação administrativa",
+      "Gerador de páginas de demonstração personalizadas (/p/[slug])",
+      "Histórico de interações e propostas comerciais"
     ],
-    metrics: { label: "Arquitetura", value: "PostgreSQL RLS Seguro" },
+    metrics: { label: "Persistência", value: "Supabase / PostgreSQL" },
     icon: Layers,
     ctaText: "Quero um CRM personalizado",
     ctaCategory: "sistema"
   },
   {
     id: "dataflow",
-    name: "DataFlow Enterprise",
+    name: "Pipeline Documental",
     category: "automation",
-    categoryLabel: "Automação Documental & Conciliação Financeira",
-    badge: "Demonstração Operacional",
+    categoryLabel: "Automação Documental & Integração",
+    badge: "Arquitetura Demonstrativa",
     badgeType: "demo",
-    problem: "Horas gastas redigitando notas fiscais, faturas e comprovantes em planilhas sem rastreabilidade nem validação.",
-    solution: "Pipeline de alta velocidade para ingestão, OCR estruturado e validação de regras de negócio em pedidos e faturas em menos de 0.2 segundos com conciliação contábil.",
+    problem: "Horas gastas conferindo documentos recebidos e redigitando informações manualmente em planilhas e sistemas de gestão.",
+    solution: "Arquitetura de pipeline para recepção de arquivos, extração em schema JSON tipado, validação de regras de negócio e envio via API.",
     verifiedFeatures: [
-      "Ingestão imediata via WhatsApp e caixas de e-mail",
-      "Extração determinística de schemas JSON tipados",
-      "Conferência fiscal instantânea contra regras de contrato",
-      "Sincronização com ERPs (Omie, ContaAzul, SAP, TOTVS)"
+      "Recebimento estruturado via webhooks e canais digitais",
+      "Extração e validação de campos obrigatórios em JSON",
+      "Conferência de regras de negócio e prevenção de duplicidade",
+      "Encaminhamento de exceções para revisão humana"
     ],
-    metrics: { label: "Velocidade média", value: "0.18s por documento" },
+    metrics: { label: "Padrão Técnico", value: "Pipeline Determinístico" },
     icon: Cpu,
     ctaText: "Quero automatizar documentos",
     ctaCategory: "automacao"
   },
   {
     id: "juridico-ia",
-    name: "Jurídico IA",
+    name: "Assistente Documental RAG",
     category: "agents",
-    categoryLabel: "Inteligência Artificial Aplicada & RAG",
-    badge: "Piloto em Testes Controlados",
+    categoryLabel: "Busca Semântica & Base de Conhecimento",
+    badge: "Protótipo Funcional",
     badgeType: "pilot",
-    problem: "Escritórios de advocacia perdem tempo excessivo localizando teses, contratos antigos e precedentes internos em pastas desorganizadas.",
-    solution: "Assistente de recuperação semântica (RAG) em bases processuais e contratos com busca vetorial estrita, citação precisa de páginas e fontes e limites rígidos contra alucinações.",
+    problem: "Equipes técnicas e jurídicas perdem tempo localizando cláusulas, manuais internos e histórico em pastas dispersas.",
+    solution: "Arquitetura de recuperação aumentada (RAG) sobre acervo próprio da empresa, priorizando respostas fundamentadas nos documentos indexados.",
     verifiedFeatures: [
-      "Indexação vetorial de PDFs jurídicos e peças processuais",
-      "Respostas com citação explícita de trechos e páginas",
-      "Guardrails de compliance e privacidade de dados",
-      "Triagem preliminar de certidões e prazos"
+      "Indexação de documentos internos, manuais e contratos",
+      "Respostas acompanhadas da referência do trecho consultado",
+      "Escopo restrito à base documental autorizada pela empresa",
+      "Encaminhamento para especialista humano quando necessário"
     ],
-    metrics: { label: "RAG Determinístico", value: "Zero alucinação factual" },
+    metrics: { label: "Recuperação Documental", value: "RAG com citação de fonte" },
     icon: Database,
     ctaText: "Quero um agente documental",
     ctaCategory: "agente_ia"
   },
   {
     id: "jeaps-group",
-    name: "Jeaps Group Portal",
+    name: "Portais & Presença Digital",
     category: "sites",
-    categoryLabel: "Aplicação Web & Portal Corporativo",
-    badge: "Estudo de Caso · Sistema Web",
+    categoryLabel: "Aplicações Web & Experiências Digitais",
+    badge: "Arquitetura Web Autoral",
     badgeType: "real",
-    problem: "Apresentação institucional fragmentada sem canal estruturado para captação de clientes e controle de chamados.",
-    solution: "Plataforma web integrada combinando presença digital de alto impacto visual, formulários dinâmicos de atendimento e painel administrativo para gestão de solicitações em tempo real.",
+    problem: "Empresas com entrega técnica sólida, mas com presença digital desatualizada e sem fluxo claro para captação de clientes.",
+    solution: "Desenvolvimento de sites institucionais e portais em Next.js com direção editorial autoral, formulários inteligentes de qualificação e integração direta com WhatsApp.",
     verifiedFeatures: [
-      "Interface corporativa responsiva com carregamento sub-segundo",
-      "Integração direta de captação de leads com WhatsApp",
-      "Painel administrativo para controle e despacho de demandas",
-      "SEO técnico estruturado com pontuação máxima"
+      "Direção de arte editorial responsiva (Desktop, Tablet e Mobile)",
+      "Captação contextual integrada ao WhatsApp e painel de leads",
+      " Demonstrações interativas das capacidades da empresa",
+      "SEO técnico estruturado e metadados Schema.org"
     ],
-    metrics: { label: "Design System", value: "Next.js 15 + Tailwind" },
+    metrics: { label: "Stack Web", value: "Next.js 15 + TypeScript" },
     icon: Globe,
-    ctaText: "Quero um portal para minha empresa",
+    ctaText: "Quero um site ou portal",
     ctaCategory: "site"
   }
 ];
@@ -163,7 +163,7 @@ export function Cases() {
   return (
     <section
       id="prova"
-      className="relative scroll-mt-16 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] select-none overflow-clip w-full max-w-full"
+      className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] overflow-clip w-full max-w-full"
       aria-labelledby="cases-title"
     >
       <div className="shell max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
@@ -179,12 +179,11 @@ export function Cases() {
               id="cases-title"
               className="mt-3 font-serif-editorial text-[clamp(2.1rem,4.8vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-[#F5F6F8]"
             >
-              Projetos próprios, sistemas reais e demonstrações funcionais.
+              Módulos próprios, sistemas ativos e arquiteturas demonstráveis.
             </h2>
 
             <p className="mt-3 max-w-2xl text-base text-[#969DA8] font-sans-editorial leading-relaxed">
-              Não inventamos depoimentos nem clientes fictícios. Apresentamos a arquitetura de software, as plataformas 
-              proprietárias e os módulos em operação construídos para resolver problemas reais de mercado.
+              Sem clientes fictícios nem números inventados. Apresentamos os sistemas proprietários, frameworks internos e protótipos funcionais construídos pela nossa engenharia.
             </p>
           </div>
 
@@ -192,7 +191,7 @@ export function Cases() {
           <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-white/[0.03] border border-white/10">
             {[
               { id: "all", label: "Todos (6)" },
-              { id: "sites", label: "Sites & Portais" },
+              { id: "sites", label: "Digital & Portais" },
               { id: "systems", label: "Sistemas & CRMs" },
               { id: "agents", label: "Agentes & IA" },
               { id: "automation", label: "Automação" }
@@ -262,7 +261,7 @@ export function Cases() {
                       {proj.problem}
                     </p>
                     <p className="text-stone-300 leading-relaxed">
-                      <strong className="text-[#78A9FF] font-mono text-[11px] block mb-0.5">SOLUÇÃO IMPLEMENTADA:</strong>
+                      <strong className="text-[#78A9FF] font-mono text-[11px] block mb-0.5">ARQUITETURA IMPLEMENTADA:</strong>
                       {proj.solution}
                     </p>
                   </div>
@@ -270,7 +269,7 @@ export function Cases() {
                   {/* Funcionalidades Verificadas */}
                   <div className="mt-4 pt-3.5 border-t border-white/10 space-y-1.5">
                     <span className="font-mono text-[10px] uppercase tracking-wider text-stone-400 block font-bold">
-                      FUNCIONALIDADES VERIFICADAS:
+                      CARACTERÍSTICAS TÉCNICAS:
                     </span>
                     {proj.verifiedFeatures.map((feat, idx) => (
                       <div key={idx} className="flex items-start gap-1.5 text-xs text-stone-300">
@@ -304,9 +303,9 @@ export function Cases() {
         <div className="mt-10 p-4 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-[#969DA8]">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>TRANSPARÊNCIA TOTAL: PRODUTOS PRÓPRIOS IDENTIFICADOS · SEM FALSOS CLIENTES</span>
+            <span>COMPROMISSO DE TRANSPARÊNCIA: PRODUTOS INTERNOS E PROTÓTIPOS IDENTIFICADOS COM CLAREZA</span>
           </div>
-          <span>ARQUITETURAS DISPONÍVEIS PARA ADAPTAÇÃO EMPRESARIAL</span>
+          <span>ARQUITETURAS ADAPTÁVEIS PARA O SEU NEGÓCIO</span>
         </div>
       </div>
     </section>

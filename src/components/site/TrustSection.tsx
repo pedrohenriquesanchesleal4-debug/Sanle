@@ -6,52 +6,52 @@ import Link from "next/link";
 const TRUST_PILLARS = [
   {
     icon: Shield,
-    badge: "CONFORMIDADE",
-    title: "Segurança de Dados & LGPD",
+    badge: "PRIVACIDADE & DADOS",
+    title: "Cuidado com Dados & Diretrizes LGPD",
     description:
-      "Conformidade integral com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Dados comerciais protegidos com isolamento multi-tenant seguro e permissões estritas no banco de dados.",
-    highlight: "Criptografia AES-256 em repouso e TLS 1.3 em trânsito"
+      "Projetamos formulários, bancos de dados e integrações seguindo princípios de minimização de dados, consentimento explícito e controle de acesso por perfil.",
+    highlight: "Comunicação em trânsito via HTTPS/TLS e permissões no banco"
   },
   {
     icon: Cpu,
     badge: "COMPATIBILIDADE",
-    title: "Zero Substituição de Softwares",
+    title: "Integração sem Troca Forçada de ERP",
     description:
-      "Não forçamos sua empresa a migrar de ferramentas. Conectamos WhatsApp, ERPs de mercado (Omie, ContaAzul, TOTVS, Bling) e bancos de dados diretamente via conectores e webhooks.",
-    highlight: "Preserva 100% dos softwares que sua equipe já domina"
+      "Não exigimos que sua empresa abandone os sistemas que já funcionam. Conectamos canais de atendimento, planilhas e ERPs de mercado por meio de APIs e webhooks.",
+    highlight: "Preserva o investimento nas ferramentas que sua equipe já domina"
   },
   {
     icon: Server,
-    badge: "INFRAESTRUTURA",
-    title: "Alta Disponibilidade & SLA",
+    badge: "ARQUITETURA MODERNA",
+    title: "Infraestrutura Cloud & Código Proprietário",
     description:
-      "Arquitetura serverless e edge distribuída com 99.9% de uptime garantido. Respostas de triagem e cálculo de score executadas em milissegundos sem filas de espera.",
-    highlight: "Execução contínua 24/7 com redundância de servidores"
+      "Utilizamos stacks consolidadas de mercado (Next.js, TypeScript, Node.js e PostgreSQL/Supabase) com ambientes separados de desenvolvimento e produção.",
+    highlight: "Sem lock-in oculto: documentação técnica e código organizado"
   },
   {
     icon: Lock,
-    badge: "GOVERNANÇA",
-    title: "Trilha de Auditoria Append-Only",
+    badge: "GOVERNANÇA OPERACIONAL",
+    title: "Rastreabilidade & Humano no Comando",
     description:
-      "Cada alteração de status, abordagem gerada, busca de leads ou ação comercial é registrada em livro-razão imutável, permitindo auditoria executiva completa da operação.",
-    highlight: "Histórico detalhado com data, autor e parâmetro de cada evento"
+      "Automações e agentes de IA são desenhados com limites claros de atuação, registro estruturado de eventos e encaminhamento para aprovação humana em casos sensíveis.",
+    highlight: "Logs operacionais para conferência e acompanhamento gerencial"
   }
 ];
 
 const COMPLIANCE_TAGS = [
-  "LGPD Compatível",
+  "Boas Práticas LGPD",
   "PostgreSQL com RLS",
-  "Criptografia TLS 1.3 / AES-256",
-  "Conexão Oficial WhatsApp",
-  "Sem Lock-in de Plataforma",
-  "Backups Diários Automatizados"
+  "Comunicação HTTPS / TLS",
+  "Integração via API & Webhooks",
+  "Sem Lock-in de Código",
+  "Human-in-the-Loop em IA"
 ];
 
 export function TrustSection() {
   return (
     <section
       id="seguranca-governanca"
-      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] border-b border-white/10 overflow-hidden w-full max-w-full"
+      className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] border-b border-white/10 overflow-hidden w-full max-w-full"
       aria-labelledby="trust-section-title"
     >
       <div className="shell max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
@@ -59,26 +59,25 @@ export function TrustSection() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2440FF]/20 border border-[#2440FF]/30 text-[#78A9FF] font-mono text-xs uppercase tracking-wider font-semibold">
               <Shield className="h-3.5 w-3.5" />
-              <span>PADRÕES CORPORATIVOS & CONFIANÇA</span>
+              <span>ARQUITETURA, SEGURANÇA & GOVERNANÇA</span>
             </div>
             <h2
               id="trust-section-title"
               className="mt-4 font-serif-editorial text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.02] text-[#F5F6F8]"
             >
-              Arquitetura sólida feita para empresas sérias.
+              Engenharia responsável para operações que exigem confiança.
             </h2>
             <p className="mt-4 text-base md:text-lg text-[#969DA8] font-sans-editorial leading-relaxed">
-              Elimine o atrito manual e acelere sua prospecção com a segurança de um ecossistema projetado sob
-              os mais rigorosos padrões de integridade técnica e governança.
+              Construímos produtos digitais, sistemas e automações com foco em clareza arquitetural, proteção de dados e controle humano sobre regras críticas.
             </p>
           </div>
 
           <div className="shrink-0">
             <Link
-              href="/diagnostico"
+              href="/#contato"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/30 active:scale-95"
             >
-              <span>Solicitar Avaliação Técnica</span>
+              <span>Conversar com a Engenharia</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -125,7 +124,7 @@ export function TrustSection() {
           })}
         </div>
 
-        {/* Faixa de Compliance e Segurança */}
+        {/* Faixa de Boas Práticas */}
         <div className="mt-8 sm:mt-10 p-5 sm:p-6 rounded-2xl md:rounded-3xl bg-[#111318]/80 border border-white/10 shadow-xl backdrop-blur-xl">
           <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             {COMPLIANCE_TAGS.map((tag, i) => (

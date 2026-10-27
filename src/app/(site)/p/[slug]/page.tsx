@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2, MessageCircle, ShieldCheck } from "lucide-react";
-import { getProspectPageBySlug } from "@/lib/db/repo";
+import {
+  getProspectPageBySlug,
+  decodeProspectPayload,
+  cleanCompanyNameFromSlug
+} from "@/lib/db/repo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { CostCalculator } from "@/components/site/CostCalculator";
 import { FinalCTA } from "@/components/landing/FinalCTA";
@@ -8,11 +12,12 @@ import { ProspectPageTracker } from "./tracker";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ d?: string; empresa?: string; cidade?: string; nicho?: string }>;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Diagnóstico Operacional Personalizado · Sales Hunter",
+    title: "Diagnóstico Operacional Personalizado · Sanle",
     robots: {
       index: false,
       follow: false,
@@ -21,77 +26,100 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function getDeterministicOpportunities(nicho: string) {
+function getDeterministicOpportunities(nicho: string, customOportunidade?: string | null) {
   const n = (nicho || "").toLowerCase();
 
-  if (n.includes("bpo") || n.includes("contabil") || n.includes("financeiro")) {
-    return [
-      {
-        title: "Conciliação bancária multi-extratos",
-        desc: "Captura de extratos OFX/PDF de clientes e conciliação automática com o ERP.",
-        impact: "Redução expressiva do tempo de fechamento mensal."
-      },
-      {
-        title: "Baixa de comprovantes Pix e boletos",
-        desc: "Leitura de comprovantes de pagamento e registro de liquidação sem digitação manual.",
-        impact: "Eliminação de divergências por redigitação de valores."
-      },
-      {
-        title: "Cobrança proativa de documentos pendentes",
-        desc: "Mensagens automáticas e pontuais cobrando recibos e notas que ainda faltam.",
-        impact: "Previsibilidade no fluxo mensal da carteira."
-      }
-    ];
+  const baseList =
+    n.includes("bpo") || n.includes("contabil") || n.includes("financeiro")
+      ? [
+          {
+            title: "Conciliação bancária e triagem documental",
+            desc: "Captura de extratos OFX/PDF de clientes e conciliação automatizada com o sistema contábil/financeiro.",
+            impact: "Redução de horas gastas no fechamento mensal."
+          },
+          {
+            title: "Baixa estruturada de comprovantes Pix e boletos",
+            desc: "Leitura de comprovantes de pagamento e registro de liquidação sem redigitação manual.",
+            impact: "Menos divergências por digitação repetida de valores."
+          },
+          {
+            title: "Cobrança organizada de documentos pendentes",
+            desc: "Lembretes automáticos e pontuais solicitando recibos e notas que ainda faltam no mês.",
+            impact: "Previsibilidade na rotina mensal da carteira."
+          }
+        ]
+      : n.includes("juridico") || n.includes("advoc") || n.includes("direito")
+        ? [
+            {
+              title: "Classificação automática de peças e documentos",
+              desc: "Identificação do tipo de documento e encaminhamento estruturado para a pasta do cliente.",
+              impact: "Controle organizado de prazos e fluxo documental."
+            },
+            {
+              title: "Busca contextual no acervo de contratos (RAG)",
+              desc: "Localização rápida de cláusulas, minutas e precedentes internos com citação da fonte.",
+              impact: "Economia de horas em pesquisas manuais em diretórios."
+            },
+            {
+              title: "Geração padronizada de minutas e procurações",
+              desc: "Preenchimento de dados a partir do cadastro do cliente em modelos aprovados pelo escritório.",
+              impact: "Agilidade na abertura de novos atendimentos."
+            }
+          ]
+        : [
+            {
+              title: "Presença digital autoral e atendimento imediato",
+              desc: "Experiência digital estruturada para apresentar seus serviços com clareza e captar clientes pelo WhatsApp.",
+              impact: "Melhor aproveitamento de buscas comerciais e indicações."
+            },
+            {
+              title: "Triagem inteligente e respostas rápidas",
+              desc: "Agente de atendimento e formulários estruturados para coletar dados essenciais antes do orçamento.",
+              impact: "Atendimento ágil sem sobrecarregar a equipe."
+            },
+            {
+              title: "Painel de acompanhamento de clientes e pedidos",
+              desc: "Sistema sob medida para visibilidade sobre cada negociação e serviço em andamento.",
+              impact: "Nenhum orçamento ou próximo passo esquecido."
+            }
+          ];
+
+  if (customOportunidade && customOportunidade.trim()) {
+    baseList[0] = {
+      title: "Oportunidade prioritária mapeada para a operação",
+      desc: customOportunidade.trim(),
+      impact: "Desenhado sob medida para a realidade atual da empresa."
+    };
   }
 
-  if (n.includes("juridico") || n.includes("advoc") || n.includes("direito")) {
-    return [
-      {
-        title: "Classificação automática de peças e intimações",
-        desc: "Identificação do tipo de documento e encaminhamento para a pasta correta.",
-        impact: "Controle rigoroso de prazos e fluxo documental."
-      },
-      {
-        title: "Busca semântica no acervo de contratos",
-        desc: "Localização rápida de cláusulas e precedentes internos.",
-        impact: "Economia de horas em pesquisas manuais em diretórios."
-      },
-      {
-        title: "Geração padronizada de minutas e procurações",
-        desc: "Preenchimento de dados a partir do cadastro do cliente em modelos aprovados.",
-        impact: "Agilidade na montagem inicial de processos."
-      }
-    ];
-  }
-
-  return [
-    {
-      title: "Presença digital de alta conversão e atendimento imediato",
-      desc: "Vitrine comercial estruturada com captação direta para o WhatsApp e resposta rápida.",
-      impact: "Aumento de orçamentos qualificados vindos de buscas locais."
-    },
-    {
-      title: "Orçamentos e propostas em segundos",
-      desc: "Padronização do atendimento e envio ágil de propostas comerciais pelo celular ou desktop.",
-      impact: "Maior taxa de fechamento pela velocidade de resposta."
-    },
-    {
-      title: "Organização de follow-ups e clientes recorrentes",
-      desc: "Visibilidade sobre cada negociação em aberto com lembretes de próximo passo.",
-      impact: "Nenhum orçamento esquecido sem retorno comercial."
-    }
-  ];
+  return baseList;
 }
 
-export default async function ProspectPersonalizedPage({ params }: PageProps) {
+export default async function ProspectPersonalizedPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const sp = searchParams ? await searchParams : {};
+
   const prospect = await getProspectPageBySlug(slug);
+  const decoded = decodeProspectPayload(sp?.d);
 
-  const empresa = prospect?.empresa || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  const cidade = prospect?.cidade || "Brasília";
-  const nicho = prospect?.nicho || "sua operação";
+  const empresa =
+    prospect?.empresa ||
+    decoded?.empresa ||
+    (sp?.empresa ? sp.empresa.trim() : "") ||
+    cleanCompanyNameFromSlug(slug);
+  const cidade =
+    prospect?.cidade ||
+    decoded?.cidade ||
+    (sp?.cidade ? sp.cidade.trim() : "") ||
+    "Brasília";
+  const nicho =
+    prospect?.nicho ||
+    decoded?.nicho ||
+    (sp?.nicho ? sp.nicho.trim() : "") ||
+    "sua operação";
+  const oportunidade = prospect?.oportunidade ?? decoded?.oportunidade ?? null;
 
-  const opportunities = getDeterministicOpportunities(nicho);
+  const opportunities = getDeterministicOpportunities(nicho, oportunidade);
 
   const whatsUrl = buildWhatsAppLink({
     empresa,
@@ -100,7 +128,7 @@ export default async function ProspectPersonalizedPage({ params }: PageProps) {
   });
 
   return (
-    <article className="bg-[#08090C] pt-24 text-[#F5F6F8]">
+    <article className="bg-[#08090C] pt-28 text-[#F5F6F8]">
       <ProspectPageTracker slug={slug} empresa={empresa} nicho={nicho} />
 
       <section className="shell border-b border-white/[0.06] py-16 md:py-24">
@@ -115,8 +143,8 @@ export default async function ProspectPersonalizedPage({ params }: PageProps) {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#969DA8]">
-            Preparamos esta demonstração sob medida para apresentar os pontos de alavancagem digital
-            e comercial mais relevantes para a realidade de {nicho}.
+            Preparamos esta demonstração sob medida para apresentar os pontos de alavancagem digital,
+            sistemas, agentes de IA e automação mais relevantes para a realidade de {nicho}.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">

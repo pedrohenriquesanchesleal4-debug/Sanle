@@ -13,58 +13,58 @@ export const SEGMENTS_DATA: SegmentInfo[] = [
   {
     id: "bpo-financeiro",
     slug: "bpo-financeiro",
-    tabLabel: "BPO Financeiro",
-    headline: "Automação documental e conciliação para carteiras de clientes com alto volume.",
+    tabLabel: "Finanças & BPO",
+    headline: "Sistemas de controle, triagem documental e conciliação para operações financeiras.",
     description:
-      "Elimine a rotina de baixar extratos bancários manualmente, renomear comprovantes Pix e redigitar lançamentos no ERP de cada cliente atendido.",
+      "Reduza a rotina de baixar extratos manualmente, renomear comprovantes e redigitar lançamentos no sistema financeiro de cada cliente.",
     flowExample: [
-      "Extratos e comprovantes recebidos automaticamente por e-mail ou WhatsApp",
-      "Reconhecimento de CNPJ, valor, data e categoria com validação cruzada",
-      "Geração de arquivo de importação ou envio direto via API para o Omie, ContaAzul ou ERP",
-      "Alerta imediato apenas para divergências ou ausência de documento suporte"
+      "Recebimento estruturado de extratos e comprovantes por e-mail, portal ou WhatsApp",
+      "Identificação de CNPJ, valor, data e categoria com validação de regras do processo",
+      "Exportação padronizada ou integração via API com o sistema contábil/financeiro",
+      "Sinalização de divergências em fila de revisão humana"
     ],
     metrics: [
-      { label: "Tempo de fechamento", val: "-60%" },
-      { label: "Erros de conciliação", val: "Quase zero" }
+      { label: "Foco operacional", val: "Triagem & conciliação" },
+      { label: "Exceções", val: "Fila de revisão humana" }
     ],
-    ctaLabel: "Ver solução para BPO financeiro"
+    ctaLabel: "Conversar sobre solução financeira"
   },
   {
     id: "escritorios",
     slug: "escritorios",
-    tabLabel: "Escritórios (Contábil e Jurídico)",
-    headline: "Organização de pastas, certidões e extração de dados de processos.",
+    tabLabel: "Jurídico & Consultorias",
+    headline: "Portais de clientes, organização de acervo e pesquisa assistida por IA (RAG).",
     description:
-      "Transforme documentos despadronizados enviados pelos clientes em pastas estruturadas, com renomeação padronizada e leitura inteligente de termos e prazos.",
+      "Transforme documentos dispersos em bases estruturadas, com nomenclatura padronizada e busca contextual em contratos e precedentes internos.",
     flowExample: [
-      "Upload centralizado de guias, contratos e documentos probatórios",
-      "Classificação instantânea por cliente, exercício contábil ou número de processo",
-      "Extração automática de metadados críticos (valores, partes, datas limite)",
-      "Indexação com busca semântica para localização instantânea de qualquer cláusula"
+      "Coleta organizada de documentos e briefing inicial de clientes",
+      "Classificação automática por cliente, área ou número de referência",
+      "Pesquisa semântica (RAG) em contratos e acervo interno com citação de fonte",
+      "Apoio na montagem de minutas padronizadas a partir de dados validados"
     ],
     metrics: [
-      { label: "Localização de arquivos", val: "Instantânea" },
-      { label: "Padronização de acervo", val: "100%" }
+      { label: "Organização", val: "Indexação estruturada" },
+      { label: "Consulta interna", val: "RAG com fontes citadas" }
     ],
-    ctaLabel: "Ver solução para escritórios"
+    ctaLabel: "Conversar sobre solução para escritórios"
   },
   {
     id: "prestadores-de-servico",
     slug: "prestadores-de-servico",
-    tabLabel: "Prestadores de Serviço",
-    headline: "Agilidade na emissão de orçamentos, contratos e cobrança de pendências.",
+    tabLabel: "Operações & Serviços B2B",
+    headline: "Presença digital forte, sistemas de pedidos e atendimento inteligente.",
     description:
-      "Para empresas com equipes em campo ou orçamentos customizados (marcenarias, vidraçarias, instalações, consultorias). Reduza o tempo entre a solicitação e o contrato assinado.",
+      "Para empresas com atendimento consultivo, equipes técnicas ou orçamentos sob medida. Conecte a captação comercial ao controle de execução.",
     flowExample: [
-      "Solicitação de orçamento recebida via formulário ou mensagem",
-      "Cálculo automático de custos e composição de proposta em PDF padronizado",
-      "Disparo do link para aprovação e assinatura digital do cliente",
-      "Criação automática da ordem de serviço e cobrança de entrada"
+      "Landing page ou site autoral captando demandas qualificadas",
+      "Agente de atendimento coletando especificações iniciais pelo WhatsApp",
+      "Painel web para gestão de orçamentos, ordens de serviço e prazos",
+      "Acompanhamento claro de cada etapa desde o primeiro contato até a entrega"
     ],
     metrics: [
-      { label: "Tempo de proposta", val: "Sob demanda" },
-      { label: "Contratos perdidos por demora", val: "-75%" }
+      { label: "Jornada comercial", val: "Captação à entrega" },
+      { label: "Controle interno", val: "Painel sob medida" }
     ],
-    ctaLabel: "Ver solução para prestadores de serviço"
+    ctaLabel: "Conversar sobre solução operacional"
   }
 ];

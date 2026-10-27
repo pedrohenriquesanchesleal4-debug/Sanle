@@ -394,10 +394,18 @@ html.light .bg-dark-card {
 }
 
 /* Header & Navigation in Light Mode */
-html.light header.bg-\[\#08090C\]\/85 {
-  background-color: rgba(255, 255, 255, 0.88) !important;
-  border-bottom-color: rgba(15, 18, 25, 0.08) !important;
+html.light header > div {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(15, 18, 25, 0.1) !important;
   color: #0F1219 !important;
+  box-shadow: 0 12px 36px rgba(15, 18, 25, 0.08) !important;
+}
+
+html.light .field:focus {
+  background: #FFFFFF !important;
+  border-color: #2440FF !important;
+  color: #0F1219 !important;
+  box-shadow: 0 0 0 3px rgba(36, 64, 255, 0.14) !important;
 }
 
 /* Footer in Light Mode */
