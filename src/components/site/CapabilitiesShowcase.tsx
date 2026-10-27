@@ -18,6 +18,7 @@ import {
   MessageCircle
 } from "lucide-react";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type CapabilityId = "digital" | "systems" | "agents" | "automation";
 
@@ -131,6 +132,7 @@ const CAPABILITIES: CapabilityTab[] = [
 ];
 
 export function CapabilitiesShowcase() {
+  const { dict } = useI18n();
   const [activeTab, setActiveTab] = useState<CapabilityId>("digital");
 
   // Estados interativos do simulador Digital
@@ -198,20 +200,19 @@ export function CapabilitiesShowcase() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 shadow-xs backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-pulse" />
             <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-[#969DA8] font-medium">
-              CAPACIDADES FUNDAMENTAIS
+              {dict.capabilities.badge}
             </span>
           </div>
 
           <h2 className="mt-4 font-serif-editorial text-[clamp(2.1rem,4.8vw,4.2rem)] leading-[1.02] tracking-[-0.03em] text-[#F5F6F8]">
-            Quatro frentes de engenharia.{" "}
+            {dict.capabilities.headline}{" "}
             <span className="italic text-[#78A9FF] font-normal not-italic:font-serif">
-              Soluções que funcionam na prática.
+              {dict.capabilities.headlineItalic}
             </span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-[#969DA8] font-sans-editorial leading-relaxed max-w-2xl">
-            Não vendemos linguagens nem código abstrato. Desenvolvemos produtos digitais, sistemas personalizados, 
-            agentes de inteligência artificial e automações que geram valor palpável para o seu negócio.
+            {dict.capabilities.subheadline}
           </p>
         </div>
 
@@ -328,7 +329,7 @@ export function CapabilitiesShowcase() {
                 className="inline-flex items-center gap-2 px-4 py-3.5 rounded-full border border-white/15 bg-white/[0.03] text-stone-300 text-xs hover:text-white hover:border-white/30 transition-colors"
               >
                 <MessageCircle className="h-3.5 w-3.5 text-[#B7F36B]" />
-                <span>Conversar no WhatsApp</span>
+                <span>{dict.capabilities.talkOnWhatsapp}</span>
               </a>
             </div>
           </div>

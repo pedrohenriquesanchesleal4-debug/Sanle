@@ -6,7 +6,7 @@ import { ArrowRight, MessageCircle, ChevronDown } from "lucide-react";
 import { heroContent } from "@/content/hero";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
-
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { TactileFlowConsole } from "@/components/site/TactileFlowConsole";
 
 export function HeroPortal() {
@@ -17,6 +17,7 @@ export function HeroPortal() {
   const heroContentRef = useRef<HTMLDivElement | null>(null);
   const lastProgressRef = useRef<number>(-1);
   const [isRevealed, setIsRevealed] = useState(false);
+  const { dict } = useI18n();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -99,7 +100,7 @@ export function HeroPortal() {
     let ticking = false;
     const onScroll = () => {
       if (!ticking) {
-        requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
           updateZoom();
           ticking = false;
         });
@@ -116,14 +117,16 @@ export function HeroPortal() {
     };
   }, []);
 
-  const handleWhatsAppClick = () => {
-    trackEvent("whatsapp_aberto", { local: "hero" });
-    const url = buildWhatsAppLink();
-    window.open(url, "_blank", "noopener,noreferrer");
+  const handleCtaClick = () => {
+    trackEvent("cta_clicado", { cta: "hero_construir_solucao" });
   };
 
-  const handleCtaClick = () => {
-    trackEvent("cta_clicado", { cta: "mapear_meu_processo", local: "hero" });
+  const handleWhatsAppClick = () => {
+    trackEvent("whatsapp_aberto", { local: "hero_portal" });
+    const url = buildWhatsAppLink({
+      customText: "Olá Pedro! Vim pelo portal da Sanle e gostaria de entender como podemos construir uma solução para minha empresa."
+    });
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -160,7 +163,7 @@ export function HeroPortal() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-sm backdrop-blur-md">
                   <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-pulse" />
                   <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-[#969DA8] font-medium">
-                    {heroContent.eyebrow}
+                    {dict.hero.eyebrow}
                   </span>
                 </div>
                 <span className="font-mono text-[0.62rem] text-[#969DA8]/70 hidden sm:inline">
@@ -172,51 +175,51 @@ export function HeroPortal() {
                 id="hero-main-title"
                 className="mt-4 md:mt-5 font-serif-editorial text-[clamp(2.1rem,5vw,5rem)] leading-[1.02] tracking-[-0.03em] text-[#F5F6F8]"
               >
-                {heroContent.headlineTop}
+                {dict.hero.headlineTop}
                 <span className="block mt-1 font-serif-editorial">
-                  {heroContent.headlineBottom}{" "}
+                  {dict.hero.headlineBottom}{" "}
                   <em className="italic text-[#78A9FF] font-normal not-italic:font-serif">
-                    {heroContent.headlineItalic}
+                    {dict.hero.headlineItalic}
                   </em>
                 </span>
               </h1>
 
               <p className="mt-3 md:mt-5 max-w-xl text-sm sm:text-base md:text-lg leading-relaxed text-[#969DA8] font-sans-editorial">
-                {heroContent.subheadline}
+                {dict.hero.subheadline}
               </p>
 
               {/* Quatro capacidades essenciais da Sanle */}
               <div className="mt-5 md:mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl">
                 <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
                   <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#78A9FF] font-bold block">
-                    01 · DIGITAL
+                    {dict.hero.pillarDigital}
                   </span>
                   <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    Sites & Landing
+                    {dict.hero.pillarDigitalSub}
                   </span>
                 </div>
                 <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
                   <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#C8A24A] font-bold block">
-                    02 · SYSTEMS
+                    {dict.hero.pillarSystems}
                   </span>
                   <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    Sistemas & CRMs
+                    {dict.hero.pillarSystemsSub}
                   </span>
                 </div>
                 <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
                   <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#B7F36B] font-bold block">
-                    03 · AGENTS
+                    {dict.hero.pillarAgents}
                   </span>
                   <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    IA & WhatsApp
+                    {dict.hero.pillarAgentsSub}
                   </span>
                 </div>
                 <div className="p-2 sm:p-2.5 rounded-xl border border-white/10 bg-white/[0.03] shadow-xs backdrop-blur-sm">
                   <span className="font-mono text-[0.6rem] uppercase tracking-wider text-[#10B981] font-bold block">
-                    04 · AUTO
+                    {dict.hero.pillarAuto}
                   </span>
                   <span className="text-[0.7rem] text-[#F5F6F8] font-medium block mt-0.5">
-                    APIs & Processos
+                    {dict.hero.pillarAutoSub}
                   </span>
                 </div>
               </div>
@@ -227,7 +230,7 @@ export function HeroPortal() {
                   onClick={handleCtaClick}
                   className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm transition-all duration-200 hover:bg-[#3856ff] hover:shadow-[0_8px_25px_rgba(36,64,255,0.35)] active:scale-[0.98]"
                 >
-                  <span>{heroContent.ctaPrimary.label}</span>
+                  <span>{dict.hero.ctaPrimary}</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
 
@@ -235,14 +238,14 @@ export function HeroPortal() {
                   href={heroContent.ctaSecondary.href}
                   className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm hover:border-[#78A9FF] hover:text-[#78A9FF] hover:bg-white/[0.08] transition-all shadow-sm active:scale-[0.98]"
                 >
-                  <span>{heroContent.ctaSecondary.label}</span>
+                  <span>{dict.hero.ctaSecondary}</span>
                   <ArrowRight className="h-3.5 w-3.5 text-[#78A9FF]" />
                 </Link>
 
                 <button
                   type="button"
                   onClick={handleWhatsAppClick}
-                  className="hidden lg:inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-full bg-white/[0.02] border border-white/10 text-[#969DA8] text-xs hover:text-white hover:border-white/30 transition-all"
+                  className="hidden lg:inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-full bg-white/[0.02] border border-white/10 text-[#969DA8] text-xs hover:text-white hover:border-white/30 transition-all cursor-pointer"
                   title="Abrir WhatsApp oficial da Sanle"
                 >
                   <MessageCircle className="h-3.5 w-3.5 text-[#B7F36B]" />
@@ -251,7 +254,7 @@ export function HeroPortal() {
               </div>
 
               <p className="mt-4 md:mt-5 font-mono text-[0.66rem] sm:text-[0.68rem] uppercase tracking-[0.14em] text-[#969DA8]/80">
-                {heroContent.microProof}
+                {dict.hero.microProof}
               </p>
             </div>
 

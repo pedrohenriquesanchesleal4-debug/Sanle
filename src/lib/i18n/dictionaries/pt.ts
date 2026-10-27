@@ -1,0 +1,133 @@
+import type { Dictionary } from "../types";
+
+export const pt: Dictionary = {
+  common: {
+    localeName: "Português",
+    loading: "Carregando...",
+    submit: "Enviar",
+    submitting: "Processando...",
+    success: "Sucesso!",
+    error: "Ocorreu um erro",
+    whatsapp: "WhatsApp",
+    online: "Online",
+    all: "Todos",
+    backToHome: "Voltar ao início",
+    theme: "Tema"
+  },
+  header: {
+    capabilities: "Capacidades",
+    engineering: "Engenharia",
+    projects: "Projetos",
+    contracting: "Contratação",
+    solutions: "Soluções",
+    contact: "Contato",
+    about: "Sobre",
+    talkToSpecialist: "Falar com especialista",
+    buildSolution: "Construir Solução",
+    menuOpen: "Abrir menu",
+    menuClose: "Fechar menu"
+  },
+  hero: {
+    eyebrow: "THE OPPORTUNITY ENGINE · SOFTWARE · SYSTEMS · AI · AUTOMATION",
+    headlineTop: "Seu próximo avanço não precisa",
+    headlineBottom: "continuar sendo",
+    headlineItalic: "manual.",
+    subheadline: "Criamos sites, sistemas, automações e agentes de inteligência artificial para transformar desafios operacionais e comerciais em soluções que funcionam na prática.",
+    ctaPrimary: "Vamos construir sua solução",
+    ctaSecondary: "Explorar capacidades",
+    microProof: "Presença digital · Sistemas personalizados · Agentes de IA · Automação operacional",
+    pillarDigital: "01 · DIGITAL",
+    pillarDigitalSub: "Sites & Landing",
+    pillarSystems: "02 · SYSTEMS",
+    pillarSystemsSub: "Sistemas & CRMs",
+    pillarAgents: "03 · AGENTS",
+    pillarAgentsSub: "IA & WhatsApp",
+    pillarAuto: "04 · AUTO",
+    pillarAutoSub: "APIs & Processos"
+  },
+  capabilities: {
+    badge: "CAPACIDADES FUNDAMENTAIS",
+    headline: "Quatro frentes de engenharia.",
+    headlineItalic: "Soluções que funcionam na prática.",
+    subheadline: "Não vendemos linguagens nem código abstrato. Desenvolvemos produtos digitais, sistemas personalizados, agentes de inteligência artificial e automações que geram valor palpável para o seu negócio.",
+    whatWeBuild: "O QUE DESENVOLVEMOS NESTA FRENTE:",
+    ctaDigital: "Quero melhorar minha presença digital",
+    ctaSystems: "Quero desenvolver um sistema",
+    ctaAgents: "Quero um agente para minha empresa",
+    ctaAutomation: "Quero automatizar um processo",
+    talkOnWhatsapp: "Conversar no WhatsApp"
+  },
+  pinnedProblems: {
+    environmentBadge: "AMBIENTE 02 · SALA DE INVESTIGAÇÃO FORENSE",
+    environmentTitle: "O Custo Invisível da Operação",
+    environmentDesc: "Você acaba de atravessar para o ambiente de auditoria. Conforme rola, investigue cada um dos 7 crimes de ineficiência operacional.",
+    panelEyebrow: "O CUSTO INVISÍVEL DA OPERAÇÃO",
+    panelTitle: "Tarefas pequenas que, somadas, custam a operação inteira.",
+    panelDesc: "Elas não aparecem no relatório de diretoria nem constam em nenhuma linha de orçamento. Ninguém as mede. Mas consomem até 32% do tempo todos os dias.",
+    dossierLabel: "Dossiê sob análise:",
+    calcCta: "Calcular custo em R$",
+    mapCta: "Mapear meus gargalos"
+  },
+  calculator: {
+    badge: "CLÍMAX DA INVESTIGAÇÃO FORENSE · IMPACTO FINANCEIRO",
+    title: "Quanto o custo invisível tira da sua empresa todos os meses?",
+    desc: "Após mapear os 7 gargalos, informe os números reais da sua equipe. A fórmula baseia-se na média nacional de 22 dias úteis mensais.",
+    teamLabel: "Número de pessoas na equipe que operam rotinas manuais",
+    hoursLabel: "Média diária gasta por pessoa em tarefas repetitivas",
+    salaryLabel: "Custo médio mensal por profissional (R$)",
+    monthlyLossLabel: "Custo financeiro invisível desperdiçado / mês",
+    yearlyLossLabel: "Impacto anual estimado",
+    cta: "Quero converter essas horas em oportunidade"
+  },
+  cases: {
+    badge: "PROVAS DE CAPACIDADE & ENGENHARIA",
+    title: "Projetos próprios, sistemas reais e demonstrações funcionais.",
+    desc: "Não inventamos depoimentos nem clientes fictícios. Apresentamos a arquitetura de software, as plataformas proprietárias e os módulos em operação construídos para resolver problemas reais de mercado.",
+    filterAll: "Todos (6)",
+    filterSites: "Sites & Portais",
+    filterSystems: "Sistemas & CRMs",
+    filterAgents: "Agentes & IA",
+    filterAutomation: "Automação",
+    theChallenge: "O DESAFIO:",
+    implementedSolution: "SOLUÇÃO IMPLEMENTADA:",
+    verifiedFeatures: "FUNCIONALIDADES VERIFICADAS:",
+    transparencyNote: "TRANSPARÊNCIA TOTAL: PRODUTOS PRÓPRIOS IDENTIFICADOS · SEM FALSOS CLIENTES"
+  },
+  commercialModels: {
+    badge: "MODELOS DE ENGAJAMENTO",
+    title: "Clareza comercial.",
+    titleItalic: "Como podemos trabalhar juntos.",
+    desc: "Estruturamos nossos contratos para alinhar investimento com o momento real da sua empresa: da entrega de um projeto com escopo definido até a sustentação de longo prazo.",
+    whatIsIncluded: "O que está contemplado:",
+    idealFor: "Indicado para:",
+    requestProposal: "Solicitar proposta",
+    transparencyTitle: "TRANSPARÊNCIA SOBRE CUSTOS DE INFRAESTRUTURA E CONSUMO DE IA",
+    transparencyDesc: "Não misturamos investimento em engenharia com consumo de nuvem. Serviços de terceiros (hospedagem Vercel/AWS, bancos Supabase, WhatsApp Business API e consumo de tokens OpenAI/Anthropic) são faturados de forma transparente diretamente pelos provedores, sem margens ocultas."
+  },
+  contactForm: {
+    badge: "JORNADA COMERCIAL & DIAGNÓSTICO",
+    title: "Vamos construir a solução adequada para a sua empresa.",
+    desc: "Identifique sua necessidade abaixo. Nós mapeamos o escopo, estimamos a viabilidade técnica e propomos um caminho claro de engenharia sem burocracia.",
+    selectNature: "1. SELECIONE A NATUREZA DO SEU PROJETO:",
+    stepIndicator: "Etapa 2 de 2",
+    nameLabel: "Seu nome *",
+    companyLabel: "Nome da empresa *",
+    whatsappLabel: "WhatsApp comercial *",
+    segmentLabel: "Segmento de atuação *",
+    privacyConsent: "Concordo em receber contato da equipe técnica da Sanle para avaliação deste projeto, conforme as diretrizes da nossa",
+    privacyLink: "Política de Privacidade",
+    submitCta: "Conversar sobre meu projeto",
+    whatsappCta: "Chamar no WhatsApp",
+    seeDemos: "Quer ver o que desenvolvemos antes? Ver demonstrações",
+    successTitle: "Solicitação recebida com sucesso.",
+    successDesc: "Nossa equipe técnica já está analisando seu briefing e responderá no WhatsApp comercial.",
+    continueOnWhatsapp: "Continuar conversa agora no WhatsApp"
+  },
+  footer: {
+    tagline: "Software, sistemas web, agentes de inteligência artificial e automação de processos.",
+    rights: "Todos os direitos reservados.",
+    privacy: "Privacidade",
+    terms: "Termos de Uso",
+    contactDirect: "Fale diretamente: (61) 98139-9051"
+  }
+};

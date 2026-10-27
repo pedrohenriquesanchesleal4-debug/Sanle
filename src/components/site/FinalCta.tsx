@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, MessageCircle, ArrowUpRight } from "lucide-react";
 import { segments } from "@/content/brand";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { trackEvent } from "@/lib/analytics";
 
 interface CategoryOption {
@@ -76,6 +77,7 @@ const CATEGORIES: CategoryOption[] = [
 ];
 
 export function FinalCta() {
+  const { dict } = useI18n();
   const [selectedCategory, setSelectedCategory] = useState<string>("site");
   const [nome, setNome] = useState("");
   const [empresa, setEmpresa] = useState("");
@@ -207,19 +209,18 @@ export function FinalCta() {
       <div className="shell relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#78A9FF] font-semibold shadow-sm backdrop-blur-md">
-            JORNADA COMERCIAL & DIAGNÓSTICO
+            {dict.contactForm.badge}
           </span>
 
           <h2
             id="cta-final-title"
             className="mt-5 font-serif-editorial text-[clamp(2.3rem,6vw,4.8rem)] leading-[0.98] text-[#F5F6F8]"
           >
-            Vamos construir a solução adequada para a sua empresa.
+            {dict.contactForm.title}
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-[#969DA8] font-sans-editorial leading-relaxed max-w-2xl mx-auto">
-            Identifique sua necessidade abaixo. Nós mapeamos o escopo, estimamos a viabilidade técnica 
-            e propomos um caminho claro de engenharia sem burocracia.
+            {dict.contactForm.desc}
           </p>
         </div>
 
@@ -228,7 +229,7 @@ export function FinalCta() {
            ======================================================================= */}
         <div className="mt-10 sm:mt-12 max-w-4xl mx-auto">
           <span className="block font-mono text-xs uppercase tracking-wider text-[#969DA8] mb-3 text-center font-semibold">
-            1. SELECIONE A NATUREZA DO SEU PROJETO:
+            {dict.contactForm.selectNature}
           </span>
 
           <div className="flex flex-wrap justify-center gap-2">
@@ -261,12 +262,12 @@ export function FinalCta() {
               </div>
 
               <h3 className="mt-6 font-serif-editorial text-3xl text-[#F5F6F8]">
-                Solicitação recebida com sucesso.
+                {dict.contactForm.successTitle}
               </h3>
 
               <p className="mt-3 text-base text-[#969DA8] font-sans-editorial max-w-md mx-auto">
                 Registramos seu interesse em <strong className="text-white">{activeCatObj.label}</strong>. 
-                Nossa equipe técnica já está analisando seu briefing e responderá no WhatsApp comercial.
+                {dict.contactForm.successDesc}
               </p>
 
               {whatsappReturnUrl && (
@@ -278,7 +279,7 @@ export function FinalCta() {
                     className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2440FF] text-white font-medium text-sm hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/25"
                   >
                     <MessageCircle className="h-4 w-4" />
-                    <span>Continuar conversa agora no WhatsApp</span>
+                    <span>{dict.contactForm.continueOnWhatsapp}</span>
                   </a>
                 </div>
               )}
@@ -431,7 +432,7 @@ export function FinalCta() {
                   title="Abrir WhatsApp com o briefing da categoria selecionada"
                 >
                   <MessageCircle className="h-4 w-4 text-[#B7F36B]" />
-                  <span>Chamar no WhatsApp</span>
+                  <span>{dict.contactForm.whatsappCta}</span>
                 </button>
               </div>
 

@@ -7,7 +7,7 @@ export function getWhatsAppNumber(): string {
   const raw =
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
     process.env.NEXT_PUBLIC_SANLE_WHATSAPP ||
-    "61999999999"; // fallback seguro para DF
+    "5561981399051"; // Número oficial Sanle (61) 98139-9051
 
   return raw.replace(/\D/g, "");
 }

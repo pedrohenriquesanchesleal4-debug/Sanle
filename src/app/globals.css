@@ -339,3 +339,184 @@
     color: #F5F6F8;
   }
 }
+
+
+/* =========================================================================
+   SANLE LIGHT THEME — High-Craft Editorial Light Mode
+   Base: #F8F9FA (Alabaster Off-White), #FFFFFF (Surfaces), #0F1219 (Ink)
+   ========================================================================= */
+html.light,
+[data-theme="light"] {
+  --paper: 248 249 250;       /* #F8F9FA */
+  --paper-soft: 255 255 255;  /* #FFFFFF */
+  --paper-deep: 241 243 245;  /* #F1F3F5 */
+  --ink: 15 18 25;            /* #0F1219 */
+  --ink-soft: 85 93 110;      /* #555D6E */
+  --ink-mute: 140 148 160;    /* #8C94A0 */
+  --cobalt: 36 64 255;        /* #2440FF */
+  --cobalt-deep: 20 45 200;
+  --signal: 40 167 69;        /* #28A745 */
+  --rule: rgba(15, 18, 25, 0.08);
+  --rule-strong: rgba(15, 18, 25, 0.16);
+  color-scheme: light;
+  background-color: #F8F9FA;
+  color: #0F1219;
+}
+
+html.light body,
+[data-theme="light"] body {
+  background-color: #F8F9FA !important;
+  color: #0F1219 !important;
+}
+
+html.light ::selection {
+  background: #2440FF;
+  color: #FFFFFF;
+}
+
+/* Base Surfaces in Light Mode */
+html.light .bg-\[\#08090C\],
+html.light .bg-\[\#060709\],
+html.light .bg-dark-base {
+  background-color: #F8F9FA !important;
+}
+
+html.light .bg-\[\#111318\],
+html.light .bg-\[\#0D0F14\],
+html.light .bg-dark-surface {
+  background-color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#191C22\],
+html.light .bg-\[\#14171F\],
+html.light .bg-dark-card {
+  background-color: #FFFFFF !important;
+}
+
+/* Header & Navigation in Light Mode */
+html.light header.bg-\[\#08090C\]\/85 {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-bottom-color: rgba(15, 18, 25, 0.08) !important;
+  color: #0F1219 !important;
+}
+
+/* Footer in Light Mode */
+html.light footer.bg-\[\#08090C\] {
+  background-color: #F1F3F5 !important;
+  border-top-color: rgba(15, 18, 25, 0.08) !important;
+  color: #0F1219 !important;
+}
+
+/* Text Colors in Light Mode */
+html.light .text-white,
+html.light .text-\[\#F5F6F8\],
+html.light .text-dark-fg {
+  color: #0F1219 !important;
+}
+
+html.light .text-white\/90,
+html.light .text-white\/80 {
+  color: #1E232E !important;
+}
+
+html.light .text-white\/70,
+html.light .text-white\/60,
+html.light .text-white\/50,
+html.light .text-\[\#969DA8\],
+html.light .text-dark-muted {
+  color: #555D6E !important;
+}
+
+html.light .text-white\/40,
+html.light .text-white\/30,
+html.light .text-white\/20 {
+  color: #8C94A0 !important;
+}
+
+/* Borders in Light Mode */
+html.light .border-white\/10,
+html.light .border-white\/5,
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-dark-line,
+html.light .border-\[\#F5F6F8\]\/10,
+html.light .border-\[\#F5F6F8\]\/8 {
+  border-color: rgba(15, 18, 25, 0.08) !important;
+}
+
+html.light .border-white\/30,
+html.light .border-dark-strong {
+  border-color: rgba(15, 18, 25, 0.16) !important;
+}
+
+/* Subtle backgrounds in Light Mode */
+html.light .bg-white\/5,
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.06\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Components in Light Mode */
+html.light .panel {
+  background: #FFFFFF !important;
+  border-color: rgba(15, 18, 25, 0.08) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .tag {
+  background: rgba(240, 242, 245, 0.9) !important;
+  border-color: rgba(15, 18, 25, 0.1) !important;
+  color: #555D6E !important;
+}
+
+html.light .field {
+  background: #FFFFFF !important;
+  border-color: rgba(15, 18, 25, 0.14) !important;
+  color: #0F1219 !important;
+}
+
+html.light .field::placeholder {
+  color: rgba(85, 93, 110, 0.6) !important;
+}
+
+html.light .btn-ghost {
+  border-color: rgba(15, 18, 25, 0.14) !important;
+  color: #0F1219 !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+html.light .btn-ghost:hover {
+  background: #FFFFFF !important;
+  border-color: #2440FF !important;
+  color: #2440FF !important;
+}
+
+/* Patterns and Grids in Light Mode */
+html.light .flow-grid {
+  background-image:
+    linear-gradient(rgba(15, 18, 25, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 18, 25, 0.04) 1px, transparent 1px) !important;
+}
+
+html.light .paper-grain {
+  background-image: radial-gradient(rgba(15, 18, 25, 0.04) 1px, transparent 1px) !important;
+}
+
+/* Scrollbar in Light Mode */
+html.light ::-webkit-scrollbar-track {
+  background: #F8F9FA !important;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(15, 18, 25, 0.18) !important;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(36, 64, 255, 0.45) !important;
+}
