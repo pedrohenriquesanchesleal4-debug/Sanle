@@ -1,0 +1,133 @@
+import type { Dictionary } from "../types";
+
+export const en: Dictionary = {
+  common: {
+    localeName: "English",
+    loading: "Loading...",
+    submit: "Send",
+    submitting: "Processing...",
+    success: "Success!",
+    error: "An error occurred",
+    whatsapp: "WhatsApp",
+    online: "Online",
+    all: "All",
+    backToHome: "Back to home",
+    theme: "Theme"
+  },
+  header: {
+    capabilities: "Capabilities",
+    engineering: "Engineering",
+    projects: "Projects",
+    contracting: "Engagement",
+    solutions: "Solutions",
+    contact: "Contact",
+    about: "About",
+    talkToSpecialist: "Talk to specialist",
+    buildSolution: "Build Solution",
+    menuOpen: "Open menu",
+    menuClose: "Close menu"
+  },
+  hero: {
+    eyebrow: "THE OPPORTUNITY ENGINE · SOFTWARE · SYSTEMS · AI · AUTOMATION",
+    headlineTop: "Your next breakthrough does not need",
+    headlineBottom: "to stay",
+    headlineItalic: "manual.",
+    subheadline: "We build websites, custom software, automations, and artificial intelligence agents to turn operational and sales challenges into practical business solutions.",
+    ctaPrimary: "Let's build your solution",
+    ctaSecondary: "Explore capabilities",
+    microProof: "Digital presence · Custom systems · AI agents · Operational automation",
+    pillarDigital: "01 · DIGITAL",
+    pillarDigitalSub: "Websites & Landing",
+    pillarSystems: "02 · SYSTEMS",
+    pillarSystemsSub: "Systems & CRMs",
+    pillarAgents: "03 · AGENTS",
+    pillarAgentsSub: "AI & WhatsApp",
+    pillarAuto: "04 · AUTO",
+    pillarAutoSub: "APIs & Workflows"
+  },
+  capabilities: {
+    badge: "CORE CAPABILITIES",
+    headline: "Four engineering frontiers.",
+    headlineItalic: "Solutions that deliver in practice.",
+    subheadline: "We don't sell abstract buzzwords. We build digital products, custom enterprise systems, AI agents, and automations that deliver measurable impact.",
+    whatWeBuild: "WHAT WE BUILD IN THIS FRONT:",
+    ctaDigital: "Upgrade my digital presence",
+    ctaSystems: "Build a custom system",
+    ctaAgents: "Deploy an AI agent",
+    ctaAutomation: "Automate an operation",
+    talkOnWhatsapp: "Chat on WhatsApp"
+  },
+  pinnedProblems: {
+    environmentBadge: "ENVIRONMENT 02 · FORENSIC INVESTIGATION ROOM",
+    environmentTitle: "The Invisible Operational Cost",
+    environmentDesc: "You have just crossed into the operational audit environment. As you scroll, explore each of the 7 operational friction crimes.",
+    panelEyebrow: "INVISIBLE OPERATIONAL FRICTION",
+    panelTitle: "Micro repetitive tasks that drain the entire operation.",
+    panelDesc: "They don't show up on boardroom decks or standard budget lines. Yet they consume up to 32% of team time every single business day.",
+    dossierLabel: "Dossier under review:",
+    calcCta: "Calculate financial loss",
+    mapCta: "Map our bottlenecks"
+  },
+  calculator: {
+    badge: "FORENSIC CLIMAX · FINANCIAL IMPACT",
+    title: "How much is invisible cost taking from your business each month?",
+    desc: "Input your team's numbers below. The formula is modeled on 22 business days per month.",
+    teamLabel: "Number of team members running manual routines",
+    hoursLabel: "Average daily hours spent per person on manual tasks",
+    salaryLabel: "Average monthly cost per professional ($/R$)",
+    monthlyLossLabel: "Monthly invisible financial waste",
+    yearlyLossLabel: "Estimated annual loss",
+    cta: "Convert wasted hours into revenue"
+  },
+  cases: {
+    badge: "PROOF OF ENGINEERING CAPABILITY",
+    title: "Proprietary software, live systems, and verifiable modules.",
+    desc: "No fabricated quotes or mock logos. We display verifiable software architecture, live platforms, and production modules built to solve real market problems.",
+    filterAll: "All (6)",
+    filterSites: "Websites & Portals",
+    filterSystems: "Systems & CRMs",
+    filterAgents: "Agents & AI",
+    filterAutomation: "Automation",
+    theChallenge: "THE CHALLENGE:",
+    implementedSolution: "IMPLEMENTED SOLUTION:",
+    verifiedFeatures: "VERIFIED CAPABILITIES:",
+    transparencyNote: "100% TRANSPARENCY: AUTHENTIC ARCHITECTURE · ZERO FAKE TESTIMONIALS"
+  },
+  commercialModels: {
+    badge: "ENGAGEMENT MODELS",
+    title: "Commercial transparency.",
+    titleItalic: "How we work together.",
+    desc: "We structure our agreements around your company's actual stage: from fixed-scope delivery to long-term retained engineering partnerships.",
+    whatIsIncluded: "Included in scope:",
+    idealFor: "Best suited for:",
+    requestProposal: "Request proposal",
+    transparencyTitle: "TRANSPARENCY ON INFRASTRUCTURE & AI TOKEN CONSUMPTION",
+    transparencyDesc: "We do not blend engineering work with cloud computing invoices. Third-party infrastructure (Vercel/AWS, Supabase, WhatsApp Business API, and LLM token usage) is billed directly by providers with zero markup."
+  },
+  contactForm: {
+    badge: "COMMERCIAL ONBOARDING & DIAGNOSTIC",
+    title: "Let's build the right solution for your enterprise.",
+    desc: "Select your project requirement below. We assess scope, calculate technical feasibility, and present an actionable engineering roadmap.",
+    selectNature: "1. SELECT THE NATURE OF YOUR PROJECT:",
+    stepIndicator: "Step 2 of 2",
+    nameLabel: "Your name *",
+    companyLabel: "Company name *",
+    whatsappLabel: "Business WhatsApp / Phone *",
+    segmentLabel: "Industry sector *",
+    privacyConsent: "I agree to be contacted by Sanle's technical team regarding this project, in accordance with our",
+    privacyLink: "Privacy Policy",
+    submitCta: "Discuss my project",
+    whatsappCta: "Reach out via WhatsApp",
+    seeDemos: "Want to see what we've built first? View live showcases",
+    successTitle: "Inquiry received successfully.",
+    successDesc: "Our technical team is reviewing your briefing and will reach out via business WhatsApp.",
+    continueOnWhatsapp: "Continue conversation on WhatsApp now"
+  },
+  footer: {
+    tagline: "Software engineering, web systems, artificial intelligence agents, and operational automation.",
+    rights: "All rights reserved.",
+    privacy: "Privacy",
+    terms: "Terms of Service",
+    contactDirect: "Direct channel: +55 (61) 98139-9051"
+  }
+};

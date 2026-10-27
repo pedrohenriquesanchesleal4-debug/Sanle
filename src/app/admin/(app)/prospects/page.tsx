@@ -5,7 +5,7 @@ import { Panel, Notice } from "@/components/admin/ui";
 import { LeadSearch, type LeadSearchFormState } from "@/components/dashboard/LeadSearch";
 import { LeadResults } from "@/components/dashboard/LeadResults";
 import { api, errorMessage } from "@/lib/client-api";
-import type { ProspectCandidate } from "@/lib/providers/types";
+import type { ProspectCandidate, ProspectProviderId } from "@/lib/providers/types";
 import type { ProspectSearchResult, ImportReport } from "@/lib/crm/prospect-service";
 import type { SavedSearch } from "@/lib/types";
 import { formatDateTime } from "@/lib/utils";
@@ -15,10 +15,10 @@ export default function ProspectsPage() {
     city: "Brasília",
     uf: "DF",
     district: "",
-    category: "",
+    category: "Todos",
     terms: "",
     limit: "25",
-    provider: "osm",
+    provider: "sanle_ai",
     save: true,
     label: ""
   });
@@ -62,7 +62,7 @@ export default function ProspectsPage() {
         city: form.city,
         uf: form.uf,
         district: form.district || undefined,
-        category: form.category,
+        category: form.category || "Todos",
         terms: form.terms || undefined,
         limit: Number(form.limit),
         provider: form.provider,
@@ -99,9 +99,21 @@ export default function ProspectsPage() {
     try {
       const rep = await api.post<ImportReport>("/api/prospects/import", {
         candidates,
-        label: result.query.category
+        enrich: true,
+        sourceOrigin: "busca",
+        tags: [form.category, form.city, form.uf].filter(Boolean)
       });
       setReport(rep);
+      setResult((r) =>
+        r
+          ? {
+              ...r,
+              items: r.items.map((i) =>
+                selected.has(i.externalId) ? { ...i, alreadyInCrm: true } : i
+              )
+            }
+          : r
+      );
       setSelected(new Set());
     } catch (err) {
       setError(errorMessage(err));
@@ -110,19 +122,27 @@ export default function ProspectsPage() {
     }
   }
 
-  async function uploadCsv(e: React.FormEvent<HTMLFormElement>) {
+  async function handleUploadCsv(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const input = e.currentTarget.elements.namedItem("file") as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    if (!file) return;
+
     setCsvBusy(true);
     setError(null);
-    setCsv(null);
     try {
-      const res = await fetch("/api/prospects/csv", { method: "POST", body: fd });
+      const fd = new FormData();
+      fd.append("file", file);
+      if (form.city) fd.append("city", form.city);
+      if (form.uf) fd.append("uf", form.uf);
+      if (form.category) fd.append("category", form.category);
+
+      const res = await fetch("/api/prospects/csv", {
+        method: "POST",
+        body: fd
+      });
       const json = await res.json();
-      if (!res.ok || !json.ok) {
-        setError(json.error ?? "Falha ao processar CSV.");
-        return;
-      }
+      if (!res.ok || !json.ok) throw new Error(json.error || "Falha ao processar CSV");
       setCsv(json.data);
     } catch (err) {
       setError(errorMessage(err));
@@ -131,14 +151,16 @@ export default function ProspectsPage() {
     }
   }
 
-  async function importCsv() {
-    if (!csv) return;
+  async function handleImportCsvCandidates() {
+    if (!csv || !csv.candidates.length) return;
     setImporting(true);
     setError(null);
     try {
       const rep = await api.post<ImportReport>("/api/prospects/import", {
         candidates: csv.candidates,
-        label: csv.window.category ?? "importação CSV"
+        enrich: true,
+        sourceOrigin: "importacao_csv",
+        tags: ["csv", form.category || "geral"].filter(Boolean)
       });
       setReport(rep);
       setCsv(null);
@@ -151,42 +173,36 @@ export default function ProspectsPage() {
 
   return (
     <div className="space-y-6">
-      <header className="border-b border-[#F5F6F8]/8 pb-5">
-        <p className="eyebrow text-[#78A9FF]">BUSCADOR DE EMPRESAS · PROSPECÇÃO B2B</p>
+      <header>
+        <p className="eyebrow">PROSPECÇÃO ATIVA & RADAR COMERCIAL</p>
         <h1 className="mt-2 font-display text-3xl font-semibold text-[#F5F6F8]">
-          Encontrar empresas e identificar sinais
+          Radar de Oportunidades
         </h1>
-        <p className="mt-1 max-w-2xl text-xs text-[#969DA8]">
-          Fontes abertas (OpenStreetMap/Overpass gratuito) ou importação CSV. Duplicatas são sinalizadas e nenhuma empresa é sobrescrita automaticamente.
+        <p className="mt-1 text-sm text-[#969DA8]">
+          Encontre empresas com chance real de conversão em Brasília e no Brasil.
         </p>
       </header>
 
       {error && <Notice tone="warn">{error}</Notice>}
 
+      {report && (
+        <Notice tone="ok">
+          Importação concluída: {report.created.length} novo(s) lead(s) adicionado(s) ao CRM,{" "}
+          {report.skipped.length} duplicado(s) ignorados de forma segura.
+        </Notice>
+      )}
+
       <LeadSearch
         form={form}
         setForm={setForm}
         searching={searching}
-        onRunSearch={(e) => void runSearch(e)}
+        onRunSearch={runSearch}
         csvBusy={csvBusy}
         csv={csv}
         importing={importing}
-        onUploadCsv={(e) => void uploadCsv(e)}
-        onImportCsv={() => void importCsv()}
+        onUploadCsv={handleUploadCsv}
+        onImportCsv={handleImportCsvCandidates}
       />
-
-      {report && (
-        <Notice tone="ok">
-          <strong>{report.created.length}</strong> leads importados para o CRM ·{" "}
-          <strong>{report.skipped.length}</strong> ignorados
-          {report.skipped[0] && (
-            <>
-              {" "}
-              (ex.: {report.skipped[0].companyName} — {report.skipped[0].reason})
-            </>
-          )}
-        </Notice>
-      )}
 
       {result && (
         <LeadResults
@@ -195,29 +211,55 @@ export default function ProspectsPage() {
           importing={importing}
           onToggle={toggle}
           onSelectAllNew={selectAllNew}
-          onImportSelected={() => void importSelected()}
+          onImportSelected={importSelected}
         />
       )}
 
-      <Panel title="Buscas recentes salvas" description="Histórico de varreduras territoriais">
-        {searches.length === 0 ? (
-          <p className="text-xs text-[#969DA8]">Nenhuma busca salva ainda.</p>
-        ) : (
-          <ul className="space-y-2">
+      {searches.length > 0 && (
+        <Panel title="Histórico de buscas registradas" description="Últimas pesquisas realizadas">
+          <div className="divide-y divide-[#F5F6F8]/8">
             {searches.map((s) => (
-              <li
+              <div
                 key={s.id}
-                className="flex items-center justify-between gap-3 border-b border-[#F5F6F8]/8 pb-2 text-xs last:border-0"
+                className="flex flex-wrap items-center justify-between gap-3 py-3 text-xs"
               >
-                <span className="font-medium text-[#F5F6F8]">{s.label}</span>
-                <span className="shrink-0 font-mono text-[11px] text-[#969DA8]">
-                  {s.category} · {s.city}/{s.uf} · {formatDateTime(s.createdAt)}
-                </span>
-              </li>
+                <div>
+                  <p className="font-semibold text-[#F5F6F8]">{s.label}</p>
+                  <p className="text-[#969DA8]">
+                    {s.category} · {s.city}/{s.uf}
+                    {s.district ? ` (${s.district})` : ""} · Fonte: {s.provider}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[10px] text-[#969DA8]/70">
+                    {formatDateTime(s.createdAt)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm({
+                        city: s.city || "Brasília",
+                        uf: s.uf || "DF",
+                        district: s.district || "",
+                        category: s.category || "Todos",
+                        terms: s.terms || "",
+                        limit: String(s.limit || 25),
+                        provider: (s.provider as ProspectProviderId) || "sanle_ai",
+                        save: false,
+                        label: s.label || ""
+                      });
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="btn btn-ghost !py-1 !px-2.5 text-[11px]"
+                  >
+                    Recarregar filtros
+                  </button>
+                </div>
+              </div>
             ))}
-          </ul>
-        )}
-      </Panel>
+          </div>
+        </Panel>
+      )}
     </div>
   );
 }

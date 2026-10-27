@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireSession } from "@/lib/auth";
 import { createProspectPage } from "@/lib/db/repo";
 import { siteUrl } from "@/content/brand";
+import { ok, failure } from "@/lib/api";
 
 const CreatePageSchema = z.object({
   leadId: z.string().optional().nullable(),
@@ -52,16 +53,15 @@ export async function POST(req: NextRequest) {
 
     const fullUrl = `${siteUrl}/p/${page.slug}`;
 
-    return NextResponse.json({
-      ok: true,
+    return ok({
       page,
       url: fullUrl
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Erro desconhecido";
     if (message === "NAO_AUTENTICADO") {
-      return NextResponse.json({ ok: false, error: "Não autenticado" }, { status: 401 });
+      return failure("Não autenticado", 401);
     }
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    return failure(message, 500);
   }
 }

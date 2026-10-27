@@ -91,6 +91,14 @@ export function PinnedProblems() {
   const [activeItem, setActiveItem] = useState(0);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  const scrollToItem = (idx: number) => {
+    const el = itemsRef.current[idx];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setActiveItem(idx);
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -122,7 +130,7 @@ export function PinnedProblems() {
   return (
     <section
       id="problema"
-      className="relative bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] py-12 sm:py-16 md:py-24 select-none overflow-hidden w-full max-w-full"
+      className="relative bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] py-12 sm:py-16 md:py-20 select-none overflow-clip w-full max-w-full"
       aria-label="Ambiente 02: O Custo Invisível da Operação · Investigação dos 7 Gargalos"
     >
       {/* Luz ambiente forense de fundo (azul cobalto e latão sobre fundo escuro) */}
@@ -145,7 +153,7 @@ export function PinnedProblems() {
         {/* =========================================================================
             TRANSIÇÃO ÓPTICA: ENTRANDO NO AMBIENTE FORENSE
            ========================================================================= */}
-        <div className="mb-10 sm:mb-14 p-4 sm:p-6 rounded-2xl bg-[#111319] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="mb-8 sm:mb-10 p-4 sm:p-5 rounded-2xl bg-[#111319]/90 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-xl">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2440FF]/20 text-[#78A9FF] border border-[#2440FF]/30">
               <span className="h-3 w-3 rounded-full bg-[#2440FF] animate-ping" />
@@ -202,14 +210,17 @@ export function PinnedProblems() {
               {/* Barra de progresso dos 7 gargalos investigados */}
               <div className="flex gap-1.5 w-full">
                 {invisibleWork.map((_, i) => (
-                  <div
+                  <button
                     key={i}
-                    className={`h-1.5 rounded-full flex-1 transition-all duration-300 ${
+                    type="button"
+                    onClick={() => scrollToItem(i)}
+                    title={`Ir para Evidência 0${i + 1}: ${invisibleWork[i]?.title}`}
+                    className={`h-2 rounded-full flex-1 transition-all duration-300 cursor-pointer ${
                       i === activeItem
-                        ? "bg-[#2440FF] scale-y-125 shadow-[0_0_8px_#2440FF]"
+                        ? "bg-[#2440FF] scale-y-125 shadow-[0_0_10px_#2440FF]"
                         : i < activeItem
-                        ? "bg-white/40"
-                        : "bg-white/10"
+                        ? "bg-white/40 hover:bg-white/60"
+                        : "bg-white/10 hover:bg-white/20"
                     }`}
                   />
                 ))}

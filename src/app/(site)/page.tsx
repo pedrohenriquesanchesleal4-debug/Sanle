@@ -18,7 +18,7 @@ import { SanleStageHUD } from "@/components/site/SanleStageHUD";
 import { brand, faqs, siteUrl } from "@/content/brand";
 
 export const metadata: Metadata = {
-  title: "Sanle · Engenharia Operacional & Automação de Processos",
+  title: "Sanle · Software, Sistemas, Agentes de IA & Automação Empresarial",
   description: brand.shortPitch,
   alternates: { canonical: "/" }
 };

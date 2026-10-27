@@ -3,6 +3,8 @@ import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "ne
 import "./globals.css";
 import { siteUrl } from "@/content/brand";
 import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -132,14 +134,54 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-cobalt selection:text-white overflow-x-hidden w-full max-w-full relative">
-        <SmoothScrollProvider>
-          <div className="w-full max-w-full overflow-x-hidden relative">
-            {children}
-          </div>
-        </SmoothScrollProvider>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var savedTheme = localStorage.getItem('sanle_theme');
+                  var prefDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var isDark = savedTheme === 'dark' || (!savedTheme && prefDark);
+                  var root = document.documentElement;
+                  if (isDark) {
+                    root.classList.add('dark');
+                    root.classList.remove('light');
+                    root.setAttribute('data-theme', 'dark');
+                    root.style.colorScheme = 'dark';
+                  } else {
+                    root.classList.add('light');
+                    root.classList.remove('dark');
+                    root.setAttribute('data-theme', 'light');
+                    root.style.colorScheme = 'light';
+                  }
+                  var savedLocale = localStorage.getItem('sanle_locale');
+                  if (!savedLocale) {
+                    var browserLang = (navigator.language || '').toLowerCase();
+                    if (browserLang.startsWith('es')) savedLocale = 'es';
+                    else if (browserLang.startsWith('en')) savedLocale = 'en';
+                    else savedLocale = 'pt';
+                  }
+                  root.lang = savedLocale === 'pt' ? 'pt-BR' : savedLocale;
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased selection:bg-cobalt selection:text-white overflow-x-clip w-full max-w-full relative">
+        <ThemeProvider>
+          <I18nProvider>
+            <SmoothScrollProvider>
+              <div className="w-full max-w-full relative">
+                {children}
+              </div>
+            </SmoothScrollProvider>
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

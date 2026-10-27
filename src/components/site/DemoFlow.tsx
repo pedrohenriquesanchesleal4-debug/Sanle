@@ -57,6 +57,7 @@ export function DemoFlow() {
   const handleReset = () => {
     stop();
     setStage(0);
+    trackEvent("demo_iniciada", { acao: "reiniciada" });
   };
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export function DemoFlow() {
       setStage((prev) => {
         if (prev >= STAGES.length - 1) {
           stop();
-          trackEvent("demo_concluida", { etapasConcluidas: 6 });
+          trackEvent("demo_concluida", { etapasCompletas: STAGES.length });
           return STAGES.length - 1;
         }
         return prev + 1;
@@ -83,22 +84,22 @@ export function DemoFlow() {
   return (
     <section
       id="como-funciona"
-      className="relative scroll-mt-20 py-10 sm:py-16 md:py-24 bg-[#FAF8F5] text-[#121110] border-b border-[rgba(18,17,16,0.08)] overflow-hidden w-full max-w-full"
+      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] border-b border-white/10 overflow-hidden w-full max-w-full"
       aria-labelledby="demo-flow-title"
     >
-      <div className="shell max-w-6xl">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 border-b border-[rgba(18,17,16,0.08)]">
+      <div className="shell max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 border-b border-white/10">
           <div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#2440FF] font-semibold">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#78A9FF] font-semibold">
               PROCESSO EM EXECUÇÃO
             </span>
             <h2
               id="demo-flow-title"
-              className="mt-3 font-serif-editorial text-[clamp(2.1rem,5vw,4.5rem)] leading-[0.96] text-[#121110]"
+              className="mt-3 font-serif-editorial text-[clamp(2.1rem,5vw,4.5rem)] leading-[0.96] text-[#F5F6F8]"
             >
               Como os documentos fluem em 6 etapas.
             </h2>
-            <p className="mt-3 max-w-xl text-sm sm:text-base text-[#4A453E] font-sans-editorial">
+            <p className="mt-3 max-w-xl text-sm sm:text-base text-[#969DA8] font-sans-editorial">
               Observe como dados não estruturados são classificados, validados e encaminhados sem atrito.
             </p>
           </div>
@@ -108,7 +109,7 @@ export function DemoFlow() {
             <button
               type="button"
               onClick={handleStart}
-              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-full bg-[#121110] text-white font-mono text-[0.7rem] sm:text-xs uppercase tracking-[0.14em] hover:bg-[#2440FF] transition-all shadow-xs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-full bg-[#2440FF] text-white font-mono text-[0.7rem] sm:text-xs uppercase tracking-[0.14em] hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/30 active:scale-95"
             >
               {running ? (
                 <>
@@ -126,7 +127,7 @@ export function DemoFlow() {
             <button
               type="button"
               onClick={handleReset}
-              className="p-2.5 sm:p-3 rounded-full bg-white border border-[rgba(18,17,16,0.12)] text-[#4A453E] hover:text-[#121110] hover:border-[#2440FF] transition-colors shadow-xs"
+              className="p-2.5 sm:p-3 rounded-full bg-white/[0.04] border border-white/10 text-[#969DA8] hover:text-white hover:border-[#78A9FF] transition-colors shadow-xs active:scale-95"
               title="Reiniciar fluxo"
               aria-label="Reiniciar demonstração"
             >
@@ -150,22 +151,22 @@ export function DemoFlow() {
                 }}
                 className={`p-3 sm:p-4 rounded-xl text-left transition-all border ${
                   isCurrent
-                    ? "bg-white border-[#2440FF] shadow-md shadow-[#2440FF]/10 ring-1 ring-[#2440FF]"
+                    ? "bg-[#2440FF]/20 border-[#2440FF] shadow-lg shadow-[#2440FF]/25 ring-1 ring-[#2440FF] text-white"
                     : isPassed
-                    ? "bg-[#F5F2EB] border-emerald-500/30 text-[#121110]"
-                    : "bg-white/70 border-[rgba(18,17,16,0.08)] opacity-60 hover:opacity-90"
+                    ? "bg-[#10B981]/10 border-[#10B981]/30 text-[#F5F6F8]"
+                    : "bg-white/[0.02] border-white/10 text-[#969DA8] opacity-60 hover:opacity-100"
                 }`}
               >
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className={isCurrent ? "text-[#2440FF] font-bold" : isPassed ? "text-[#059669] font-semibold" : "text-[#8A837A]"}>
+                  <span className={isCurrent ? "text-[#78A9FF] font-bold" : isPassed ? "text-[#B7F36B] font-semibold" : "text-[#969DA8]"}>
                     0{idx + 1}
                   </span>
-                  {isPassed && <Check className="h-3.5 w-3.5 text-[#059669]" />}
-                  {isCurrent && <span className="h-2 w-2 rounded-full bg-[#2440FF] animate-ping" />}
+                  {isPassed && <Check className="h-3.5 w-3.5 text-[#B7F36B]" />}
+                  {isCurrent && <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-ping" />}
                 </div>
 
-                <div className="mt-2 sm:mt-3 font-medium text-xs sm:text-sm text-[#121110]">{s.title}</div>
-                <div className="mt-0.5 sm:mt-1 font-mono text-[0.62rem] sm:text-[0.68rem] text-[#8A837A] uppercase tracking-[0.1em]">
+                <div className="mt-2 sm:mt-3 font-medium text-xs sm:text-sm text-[#F5F6F8]">{s.title}</div>
+                <div className="mt-0.5 sm:mt-1 font-mono text-[0.62rem] sm:text-[0.68rem] text-[#969DA8] uppercase tracking-[0.1em]">
                   {s.verb}
                 </div>
               </button>
@@ -174,10 +175,10 @@ export function DemoFlow() {
         </div>
 
         {/* Painel do Pipeline em Tempo Real */}
-        <div className="mt-6 sm:mt-8 p-4 sm:p-6 md:p-8 rounded-2xl bg-white border border-[rgba(18,17,16,0.08)] shadow-lg shadow-stone-200/40">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between font-mono text-[0.68rem] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[#4A453E] pb-3 sm:pb-4 border-b border-[rgba(18,17,16,0.08)] gap-2">
-            <span>ETAPA ATIVA: {activeStage.title.toUpperCase()}</span>
-            <span className="text-[#8A837A]">{activeStage.detail}</span>
+        <div className="mt-6 sm:mt-8 p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-3xl bg-[#111318]/90 border border-white/10 shadow-2xl backdrop-blur-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between font-mono text-[0.68rem] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[#969DA8] pb-3 sm:pb-4 border-b border-white/10 gap-2">
+            <span className="text-[#F5F6F8] font-bold">ETAPA ATIVA: {activeStage.title.toUpperCase()}</span>
+            <span className="text-[#78A9FF]">{activeStage.detail}</span>
           </div>
 
           {/* Cards dos 6 Documentos Fictícios Transitando */}
@@ -192,34 +193,34 @@ export function DemoFlow() {
                   key={doc.id}
                   className={`p-3 sm:p-4 rounded-xl border transition-all ${
                     isHeldInReview
-                      ? "bg-amber-50/80 border-amber-500/60 text-[#121110] shadow-xs"
+                      ? "bg-amber-950/25 border-amber-500/40 text-[#F5F6F8] shadow-xs"
                       : isProcessed
-                      ? "bg-emerald-50/80 border-emerald-500/60 text-[#121110] shadow-xs"
-                      : "bg-[#FAF8F5] border-[rgba(18,17,16,0.08)] text-[#121110]"
+                      ? "bg-emerald-950/25 border-emerald-500/40 text-[#F5F6F8] shadow-xs"
+                      : "bg-white/[0.02] border-white/10 text-[#F5F6F8]"
                   }`}
                 >
                   <div className="flex items-center justify-between font-mono text-xs">
                     <span className="font-semibold truncate max-w-[130px] sm:max-w-[170px] text-[0.72rem] sm:text-xs">{doc.name}</span>
                     {isHeldInReview ? (
-                      <span className="flex items-center gap-1 text-amber-700 font-bold text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider">
+                      <span className="flex items-center gap-1 text-amber-400 font-bold text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider">
                         <TriangleAlert className="h-3 w-3" />
                         Revisão
                       </span>
                     ) : isProcessed ? (
-                      <span className="flex items-center gap-1 text-[#059669] font-bold text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider">
+                      <span className="flex items-center gap-1 text-[#B7F36B] font-bold text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider">
                         <Check className="h-3 w-3" />
                         Pronto
                       </span>
                     ) : (
-                      <span className="text-[#8A837A] text-[0.62rem] sm:text-[0.68rem] uppercase">
+                      <span className="text-[#969DA8] text-[0.62rem] sm:text-[0.68rem] uppercase">
                         {activeStage.verb}
                       </span>
                     )}
                   </div>
 
-                  <div className="mt-2 sm:mt-3 flex flex-wrap gap-1.5 sm:gap-2 text-xs font-mono text-[#4A453E]">
+                  <div className="mt-2 sm:mt-3 flex flex-wrap gap-1.5 sm:gap-2 text-xs font-mono text-[#969DA8]">
                     {doc.rows.map((r, i) => (
-                      <span key={i} className="px-1.5 sm:px-2 py-0.5 rounded bg-white border border-[rgba(18,17,16,0.06)] text-[0.62rem] sm:text-[0.68rem]">
+                      <span key={i} className="px-1.5 sm:px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 text-[0.62rem] sm:text-[0.68rem] text-[#F5F6F8]">
                         {r}
                       </span>
                     ))}
@@ -231,7 +232,7 @@ export function DemoFlow() {
         </div>
 
         {/* Legenda Obrigatória */}
-        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono text-[0.64rem] sm:text-xs text-[#8A837A]">
+        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono text-[0.64rem] sm:text-xs text-[#969DA8]">
           <span>* Demonstração conceitual com dados fictícios.</span>
           <span>NENHUM DADO REAL É UTILIZADO NESTA SIMULAÇÃO</span>
         </div>

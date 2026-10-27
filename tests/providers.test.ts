@@ -217,3 +217,28 @@ describe("query Overpass (escaping e escopo)", () => {
     expect(c?.facts.length).toBeGreaterThan(0);
   });
 });
+
+describe("provedor Sanle AI (prospecção com inteligência de mercado)", () => {
+  it("está registrado e habilitado no registry de provedores", async () => {
+    const { getProvider } = await import("@/lib/providers");
+    const aiProvider = getProvider("sanle_ai");
+    expect(aiProvider).not.toBeNull();
+    expect(aiProvider?.id).toBe("sanle_ai");
+    expect(aiProvider?.configured()).toBe(true);
+  });
+
+  it("gera candidatos estruturados com fatos e hipóteses comerciais", async () => {
+    const { aiProspectProvider } = await import("@/lib/providers/ai-prospect");
+    const candidates = await aiProspectProvider.search({
+      city: "Brasília",
+      uf: "DF",
+      category: "Vidraçaria",
+      limit: 3
+    });
+    expect(candidates).toBeInstanceOf(Array);
+    expect(candidates.length).toBeGreaterThan(0);
+    expect(candidates[0]!.source.provider).toBe("sanle_ai");
+    expect(candidates[0]!.facts.length).toBeGreaterThan(0);
+    expect(candidates[0]!.hypotheses.length).toBeGreaterThan(0);
+  });
+});

@@ -1,60 +1,71 @@
+"use client";
+
 import Link from "next/link";
 import { MessageCircle, Mail, Linkedin, ArrowUpRight } from "lucide-react";
 import { brand } from "@/content/brand";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { LanguageSelector } from "@/components/i18n/LanguageSelector";
 
 /**
- * Rodapé institucional e comercial da Sanle (#08090C / #111318).
+ * Rodapé institucional e comercial da Sanle com suporte a i18n e Tema Claro/Escuro.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const { dict } = useI18n();
 
   return (
     <footer className="border-t border-[#F5F6F8]/10 bg-[#08090C] py-14 text-[#F5F6F8] overflow-hidden w-full max-w-full">
       <div className="shell">
         <div className="grid grid-cols-1 gap-10 border-b border-[#F5F6F8]/8 pb-10 md:grid-cols-12">
           {/* Coluna 1: Marca & Posicionamento */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 space-y-4">
             <div className="inline-flex items-center gap-2.5 font-display text-lg font-semibold text-[#F5F6F8]">
               <span className="h-2.5 w-2.5 rounded-full bg-[#2440FF]" />
               <span>Sanle</span>
             </div>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#969DA8]">
+            <p className="max-w-sm text-sm leading-relaxed text-[#969DA8]">
               {brand.positioning}
             </p>
-            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[#969DA8]/70">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#969DA8]/70">
               Brasília · DF · Engenharia Operacional
             </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <LanguageSelector />
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Coluna 2: Soluções */}
           <div className="md:col-span-3">
             <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-[#78A9FF]">
-              Soluções
+              {dict.header.solutions}
             </span>
             <ul className="mt-3 space-y-2 text-sm text-[#969DA8]">
               <li>
                 <Link href="/#historia-sanle" className="transition-colors hover:text-[#F5F6F8]">
-                  A Construção do Fluxo
+                  {dict.header.engineering}
                 </Link>
               </li>
               <li>
                 <Link href="/solucoes" className="transition-colors hover:text-[#F5F6F8]">
-                  Arquitetura de Processos
+                  {dict.header.solutions}
                 </Link>
               </li>
               <li>
-                <Link href="/#como-funciona" className="transition-colors hover:text-[#F5F6F8]">
-                  Demonstração em 6 etapas
+                <Link href="/#capacidades" className="transition-colors hover:text-[#F5F6F8]">
+                  {dict.header.capabilities}
                 </Link>
               </li>
               <li>
-                <Link href="/#para-quem" className="transition-colors hover:text-[#F5F6F8]">
-                  Segmentos atendidos
+                <Link href="/#prova" className="transition-colors hover:text-[#F5F6F8]">
+                  {dict.header.projects}
                 </Link>
               </li>
               <li>
                 <Link href="/diagnostico" className="transition-colors hover:text-[#2440FF] font-medium">
-                  Solicitar diagnóstico
+                  {dict.header.buildSolution}
                 </Link>
               </li>
             </ul>
@@ -68,12 +79,12 @@ export function SiteFooter() {
             <ul className="mt-3 space-y-2 text-sm text-[#969DA8]">
               <li>
                 <Link href="/privacidade" className="transition-colors hover:text-[#F5F6F8]">
-                  Privacidade
+                  {dict.footer.privacy}
                 </Link>
               </li>
               <li>
                 <Link href="/termos" className="transition-colors hover:text-[#F5F6F8]">
-                  Termos de Uso
+                  {dict.footer.terms}
                 </Link>
               </li>
               <li>
@@ -83,7 +94,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/diagnostico" className="transition-colors hover:text-[#F5F6F8]">
-                  Mapear Processo
+                  {dict.header.buildSolution}
                 </Link>
               </li>
             </ul>
@@ -133,7 +144,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-6 flex flex-col items-center justify-between gap-4 font-mono text-[11px] text-[#969DA8]/70 sm:flex-row">
-          <span>© {year} Sanle. Todos os direitos reservados.</span>
+          <span>© {year} Sanle. {dict.footer.rights}</span>
           <span>ENGENHARIA DE PROCESSOS & CONEXÃO DE SISTEMAS · BRASÍLIA · DF</span>
         </div>
       </div>

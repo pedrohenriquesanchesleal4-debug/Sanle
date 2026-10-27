@@ -19,6 +19,8 @@ import {
 import { Panel, Badge, Spinner, Notice, Field } from "@/components/admin/ui";
 import { StageBadge, ScorePill, VerificationBadge } from "@/components/admin/bits";
 import { LeadDetails } from "@/components/dashboard/LeadDetails";
+import { ClientOriginalDiagnostic } from "@/components/dashboard/ClientOriginalDiagnostic";
+import { ProspectReplyAssistant } from "@/components/dashboard/ProspectReplyAssistant";
 import { api, errorMessage } from "@/lib/client-api";
 import {
   FUNNEL_STAGES,
@@ -71,13 +73,13 @@ export default function LeadDetailPage() {
     if (!data?.lead) return;
     setGeneratingPage(true);
     try {
-      const res = await api.post<{ ok: boolean; url: string }>("/api/admin/prospect-pages", {
+      const res = await api.post<{ page: unknown; url: string }>("/api/admin/prospect-pages", {
         leadId: data.lead.id,
         empresa: data.lead.tradeName || data.lead.companyName,
         cidade: data.lead.city || "Brasília",
         nicho: data.lead.segment || "Operação"
       });
-      if (res.url) {
+      if (res?.url) {
         setProspectUrl(res.url);
         await navigator.clipboard.writeText(res.url);
         await api.post(`/api/crm/leads/${data.lead.id}/activities`, {
@@ -269,6 +271,13 @@ export default function LeadDetailPage() {
       )}
 
       {/* Banner de Diagnóstico de Oportunidade Comercial (EMPRESA -> OPORTUNIDADE -> SERVIÇO -> AÇÃO) */}
+      {/* 1. Diagnóstico e relato ORIGINAL enviado pelo cliente */}
+      <ClientOriginalDiagnostic lead={lead} />
+
+      {/* 2. Assistente de Resposta Comercial: O que a empresa respondeu? */}
+      <ProspectReplyAssistant lead={lead} onActivitySaved={load} />
+
+      {/* 3. Síntese e Oportunidades Comerciais geradas pela IA */}
       <LeadDetails lead={lead} />
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -292,6 +301,10 @@ export default function LeadDetailPage() {
                   tradeName: f.get("tradeName"),
                   category: f.get("category"),
                   segment: f.get("segment"),
+                  problemDescription: f.get("problemDescription"),
+                  bottleneckStep: f.get("bottleneckStep"),
+                  volumeApprox: f.get("volumeApprox"),
+                  currentSystem: f.get("currentSystem"),
                   city: f.get("city"),
                   uf: f.get("uf"),
                   address: f.get("address"),
@@ -357,6 +370,22 @@ export default function LeadDetailPage() {
               </Field>
               <Field label="Responsável comercial">
                 <input className="field" name="owner" defaultValue={lead.owner ?? ""} />
+              </Field>
+              <div className="md:col-span-2">
+                <Field label="Dor / Diagnóstico relatado pelo cliente" hint="Relato do cliente sobre o gargalo">
+                  <textarea
+                    className="field min-h-[90px] font-sans"
+                    name="problemDescription"
+                    defaultValue={lead.problemDescription ?? ""}
+                    placeholder="ex.: Demora 4 horas repassando orçamentos manuais em planilhas e perdendo mensagens no WhatsApp."
+                  />
+                </Field>
+              </div>
+              <Field label="Etapa gargalo">
+                <input className="field" name="bottleneckStep" defaultValue={lead.bottleneckStep ?? ""} placeholder="ex.: Orçamentos, triagem" />
+              </Field>
+              <Field label="Sistema atual">
+                <input className="field" name="currentSystem" defaultValue={lead.currentSystem ?? ""} placeholder="ex.: Planilhas, WhatsApp, ERP" />
               </Field>
               <Field label="Oportunidade / Hipótese comercial" hint="hipótese editável">
                 <input

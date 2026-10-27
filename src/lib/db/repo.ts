@@ -1,4 +1,4 @@
-import { table, newId, nowISO, type Table } from "./adapter";
+import { table, newId, nowISO, LocalTable, type Table } from "./adapter";
 import type {
   Lead,
   LeadActivity,
@@ -677,13 +677,25 @@ export async function createProspectPage(input: {
     createdAt: ts,
     expiresAt: null
   };
-  return (await prospectPagesTable()).insert(base);
+  try {
+    return await (await prospectPagesTable()).insert(base);
+  } catch (err) {
+    console.warn("[createProspectPage] Falha na tabela principal, gravando em LocalTable:", err);
+    return await new LocalTable<ProspectPageRecord>("prospectPages").insert(base);
+  }
 }
 
 export async function getProspectPageBySlug(slug: string): Promise<ProspectPageRecord | null> {
-  const all = await (await prospectPagesTable()).all();
   const normalized = slug.trim().toLowerCase();
-  return all.find((p) => p.slug.trim().toLowerCase() === normalized) ?? null;
+  try {
+    const all = await (await prospectPagesTable()).all();
+    const found = all.find((p) => p.slug.trim().toLowerCase() === normalized);
+    if (found) return found;
+  } catch {
+    // Continua para o fallback local
+  }
+  const local = await new LocalTable<ProspectPageRecord>("prospectPages").all();
+  return local.find((p) => p.slug.trim().toLowerCase() === normalized) ?? null;
 }
 
 export async function listProspectPages(): Promise<ProspectPageRecord[]> {

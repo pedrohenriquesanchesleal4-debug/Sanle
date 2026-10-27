@@ -3,6 +3,7 @@ import { env } from "@/lib/env";
 import { cosine, embedOne } from "./embeddings";
 import { isPgvectorCompatible } from "./vector";
 import { vectorSearchHybrid, vectorStoreAvailable, type VectorHit } from "./vector-store";
+import { baseKnowledge } from "./knowledge-seed";
 import type { KnowledgeChunk } from "@/lib/types";
 
 /**
@@ -68,7 +69,40 @@ async function bruteForceRetrieve(query: string, topK: number, minScore: number)
     .slice(0, topK);
 }
 
-/** Recupera os trechos mais relevantes para a consulta (vetorial → memória). */
+/** Caminho 3: Fallback em memória sobre a base institucional garantida. */
+function fallbackBaseKnowledgeRetrieve(query: string, topK: number): RetrievedChunk[] {
+  const terms = query
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/\s+/)
+    .filter((t) => t.length > 2);
+
+  const docs = baseKnowledge();
+  const scored = docs.map((doc, idx) => {
+    const text = `${doc.title} ${doc.content}`
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    let matches = 0;
+    for (const t of terms) {
+      if (text.includes(t)) matches++;
+    }
+    const score = terms.length > 0 ? matches / terms.length : 0.5;
+    return {
+      chunkId: `static_${idx}`,
+      documentId: `doc_${idx}`,
+      documentTitle: doc.title,
+      content: doc.content.slice(0, 900),
+      score: Math.max(0.4, score)
+    };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, topK);
+}
+
+/** Recupera os trechos mais relevantes para a consulta (vetorial → memória → base estática). */
 export async function retrieve(
   query: string,
   topK: number = env.rag.topK,
@@ -76,10 +110,17 @@ export async function retrieve(
 ): Promise<RetrievedChunk[]> {
   if (!query.trim()) return [];
 
-  const vectorHits = await vectorRetrieve(query, topK, minScore);
-  if (vectorHits.length) return vectorHits;
+  try {
+    const vectorHits = await vectorRetrieve(query, topK, minScore);
+    if (vectorHits.length) return vectorHits;
 
-  return bruteForceRetrieve(query, topK, minScore);
+    const bruteHits = await bruteForceRetrieve(query, topK, minScore);
+    if (bruteHits.length) return bruteHits;
+  } catch (err) {
+    console.warn("[retrieve] Falha ao consultar vetores ou chunks, acionando base estática:", err);
+  }
+
+  return fallbackBaseKnowledgeRetrieve(query, topK);
 }
 
 /** Concatena contexto recuperado, respeitando um orçamento de caracteres. */

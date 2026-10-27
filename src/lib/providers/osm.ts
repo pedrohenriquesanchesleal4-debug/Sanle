@@ -24,7 +24,12 @@ import { dedupeCandidates } from "./dedupe";
  * um `terms` hostil conseguiria injetar instruções na query (Overpass QL).
  */
 
-const OVERPASS = env.osm.overpassUrl;
+const OVERPASS_MIRRORS = [
+  env.osm.overpassUrl,
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
+].filter(Boolean);
 
 function categoryToOsm(category: string): string[] {
   const c = category
@@ -168,31 +173,45 @@ export const osmProvider: ProspectProvider = {
     const geo = await geocodeArea({ city: query.city, uf: query.uf, district: query.district });
     const bounds = geo.ok ? geo.area.bbox : null;
 
-    // Etapa 2 — Overpass com pacing + cache + retry seguro (nunca retry em 429).
+    // Etapa 2 — Overpass com rotação de mirrors resilientes + pacing + cache
     const ql = buildQuery(query, bounds);
-    let data: OverpassResponse;
-    try {
-      const res = await requestJson<OverpassResponse>(OVERPASS, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `data=${encodeURIComponent(ql)}`,
-        pacingKey: "overpass-api.de",
-        cacheTtlMs: env.prospecting.cacheTtlMs,
-        retries: 2
-      });
-      data = res.data;
-    } catch (err) {
-      if (err instanceof HttpError && err.status === 429) {
+    let data: OverpassResponse | null = null;
+    let lastError: Error | null = null;
+
+    for (const endpoint of OVERPASS_MIRRORS) {
+      try {
+        let hostname = "overpass-api.de";
+        try {
+          hostname = new URL(endpoint).hostname;
+        } catch {}
+
+        const res = await requestJson<OverpassResponse>(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `data=${encodeURIComponent(ql)}`,
+          pacingKey: hostname,
+          cacheTtlMs: env.prospecting.cacheTtlMs,
+          retries: 1
+        });
+
+        if (res.data && !res.data.remark) {
+          data = res.data;
+          break;
+        }
+      } catch (err) {
+        lastError = err instanceof Error ? err : new Error(String(err));
+        console.warn(`[OSM Mirror Fallback] Espelho ${endpoint} indisponível (${lastError.message}). Tentando próximo...`);
+      }
+    }
+
+    if (!data) {
+      if (lastError instanceof HttpError && lastError.status === 429) {
         throw new ProviderRateLimitError(
           "Overpass recusou por limite de uso (429). Não repetimos automaticamente para evitar bloqueio — aguarde e tente novamente."
         );
       }
-      const msg = err instanceof Error ? err.message : "Falha no Overpass.";
+      const msg = lastError instanceof Error ? lastError.message : "Falha no Overpass.";
       throw new ProviderUnavailableError(`Overpass: ${msg}`);
-    }
-
-    if (data.remark && !(data.elements ?? []).length) {
-      throw new ProviderUnavailableError(`Overpass recusou a consulta: ${data.remark}`);
     }
 
     const mapped = (data.elements ?? [])

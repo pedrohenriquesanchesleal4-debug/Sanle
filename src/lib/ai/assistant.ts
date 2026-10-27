@@ -471,15 +471,33 @@ export async function generateOutreach(
   }
 
   const grounding = `${leadBrief(lead)}\n\n${context}`;
+  const outreachSystem = [
+    `Você é o redator comercial de abordagens consultivas da ${brand.name} (${brand.founded.city}/${brand.founded.uf}).`,
+    "Sua função: redigir EXCLUSIVAMENTE o texto final da mensagem pronta para ser enviada.",
+    "REGRA ABSOLUTA: Devolva APENAS o corpo da mensagem. NUNCA inclua cabeçalhos, notas como 'Com base nos dados fornecidos', análise de 'FATOS/HIPÓTESES', nem separadores '---'.",
+    "O texto deve estar pronto para copiar e colar diretamente no WhatsApp ou E-mail.",
+    "Tom humano, amigável, direto e consultivo em português do Brasil."
+  ].join("\n");
+
   const res = await complete(
     [
-      { role: "system", content: internalSystemPrompt() },
+      { role: "system", content: outreachSystem },
       { role: "user", content: task }
     ],
     { purpose: "outreach", groundingContext: grounding }
   );
 
-  const guarded = res.ok ? applyOutputGuardrails(res.text, grounding, "admin") : null;
+  let cleanedText = res.text;
+  if (cleanedText.includes("---")) {
+    const parts = cleanedText.split("---");
+    cleanedText = parts[parts.length - 1]!.trim();
+  }
+  cleanedText = cleanedText
+    .replace(/^\*\*Rascunho.*?\*\*\s*/i, "")
+    .replace(/^Rascunho da mensagem.*?:?\s*/i, "")
+    .trim();
+
+  const guarded = res.ok ? applyOutputGuardrails(cleanedText, grounding, "admin") : null;
   return {
     text: res.ok ? guarded!.text : "Falha ao gerar a mensagem. Tente novamente ou escreva manualmente.",
     sources: hits.map((h) => h.documentTitle),
@@ -493,4 +511,142 @@ export async function generateOutreach(
     enoughContext: hits.length > 0,
     escalate: !res.ok
   };
+}
+
+/* -------------------- Assistente de Resposta a Leads -------------------- */
+
+export type ProspectReplyAnalysis = {
+  diagnosis: string;
+  recommendedReply: string;
+  shortAlternative: string;
+  suggestedAction: string;
+  confidence: number;
+  provider: string;
+  model: string;
+};
+
+/**
+ * Analisa a resposta recebida de um lead/prospect (WhatsApp, e-mail, telefone)
+ * e gera uma réplica consultiva embasada nas soluções reais da Sanle.
+ */
+export async function answerProspectReply(params: {
+  clientReply: string;
+  lead?: Lead | null;
+  channel?: "whatsapp" | "email";
+  contextNotes?: string;
+}): Promise<ProspectReplyAnalysis> {
+  const { clientReply, lead, channel = "whatsapp", contextNotes } = params;
+  const hits = await retrieve(`${clientReply} objeção comercial ${lead?.segment ?? ""}`, 4);
+  const context = buildContext(hits, 2500);
+
+  const prompt = [
+    `Você é o arquiteto de soluções e consultor comercial sênior da ${brand.name}.`,
+    "Um cliente potencial/empresa respondeu à nossa abordagem comercial. Seu trabalho é analisar a resposta e redigir a melhor réplica consultiva.",
+    "",
+    "Serviços e soluções da Sanle:",
+    "- Sites e landing pages de alta conversão para empresas e negócios locais.",
+    "- Sistemas web sob medida, portais empresariais, dashboards analíticos e CRMs.",
+    "- Agentes de IA e assistentes inteligentes de WhatsApp com RAG (base de conhecimento).",
+    "- Automação de processos operacionais e conciliação bancária/documental.",
+    "- Integrações de APIs entre sistemas legados e ERPs.",
+    "",
+    "Diretrizes de vendas consultivas:",
+    "- Nunca seja agressivo, pedante ou insistente.",
+    "- Responda a dúvida ou objeção com clareza, empatia e autoridade técnica.",
+    "- Mostre como a Sanle resolve o ponto sem impor atrito (não exigimos trocar o que já funciona; conectamos ou construímos sob medida).",
+    "- Proponha um próximo passo muito leve (ex: alinhamento rápido de 10 min, demonstração interativa ou envio de material específico).",
+    "",
+    `# Resposta da Empresa:\n"${clientReply}"`,
+    lead ? `# Dados do Lead:\n${leadBrief(lead)}` : "",
+    contextNotes ? `# Contexto adicional:\n${contextNotes}` : "",
+    `# Base de Conhecimento Relevante:\n${context}`,
+    `# Canal de Envio: ${channel === "email" ? "E-mail (redação consultiva estruturada)" : "WhatsApp (redação direta e humanizada)"}`,
+    "",
+    "Responda estritamente em formato JSON com as 4 chaves:",
+    "{",
+    '  "diagnosis": "Breve diagnóstico (1-2 frases) sobre o sentimento da empresa e a real objeção ou interesse identificado.",',
+    '  "recommendedReply": "Texto pronto e humanizado para enviar no WhatsApp (tom amigável, consultivo, máx 60-80 palavras).",',
+    '  "shortAlternative": "Opção de resposta rápida e direta (1-2 linhas).",',
+    '  "suggestedAction": "Próxima ação recomendada no CRM (ex: Registrar follow-up para daqui a 3 dias, Enviar página de demonstração, etc.)"',
+    "}"
+  ].filter(Boolean).join("\n\n");
+
+  if (!hasLLM()) {
+    const lower = clientReply.toLowerCase();
+    let diagnosis = "Dúvida geral sobre atuação ou próximos passos.";
+    let recommended = `Olá! Entendido perfeitamente. Na Sanle desenvolvemos desde sites e sistemas personalizados até agentes de WhatsApp e automações de rotina. Se fizer sentido, posso te mostrar uma demonstração rápida de 5 minutos sobre como aplicamos isso na prática. Como está sua agenda esta semana?`;
+    let short = `Entendido! Se tiver interesse em ver um exemplo prático de 5 minutos, me avise que te mando por aqui.`;
+    let action = "Agendar follow-up para 3 dias úteis.";
+
+    if (lower.includes("quanto") || lower.includes("preço") || lower.includes("valor") || lower.includes("custa")) {
+      diagnosis = "Objeção de preço/investimento antes de entender o escopo.";
+      recommended = `Olá! Cada projeto é personalizado conforme o que sua operação precisa — desde um site ou sistema sob medida até um agente de automação. Para te passar uma estimativa realista sem te enrolar, você teria 10 minutinhos para alinharmos o escopo ideal?`;
+      short = `O valor varia pelo escopo do projeto. Posso te fazer 2 perguntinhas rápidas para te passar uma estimativa exata?`;
+      action = "Qualificar escopo e volume antes de passar proposta formal.";
+    } else if (lower.includes("já temos") || lower.includes("ja temos") || lower.includes("sistema") || lower.includes("erp")) {
+      diagnosis = "Apego ao sistema atual ou percepção de que teria que substituir.";
+      recommended = `Perfeito! A ideia não é trocar o sistema que vocês já utilizam, e sim integrar ou complementar — por exemplo criando rotinas automáticas, agentes de atendimento ou painéis que conversam direto com o seu banco de dados atual. Faz sentido na sua rotina?`;
+      short = `Excelente! Nossas soluções integram com o sistema que vocês já usam, sem precisar trocar de plataforma.`;
+      action = "Mapear quais sistemas a empresa já utiliza e propor integração.";
+    } else if (lower.includes("sem tempo") || lower.includes("agora não") || lower.includes("não tenho interesse")) {
+      diagnosis = "Falta de tempo ou prioridade no momento.";
+      recommended = `Sem problemas! Agradeço o retorno. Se em algum momento fizer sentido otimizar processos manuais ou estruturar novas soluções digitais, estamos à disposição. Posso te enviar nosso contato direto para quando surgir a necessidade?`;
+      short = `Obrigado pelo retorno! Fico à disposição para quando surgir a oportunidade.`;
+      action = "Mover para etapa 'cadência futura' e reativar em 30 dias.";
+    }
+
+    return {
+      diagnosis,
+      recommendedReply: recommended,
+      shortAlternative: short,
+      suggestedAction: action,
+      confidence: 0.6,
+      provider: "deterministico",
+      model: "sanle-reply-heuristic-v1"
+    };
+  }
+
+  const res = await complete(
+    [
+      { role: "system", content: internalSystemPrompt() },
+      { role: "user", content: prompt }
+    ],
+    { purpose: "admin", groundingContext: context }
+  );
+
+  if (!res.ok) {
+    return {
+      diagnosis: "Não foi possível analisar a resposta via IA no momento.",
+      recommendedReply: `Olá! Obrigado pelo retorno. Gostaria de entender um pouco mais sobre o seu momento atual para ver como a Sanle pode colaborar da melhor forma. Você teria alguns minutos para conversarmos?`,
+      shortAlternative: `Obrigado pelo retorno! Fico à disposição para alinharmos uma breve conversa.`,
+      suggestedAction: "Tentar contato manual por WhatsApp.",
+      confidence: 0,
+      provider: res.provider,
+      model: res.model
+    };
+  }
+
+  try {
+    const raw = res.text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(raw);
+    return {
+      diagnosis: parsed.diagnosis || "Análise concluída com base no contexto informado.",
+      recommendedReply: parsed.recommendedReply || res.text,
+      shortAlternative: parsed.shortAlternative || parsed.recommendedReply?.slice(0, 100) || "",
+      suggestedAction: parsed.suggestedAction || "Realizar próximo contato conforme disponibilidade.",
+      confidence: 0.85,
+      provider: res.provider,
+      model: res.model
+    };
+  } catch {
+    return {
+      diagnosis: "Resposta analisada pela IA da Sanle.",
+      recommendedReply: res.text.slice(0, 500),
+      shortAlternative: res.text.split("\n")[0]?.slice(0, 120) || "",
+      suggestedAction: "Enviar réplica ao cliente pelo canal original.",
+      confidence: 0.75,
+      provider: res.provider,
+      model: res.model
+    };
+  }
 }

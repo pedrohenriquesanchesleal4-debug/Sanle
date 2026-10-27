@@ -21,7 +21,7 @@ export type ProspectCandidate = {
   hypotheses: string[];
 };
 
-export type ProspectProviderId = "osm" | "google_places" | "csv" | "manual";
+export type ProspectProviderId = "osm" | "google_places" | "csv" | "manual" | "sanle_ai";
 
 export type ProspectQuery = {
   city: string;
