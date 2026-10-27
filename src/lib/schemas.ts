@@ -57,7 +57,7 @@ export const prospectSearchSchema = z.object({
   category: z.string().trim().min(2).max(120),
   terms: z.string().trim().max(160).optional().or(z.literal("")),
   limit: z.coerce.number().int().min(1).max(50).default(20),
-  provider: z.enum(["osm", "google_places", "csv", "manual"]).default("osm"),
+  provider: z.enum(["osm", "google_places", "csv", "manual", "sanle_ai"]).default("osm"),
   save: z.boolean().optional().default(false),
   label: z.string().trim().max(120).optional()
 });

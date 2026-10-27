@@ -18,7 +18,7 @@ export default function ProspectsPage() {
     category: "",
     terms: "",
     limit: "25",
-    provider: "osm",
+    provider: "sanle_ai",
     save: true,
     label: ""
   });

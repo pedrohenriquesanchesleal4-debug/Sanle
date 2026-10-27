@@ -71,7 +71,7 @@ export function LeadSearch({
       <Panel
         className="lg:col-span-8"
         title="Explorar território e encontrar empresas"
-        description="Defina nicho, cidade e bairro. O provedor padrão OpenStreetMap é 100% gratuito."
+        description="Defina nicho, cidade e bairro. O Radar Sanle AI mapeia empresas do nicho com diagnóstico comercial pronto para abordagem."
       >
         {/* Atalhos rápidos de nicho */}
         <div className="mb-4 flex flex-wrap items-center gap-2">

@@ -161,6 +161,11 @@ export default function LeadsPage() {
                       <p className="text-xs text-[#969DA8]">
                         {[lead.segment, lead.city, lead.uf].filter(Boolean).join(" · ") || "sem classificação"}
                       </p>
+                      {lead.problemDescription && (
+                        <p className="mt-1 line-clamp-1 text-[11px] text-[#B7F36B]/90 italic">
+                          &ldquo;{lead.problemDescription}&rdquo;
+                        </p>
+                      )}
                     </td>
                     <td className="px-3 py-3"><StageBadge stage={lead.stage} /></td>
                     <td className="px-3 py-3"><ScorePill score={lead.score} /></td>

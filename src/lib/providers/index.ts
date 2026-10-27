@@ -2,6 +2,7 @@ import { osmProvider } from "./osm";
 import { googlePlacesProvider } from "./google-places";
 import { csvProvider } from "./csv";
 import { manualProvider } from "./manual";
+import { aiProspectProvider } from "./ai-prospect";
 import { providerFlag, isProviderFree } from "./flags";
 import { env } from "@/lib/env";
 import type { ILeadProvider, ProspectProvider, ProspectProviderId, ProviderDescriptor } from "./types";
@@ -17,7 +18,8 @@ export const PROVIDERS: Record<ProspectProviderId, ProspectProvider> = {
   osm: osmProvider,
   google_places: googlePlacesProvider,
   csv: csvProvider,
-  manual: manualProvider
+  manual: manualProvider,
+  sanle_ai: aiProspectProvider
 };
 
 export function getProvider(id: string): ProspectProvider | null {
