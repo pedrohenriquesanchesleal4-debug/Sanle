@@ -2,7 +2,6 @@ import { complete, hasLLM, type ChatMessage } from "./provider";
 import { retrieve, buildContext, type RetrievedChunk } from "@/lib/rag/retrieve";
 import {
   applyOutputGuardrails,
-  NO_EVIDENCE_REPLY,
   scanForInjection,
   wrapUntrustedContext
 } from "./guardrails";

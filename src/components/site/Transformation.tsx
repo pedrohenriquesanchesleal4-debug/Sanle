@@ -250,7 +250,9 @@ export function Transformation() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="mt-6 sm:mt-10 relative w-full h-[440px] sm:h-[460px] md:h-[460px] rounded-2xl md:rounded-3xl border border-white/10 bg-[#111318] overflow-hidden shadow-2xl cursor-ew-resize touch-pan-y"
+          className={`mt-6 sm:mt-10 relative w-full h-[440px] sm:h-[460px] md:h-[460px] rounded-2xl md:rounded-3xl border border-white/10 bg-[#111318] overflow-hidden shadow-2xl touch-pan-y ${
+            isDragging ? "cursor-grabbing" : "cursor-ew-resize"
+          }`}
           aria-label="Comparativo interativo antes e depois"
         >
           {/* CAMADA 1 (DIREITA / DEPOIS: FLUXO ORGANIZADO) - Fica no fundo 100% esticada */}

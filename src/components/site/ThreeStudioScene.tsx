@@ -207,7 +207,7 @@ export function ThreeStudioScene({ className = "" }: { className?: string }) {
     window.addEventListener("resize", handleResize);
 
     // 10. Loop de Renderização e Animação Cinética
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
