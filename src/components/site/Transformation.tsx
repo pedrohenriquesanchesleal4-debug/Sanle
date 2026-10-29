@@ -55,23 +55,24 @@ export function Transformation() {
 
   return (
     <section
-      id="transformacao"
-      className="relative scroll-mt-20 py-12 sm:py-16 md:py-20 bg-[#08090C] text-[#F5F6F8] border-b border-white/10 select-none overflow-hidden w-full max-w-full"
+      id="capacidades"
+      className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#0A0B10] text-[#F5F6F8] border-b border-white/[0.08] select-none overflow-hidden w-full max-w-full"
       aria-labelledby="transf-title"
     >
+      <div id="transformacao" className="sr-only" />
       <div className="shell max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
           <div>
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-[#78A9FF]">
-              <Sparkles className="h-4 w-4 text-[#B7F36B]" />
-              <span>AMBIENTE 03 · DO ATRITO AO FLUXO</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 font-mono text-xs uppercase tracking-[0.14em] text-[#60A5FA]">
+              <Sparkles className="h-3.5 w-3.5 text-[#10B981]" />
+              <span>O Contraste da Verdade Operacional</span>
             </div>
 
             <h2
               id="transf-title"
-              className="mt-3 font-serif-editorial text-[clamp(2.1rem,5vw,4.5rem)] leading-[0.98] text-[#F5F6F8]"
+              className="mt-4 font-serif text-[clamp(2.1rem,4.8vw,4.2rem)] font-normal leading-[1.04] text-[#F9FAFB] tracking-[-0.03em]"
             >
-              O contraste de uma operação em regime de fluxo.
+              O abismo entre o improviso manual e a engenharia sob medida.
             </h2>
           </div>
 
