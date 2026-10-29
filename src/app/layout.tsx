@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { siteUrl } from "@/content/brand";
 import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
@@ -24,6 +24,13 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
   variable: "--font-space",
   weight: ["400", "500", "600", "700"]
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-serif",
+  weight: ["300", "400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
@@ -122,7 +129,7 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} scroll-smooth`}
+      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${fraunces.variable} scroll-smooth`}
     >
       <head>
         <script
