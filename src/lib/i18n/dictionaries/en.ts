@@ -1,3 +1,7 @@
+/**
+ * English dictionary — Sanle Studio
+ * Parity for Atelier, Hero, Navigation and Footer
+ */
 import type { Dictionary } from "../types";
 
 export const en: Dictionary = {
@@ -23,28 +27,28 @@ export const en: Dictionary = {
     contact: "Contact",
     about: "About",
     talkToSpecialist: "Technical Diagnosis",
-    buildSolution: "Start Project",
+    buildSolution: "Bring to Life",
     menuOpen: "Open menu",
     menuClose: "Close menu"
   },
   hero: {
-    eyebrow: "SANLE · SOFTWARE ENGINEERING STUDIO · BRASÍLIA · DF",
-    headlineTop: "Good ideas deserve",
-    headlineBottom: "to come off",
-    headlineItalic: "paper.",
+    eyebrow: "SANLE STUDIO · BESPOKE SOFTWARE ENGINEERING",
+    headlineTop: "Software engineered for the",
+    headlineBottom: "reality of your",
+    headlineItalic: "operation.",
     subheadline:
-      "We turn real business needs into digital products, custom web systems, artificial intelligence agents, and operational automations built to last.",
+      "We build high-craft bespoke digital presences, tailor-made web systems, and grounded artificial intelligence. Zero boilerplate templates, zero rental platform lock-in, and fast delivery in 7 to 14 days.",
     ctaPrimary: "Bring your project to life",
-    ctaSecondary: "Explore the 4 fronts",
-    microProof: "Digital · Web Systems · AI Agents · Process Automation",
+    ctaSecondary: "Explore the interactive atelier",
+    microProof: "100% proprietary code · Fast delivery in 7 to 14 days",
     pillarDigital: "01 · DIGITAL",
-    pillarDigitalSub: "Sites & Experiences",
+    pillarDigitalSub: "Bespoke Websites & Showcases",
     pillarSystems: "02 · SYSTEMS",
-    pillarSystemsSub: "Web Apps, Portals & CRMs",
+    pillarSystemsSub: "Web Apps & Portals",
     pillarAgents: "03 · AGENTS",
-    pillarAgentsSub: "AI, RAG & Smart Triage",
+    pillarAgentsSub: "AI with Grounded Context (RAG)",
     pillarAuto: "04 · AUTOMATION",
-    pillarAutoSub: "Integrations & Workflows"
+    pillarAutoSub: "Integrations & Pipelines"
   },
   capabilities: {
     badge: "FOUR COMPLEMENTARY FRONTS",
@@ -132,10 +136,10 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Digital products, custom web systems, artificial intelligence agents, and process automation.",
+      "Bespoke digital products, custom web systems, grounded AI agents, and resilient process automation.",
     rights: "All rights reserved.",
-    privacy: "Privacy",
-    terms: "Terms of Use",
+    privacy: "Privacy Policy",
+    terms: "Terms of Service",
     contactDirect: "Direct contact: +55 (61) 98139-9051"
   }
 };
