@@ -14,29 +14,29 @@ export interface HeroContent {
 }
 
 export const heroContent: HeroContent = {
-  eyebrow: "SANLE · ENGENHARIA DE SOFTWARE · BRASÍLIA - DF",
-  headlineTop: "Boas ideias merecem",
-  headlineBottom: "sair do",
-  headlineItalic: "papel.",
+  eyebrow: "Sanle Studio · Engenharia de Software Autoral · Brasília e Atendimento Nacional",
+  headlineTop: "Software desenhado para a",
+  headlineBottom: "realidade da sua",
+  headlineItalic: "operação comercial.",
   subheadline:
-    "Transformamos necessidades de negócio em produtos digitais, sistemas sob medida, agentes de inteligência artificial e automações que funcionam na prática.",
+    "Construímos presenças digitais autorais de alto padrão, sistemas web sob medida e inteligência artificial prática. Sem templates pré-fabricados, sem dependência de plataformas de aluguel e com entrega ágil em 7 a 14 dias.",
   ctaPrimary: {
     label: "Tirar projeto do papel",
     href: "/#contato"
   },
   ctaSecondary: {
-    label: "Explorar as 4 frentes",
-    href: "/#capacidades"
+    label: "Explorar o estúdio interativo",
+    href: "#portal-hero-container"
   },
-  microProof: "Digital · Sistemas · Agentes de IA · Automação",
+  microProof: "Código 100% de propriedade do cliente · Entrega de 7 a 14 dias",
   abAlternatives: [
     {
-      title: "Boas ideias merecem sair do papel com engenharia de verdade.",
-      sub: "Sites autorais, sistemas web personalizados, agentes de IA e automações operacionais."
+      title: "Software sob medida que faz sua empresa vender mais e parar de perder tempo.",
+      sub: "Vitrines de alta conversão, portais internos seguros e agentes de IA com contexto real."
     },
     {
-      title: "Da necessidade de negócio ao software em produção.",
-      sub: "Elimine gargalos operacionais que consomem horas diárias da sua equipe em trabalho manual repetitivo."
+      title: "Da dor operacional ao produto digital em produção.",
+      sub: "Elimine o retrabalho de planilhas e feche mais negócios direto pelo WhatsApp."
     }
   ]
 };
