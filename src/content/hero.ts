@@ -14,29 +14,29 @@ export interface HeroContent {
 }
 
 export const heroContent: HeroContent = {
-  eyebrow: "ARQUITETURA DE OPERAÇÕES · BRASÍLIA - DF",
-  headlineTop: "Menos atrito manual.",
-  headlineBottom: "Mais",
-  headlineItalic: "fluxo contínuo.",
+  eyebrow: "SANLE · ENGENHARIA DE SOFTWARE · BRASÍLIA - DF",
+  headlineTop: "Boas ideias merecem",
+  headlineBottom: "sair do",
+  headlineItalic: "papel.",
   subheadline:
-    "Substituímos o copia-e-cola de planilhas, a redigitação de notas e as cobranças manuais por uma malha de automação invisível — sem forçar sua empresa a trocar nenhum software que já utiliza.",
+    "Transformamos necessidades de negócio em produtos digitais, sistemas sob medida, agentes de inteligência artificial e automações que funcionam na prática.",
   ctaPrimary: {
-    label: "Mapear meu processo",
-    href: "/diagnostico"
+    label: "Tirar projeto do papel",
+    href: "/#contato"
   },
   ctaSecondary: {
-    label: "Falar com Engenheiro no WhatsApp",
-    href: "#whatsapp"
+    label: "Explorar as 4 frentes",
+    href: "/#capacidades"
   },
-  microProof: "Diagnóstico executivo de 30 min · Sem troca de softwares · Retorno de margem mensurável",
+  microProof: "Digital · Sistemas · Agentes de IA · Automação",
   abAlternatives: [
     {
-      title: "Seu time não foi contratado para redigitar dados entre telas.",
-      sub: "Conectamos WhatsApp, ERPs e documentos em fluxos auditáveis e automáticos."
+      title: "Boas ideias merecem sair do papel com engenharia de verdade.",
+      sub: "Sites autorais, sistemas web personalizados, agentes de IA e automações operacionais."
     },
     {
-      title: "Onde o atrito manual termina, a engenharia de fluxo começa.",
-      sub: "Elimine gargalos invisíveis que drenam até 32% das horas úteis da sua equipe."
+      title: "Da necessidade de negócio ao software em produção.",
+      sub: "Elimine gargalos operacionais que consomem horas diárias da sua equipe em trabalho manual repetitivo."
     }
   ]
 };

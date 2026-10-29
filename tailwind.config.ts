@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/app/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
@@ -61,10 +62,11 @@ const config: Config = {
         rust: "rgb(var(--rust) / <alpha-value>)"
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "var(--font-fraunces)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         display: ["var(--font-sans)", "var(--font-space)", "system-ui", "sans-serif"],
-        sans: ["var(--font-sans)", "var(--font-space)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"]
+        heading: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        space: ["var(--font-space)", "sans-serif"]
       },
       fontSize: {
         "clamp-hero": "clamp(2.5rem, 6.4vw, 6.25rem)",

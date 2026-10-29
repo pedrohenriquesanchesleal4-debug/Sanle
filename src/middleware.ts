@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Guarda de borda do painel. A verificação de sessão "de verdade" acontece no
- * servidor (layout do /admin); aqui apenas evitamos renderizar o painel sem cookie
- * de sessão quando o Supabase está configurado.
+ * Guarda de borda do painel. Aceita tanto o cookie de sessão administrativa
+ * (`sanle_admin_session`) quanto cookies do Supabase SSR (`sb-...-auth-token` ou
+ * fragmentos `.0`, `.1`). A verificação estrita de e-mail autorizado acontece
+ * no servidor (`getSession()` no layout do `/admin`).
  */
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -11,19 +12,20 @@ export function middleware(req: NextRequest) {
   const localAdmin = process.env.SANLE_LOCAL_ADMIN === "true" && process.env.NODE_ENV !== "production";
 
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
-    if (hasSupabase) {
-      const hasSessionCookie = req.cookies
-        .getAll()
-        .some((c) => c.name.startsWith("sb-") && c.name.endsWith("-auth-token"));
-      if (!hasSessionCookie) {
-        const url = req.nextUrl.clone();
-        url.pathname = "/admin/login";
-        url.searchParams.set("proximo", pathname);
-        return NextResponse.redirect(url);
-      }
-    } else if (!localAdmin) {
+    const allCookies = req.cookies.getAll();
+    const hasAdminCookie = allCookies.some((c) => c.name === "sanle_admin_session" && Boolean(c.value));
+    const hasSupabaseCookie = allCookies.some(
+      (c) => c.name.startsWith("sb-") && c.name.includes("-auth-token")
+    );
+
+    if (hasAdminCookie || hasSupabaseCookie || localAdmin) {
+      return NextResponse.next();
+    }
+
+    if (hasSupabase || !localAdmin) {
       const url = req.nextUrl.clone();
       url.pathname = "/admin/login";
+      url.searchParams.set("proximo", pathname);
       return NextResponse.redirect(url);
     }
   }

@@ -14,10 +14,10 @@ type Msg = {
 };
 
 const SUGGESTIONS = [
-  "Quais soluções a Sanle implementa?",
-  "Como funciona a prospecção de empresas?",
-  "Preciso trocar o ERP que já utilizo?",
-  "Como funciona o diagnóstico operacional?"
+  "Quais frentes de software a Sanle desenvolve?",
+  "Como funciona a criação de um sistema sob medida?",
+  "Como funcionam os agentes de IA com RAG?",
+  "Preciso substituir as ferramentas que já uso?"
 ];
 
 export function ChatWidget() {
@@ -30,7 +30,7 @@ export function ChatWidget() {
     {
       role: "assistant",
       content:
-        "Olá! Sou o consultor de operações da Sanle. Posso detalhar nossa arquitetura de automação, explicar os motores de prospecção e entender o gargalo atual da sua empresa. Como posso ajudar?"
+        "Olá! Sou o assistente técnico da Sanle. Posso explicar como desenhamos sites e experiências digitais, sistemas web sob medida, agentes de IA e automações operacionais. O que você planeja tirar do papel?"
     }
   ]);
   const listRef = useRef<HTMLDivElement>(null);
@@ -61,7 +61,12 @@ export function ChatWidget() {
         if (!res.ok || !json.ok) {
           setMessages((m) => [
             ...m,
-            { role: "assistant", content: json.error ?? "Não consegui processar a resposta neste momento. Tente novamente em instantes." }
+            {
+              role: "assistant",
+              content:
+                json.error ??
+                "Não consegui processar a resposta neste momento. Tente novamente em instantes."
+            }
           ]);
           return;
         }
@@ -80,7 +85,10 @@ export function ChatWidget() {
       } catch {
         setMessages((m) => [
           ...m,
-          { role: "assistant", content: "Falha de conexão. Verifique sua rede e tente novamente." }
+          {
+            role: "assistant",
+            content: "Falha de conexão. Verifique sua rede e tente novamente."
+          }
         ]);
       } finally {
         setSending(false);
@@ -96,36 +104,40 @@ export function ChatWidget() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="sanle-chat"
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2.5 rounded-full border border-black/10 bg-white/95 px-4 py-3 text-xs font-semibold text-ink shadow-2xl backdrop-blur-md transition-all hover:border-cobalt/50 hover:shadow-cobalt/10 active:scale-95"
+        className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5 rounded-full border border-white/15 bg-[#111318]/95 px-4 py-3 text-xs font-semibold text-[#F5F6F8] shadow-2xl backdrop-blur-xl transition-all hover:border-[#78A9FF]/60 active:scale-95 cursor-pointer"
       >
-        {open ? <X size={16} /> : <MessageSquare size={16} className="text-cobalt" />}
-        <span className="hidden sm:inline">{open ? "Fechar canal" : "Consultor Sanle · Dúvidas"}</span>
+        {open ? <X size={16} /> : <MessageSquare size={16} className="text-[#78A9FF]" />}
+        <span className="hidden sm:inline">
+          {open ? "Fechar assistente" : "Assistente Sanle · Dúvidas"}
+        </span>
       </button>
 
       {open && (
         <div
           id="sanle-chat"
           role="dialog"
-          aria-label="Consultor de Operações Sanle"
-          className="fixed bottom-20 left-4 sm:left-6 z-50 flex h-[min(560px,calc(100dvh-7rem))] w-[min(410px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl backdrop-blur-2xl text-ink"
+          aria-label="Assistente Técnico Sanle"
+          className="fixed bottom-20 right-4 sm:right-5 z-50 flex h-[min(540px,calc(100dvh-7rem))] w-[min(400px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#111318] text-[#F5F6F8] shadow-2xl backdrop-blur-2xl"
         >
-          <header className="flex items-center justify-between gap-3 border-b border-black/8 bg-paper px-4 py-3.5 text-ink">
+          <header className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#08090C] px-4 py-3.5 text-[#F5F6F8]">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cobalt/10 text-cobalt">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2440FF]/20 text-[#78A9FF]">
                 <ShieldCheck size={18} />
               </div>
               <div>
-                <p className="text-sm font-semibold leading-none">Consultoria Operacional Sanle</p>
-                <p className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-ink-mute">
-                  Especificações técnicas e operacionais
+                <p className="text-sm font-semibold leading-none text-[#F5F6F8]">
+                  Assistente Técnico Sanle
+                </p>
+                <p className="mt-1 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-[#969DA8]">
+                  Base de Conhecimento RAG · Escopo Real
                 </p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="text-ink-mute hover:text-ink transition-colors p-1 rounded-md"
-              aria-label="Fechar canal"
+              className="rounded-md p-1 text-[#969DA8] transition-colors hover:text-[#F5F6F8]"
+              aria-label="Fechar assistente"
             >
               <X size={16} />
             </button>
@@ -133,20 +145,23 @@ export function ChatWidget() {
 
           <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
             {messages.map((m, i) => (
-              <div key={i} className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}>
+              <div
+                key={i}
+                className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
+              >
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-xl px-3.5 py-2.5 text-[0.86rem] leading-relaxed shadow-sm",
+                    "max-w-[86%] rounded-xl px-3.5 py-2.5 text-[0.84rem] leading-relaxed shadow-sm",
                     m.role === "user"
-                      ? "bg-cobalt text-white font-medium"
-                      : "border border-black/8 bg-paper text-ink"
+                      ? "bg-[#2440FF] font-medium text-white"
+                      : "border border-white/10 bg-[#191C22] text-[#F5F6F8]"
                   )}
                 >
                   <p className="whitespace-pre-wrap">{m.content}</p>
                   {m.sources && m.sources.length > 0 && (
-                    <p className="mt-2 border-t border-black/8 pt-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-cobalt font-semibold flex items-center gap-1">
+                    <p className="mt-2 flex items-center gap-1 border-t border-white/10 pt-2 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#78A9FF]">
                       <CheckCircle2 size={11} className="inline" />
-                      Especificações: {[...new Set(m.sources)].join(" · ")}
+                      Fontes: {[...new Set(m.sources)].join(" · ")}
                     </p>
                   )}
                 </div>
@@ -154,22 +169,22 @@ export function ChatWidget() {
             ))}
             {sending && (
               <div className="flex justify-start">
-                <div className="flex items-center gap-2 rounded-xl border border-black/8 bg-paper px-3.5 py-2.5 text-sm text-ink-soft">
-                  <Loader2 size={14} className="animate-spin text-cobalt" aria-hidden />
-                  Verificando especificações da plataforma…
+                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#191C22] px-3.5 py-2.5 text-xs text-[#969DA8]">
+                  <Loader2 size={14} className="animate-spin text-[#78A9FF]" aria-hidden />
+                  Consultando base técnica da Sanle…
                 </div>
               </div>
             )}
           </div>
 
           {messages.length <= 1 && (
-            <div className="flex flex-wrap gap-2 px-4 pb-2">
+            <div className="flex flex-wrap gap-1.5 px-4 pb-2">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   type="button"
                   onClick={() => send(s)}
-                  className="rounded-full border border-black/10 bg-paper px-3 py-1.5 text-[0.72rem] text-ink-soft transition hover:border-cobalt hover:text-ink shadow-sm text-left"
+                  className="rounded-full border border-white/10 bg-[#191C22] px-3 py-1.5 text-left text-[0.7rem] text-[#969DA8] transition hover:border-[#78A9FF] hover:text-[#F5F6F8]"
                 >
                   {s}
                 </button>
@@ -177,13 +192,13 @@ export function ChatWidget() {
             </div>
           )}
 
-          <div className="border-t border-black/8 bg-white px-3.5 py-3">
-            <label className="mb-2 flex items-start gap-2 text-[0.68rem] text-ink-mute">
+          <div className="border-t border-white/10 bg-[#08090C] px-3.5 py-3">
+            <label className="mb-2 flex items-start gap-2 text-[0.68rem] text-[#969DA8]">
               <input
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 accent-cobalt"
+                className="mt-0.5 accent-[#2440FF]"
               />
               <span>
                 Autorizo armazenar esta consulta para acompanhamento técnico pela Sanle.
@@ -200,15 +215,15 @@ export function ChatWidget() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Qual processo da sua empresa você deseja automatizar?"
-                aria-label="Mensagem"
+                placeholder="Descreva sua ideia, sistema ou processo..."
+                aria-label="Mensagem para o assistente"
                 maxLength={2000}
-                className="field !py-2 text-sm flex-1"
+                className="field !py-2 text-xs flex-1"
               />
               <button
                 type="submit"
                 disabled={sending || !input.trim()}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cobalt text-white transition hover:bg-cobalt-deep disabled:opacity-40 shadow-sm"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2440FF] text-white transition hover:bg-[#3856ff] disabled:opacity-40"
                 aria-label="Enviar mensagem"
               >
                 <Send size={15} />

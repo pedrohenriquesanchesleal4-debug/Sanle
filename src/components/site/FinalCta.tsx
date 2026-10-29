@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, MessageCircle, ArrowUpRight } from "lucide-react";
-import { segments } from "@/content/brand";
+import { ArrowRight, CheckCircle2, MessageCircle, ArrowUpRight, Mail, Linkedin, Copy, Check } from "lucide-react";
+import { brand, segments } from "@/content/brand";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { trackEvent } from "@/lib/analytics";
@@ -39,7 +39,7 @@ const CATEGORIES: CategoryOption[] = [
     label: "Quero um agente de IA",
     shortTag: "Sanle Agents",
     questionHint: "Em qual canal o agente deve atuar (WhatsApp, site, interno) e quais dúvidas ou tarefas ele deve atender?",
-    placeholder: "Ex: Queremos um agente de WhatsApp para triagem 24/7 de orçamentos e um assistente interno para consulta a manuais...",
+    placeholder: "Ex: Queremos um agente de WhatsApp para triagem de orçamentos e um assistente interno para consulta a manuais...",
     waPrefix: "tenho interesse em desenvolver um Agente de Inteligência Artificial para minha empresa"
   },
   {
@@ -47,15 +47,15 @@ const CATEGORIES: CategoryOption[] = [
     label: "Quero automatizar um processo",
     shortTag: "Sanle Automation",
     questionHint: "Quais tarefas manuais repetitivas você quer eliminar (planilhas, documentos fiscais, conciliação)?",
-    placeholder: "Ex: Nossa equipe perde 3 horas por dia conferindo notas fiscais em PDFs e redigitando dados no ERP...",
+    placeholder: "Ex: Nossa equipe perde horas conferindo documentos em PDF e redigitando dados no ERP...",
     waPrefix: "gostaria de conversar sobre automação de processos operacionais e eliminação de retrabalho manual"
   },
   {
     id: "integracao",
     label: "Preciso integrar sistemas",
     shortTag: "APIs & Barramento",
-    questionHint: "Quais ferramentas ou ERPs sua empresa já utiliza e precisam conversar entre si em tempo real?",
-    placeholder: "Ex: Precisamos conectar nosso WhatsApp Business ao nosso ERP (Omie/ContaAzul) e ao banco de dados...",
+    questionHint: "Quais ferramentas ou ERPs sua empresa já utiliza e precisam conversar entre si?",
+    placeholder: "Ex: Precisamos conectar nosso WhatsApp Business ao nosso ERP e ao banco de dados...",
     waPrefix: "preciso integrar sistemas que já utilizamos na empresa (APIs, ERP e canais)"
   },
   {
@@ -85,14 +85,22 @@ export function FinalCta() {
   const [segmento, setSegmento] = useState<string>(segments[0]);
   const [dorTexto, setDorTexto] = useState("");
   const [consentimento, setConsentimento] = useState(false);
-  const [hp, setHp] = useState(""); // Honeypot
+  const [hp, setHp] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [whatsappReturnUrl, setWhatsappReturnUrl] = useState<string | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // Lê parâmetros da URL para pré-selecionar categoria vinda de outros CTAs
+  const handleCopyEmail = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(brand.contact.email);
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2500);
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -116,7 +124,6 @@ export function FinalCta() {
     };
   }, []);
 
-  // Escuta evento customizado disparado pela calculadora
   useEffect(() => {
     const handlePrefill = (e: Event) => {
       const custom = e as CustomEvent<{ dorTexto?: string }>;
@@ -157,7 +164,6 @@ export function FinalCta() {
 
     setSubmitting(true);
 
-    // Concatena a categoria escolhida junto à descrição do projeto para persistência
     const compositeDor = `[CATEGORIA: ${activeCatObj.label}] ${dorTexto.trim()}`;
 
     try {
@@ -197,10 +203,9 @@ export function FinalCta() {
   return (
     <section
       id="contato"
-      className="relative scroll-mt-16 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] overflow-clip border-t border-white/10 select-none"
+      className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] overflow-clip border-t border-white/10"
       aria-labelledby="cta-final-title"
     >
-      {/* Glow volumétrico */}
       <div
         className="pointer-events-none absolute -bottom-40 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(circle,rgba(36,64,255,0.08)_0%,rgba(183,243,107,0.04)_50%,transparent_70%)] blur-3xl"
         aria-hidden="true"
@@ -214,7 +219,7 @@ export function FinalCta() {
 
           <h2
             id="cta-final-title"
-            className="mt-5 font-serif-editorial text-[clamp(2.3rem,6vw,4.8rem)] leading-[0.98] text-[#F5F6F8]"
+            className="mt-5 font-serif-editorial text-[clamp(2.3rem,5.5vw,4.6rem)] leading-[0.98] text-[#F5F6F8]"
           >
             {dict.contactForm.title}
           </h2>
@@ -224,9 +229,7 @@ export function FinalCta() {
           </p>
         </div>
 
-        {/* =======================================================================
-            SELETOR INTELIGENTE DE NECESSIDADE (Requisito da Seção 11)
-           ======================================================================= */}
+        {/* SELETOR INTELIGENTE DE NECESSIDADE */}
         <div className="mt-10 sm:mt-12 max-w-4xl mx-auto">
           <span className="block font-mono text-xs uppercase tracking-wider text-[#969DA8] mb-3 text-center font-semibold">
             {dict.contactForm.selectNature}
@@ -266,7 +269,7 @@ export function FinalCta() {
               </h3>
 
               <p className="mt-3 text-base text-[#969DA8] font-sans-editorial max-w-md mx-auto">
-                Registramos seu interesse em <strong className="text-white">{activeCatObj.label}</strong>. 
+                Registramos seu interesse em <strong className="text-white">{activeCatObj.label}</strong>.{" "}
                 {dict.contactForm.successDesc}
               </p>
 
@@ -286,7 +289,6 @@ export function FinalCta() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" onFocus={handleFirstInteraction}>
-              {/* Campo oculto anti-robô */}
               <input
                 type="text"
                 name="hp"
@@ -301,9 +303,9 @@ export function FinalCta() {
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between text-xs font-mono text-[#78A9FF]">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#B7F36B]" />
-                  <span>ÁREA: {activeCatObj.shortTag.toUpperCase()}</span>
+                  <span>FRENTE: {activeCatObj.shortTag.toUpperCase()}</span>
                 </div>
-                <span className="text-[#969DA8]">Etapa 2 de 2</span>
+                <span className="text-[#969DA8]">Briefing Direto</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -373,7 +375,6 @@ export function FinalCta() {
                 </div>
               </div>
 
-              {/* Campo Contextual Adaptado à Categoria Escolhida */}
               <div>
                 <label htmlFor="inbound-dor" className="block font-mono text-xs uppercase tracking-[0.14em] text-[#969DA8] mb-2 font-medium">
                   {activeCatObj.questionHint}
@@ -388,7 +389,6 @@ export function FinalCta() {
                 />
               </div>
 
-              {/* Consentimento LGPD */}
               <div className="flex items-start gap-3 pt-1">
                 <input
                   id="inbound-consent"
@@ -414,7 +414,6 @@ export function FinalCta() {
                 </div>
               )}
 
-              {/* CTAs Principais (Seção 11) */}
               <div className="pt-3 flex flex-col sm:flex-row items-center gap-3">
                 <button
                   type="submit"
@@ -435,18 +434,71 @@ export function FinalCta() {
                   <span>{dict.contactForm.whatsappCta}</span>
                 </button>
               </div>
-
-              <div className="text-center pt-2">
-                <a
-                  href="#capacidades"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-[#969DA8] hover:text-white transition-colors"
-                >
-                  <span>Quer ver o que desenvolvemos antes? Ver demonstrações</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </a>
-              </div>
             </form>
           )}
+        </div>
+
+        {/* Canais Executivos Diretos integrados sem duplicar ID */}
+        <div className="mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a
+            href={buildWhatsAppLink({ customText: "Olá Pedro! Vim pelo site da Sanle e gostaria de conversar sobre um projeto." })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 rounded-2xl bg-[#111318]/80 border border-white/10 hover:border-[#B7F36B]/50 flex items-center justify-between transition-all group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="h-9 w-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#B7F36B]">
+                <MessageCircle className="h-4 w-4" />
+              </span>
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#969DA8] block">WhatsApp Direto</span>
+                <span className="text-xs font-medium text-white">{brand.contact.whatsappDisplay || "(61) 98139-9051"}</span>
+              </div>
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-[#969DA8] group-hover:text-white" />
+          </a>
+
+          <div className="p-4 rounded-2xl bg-[#111318]/80 border border-white/10 flex items-center justify-between">
+            <a
+              href={`mailto:${brand.contact.email}`}
+              className="flex items-center gap-3 min-w-0 flex-1"
+            >
+              <span className="h-9 w-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#78A9FF] shrink-0">
+                <Mail className="h-4 w-4" />
+              </span>
+              <div className="min-w-0">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#969DA8] block">E-mail Corporativo</span>
+                <span className="text-xs font-medium text-white truncate block">{brand.contact.email}</span>
+              </div>
+            </a>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="p-2 rounded-lg bg-white/[0.04] border border-white/10 text-[#969DA8] hover:text-white ml-2 shrink-0 cursor-pointer"
+              title="Copiar e-mail"
+              aria-label="Copiar e-mail"
+            >
+              {copiedEmail ? <Check className="h-3.5 w-3.5 text-[#B7F36B]" /> : <Copy className="h-3.5 w-3.5" />}
+            </button>
+          </div>
+
+          <a
+            href={brand.contact.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 rounded-2xl bg-[#111318]/80 border border-white/10 hover:border-[#78A9FF]/50 flex items-center justify-between transition-all group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="h-9 w-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#78A9FF]">
+                <Linkedin className="h-4 w-4" />
+              </span>
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#969DA8] block">Liderança Técnica</span>
+                <span className="text-xs font-medium text-white">Pedro Henrique S. Leal</span>
+              </div>
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-[#969DA8] group-hover:text-white" />
+          </a>
         </div>
       </div>
     </section>

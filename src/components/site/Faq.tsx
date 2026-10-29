@@ -18,32 +18,12 @@ export function Faq() {
     setOpenIdx((current) => (current === idx ? null : idx));
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: ALL_FAQS.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.a
-      }
-    }))
-  };
-
   return (
     <section
       id="faq"
-      className="relative scroll-mt-20 border-t border-[#F5F6F8]/8 bg-[#08090C] py-12 sm:py-16 md:py-20 text-[#F5F6F8] overflow-hidden w-full max-w-full"
+      className="relative scroll-mt-20 border-t border-[#F5F6F8]/8 bg-[#08090C] py-16 sm:py-20 md:py-24 text-[#F5F6F8] overflow-hidden w-full max-w-full"
       aria-labelledby="faq-title"
     >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c")
-        }}
-      />
-
       <div className="shell max-w-4xl">
         <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#78A9FF]">
           <span>PERGUNTAS FREQUENTES</span>
@@ -51,13 +31,13 @@ export function Faq() {
 
         <h2
           id="faq-title"
-          className="mt-4 font-display text-clamp-title font-semibold leading-[1.03] tracking-tightest text-[#F5F6F8]"
+          className="mt-4 font-serif-editorial text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.03] tracking-[-0.03em] text-[#F5F6F8]"
         >
-          Clareza sobre operação, dados e infraestrutura.
+          Clareza sobre escopo, tecnologia e modelos de parceria.
         </h2>
 
-        <p className="mt-3 max-w-xl text-base text-[#969DA8]">
-          Transparência sobre a arquitetura Free-First, uso de dados públicos e fluxo comercial do Sales Hunter.
+        <p className="mt-3 max-w-xl text-base text-[#969DA8] font-sans-editorial">
+          Respostas diretas sobre como projetamos sites, sistemas sob medida, agentes de IA e automações operacionais.
         </p>
 
         <div className="mt-12 divide-y divide-[#F5F6F8]/10 border-y border-[#F5F6F8]/10">
@@ -75,7 +55,7 @@ export function Faq() {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggle(idx)}
-                    className="group flex w-full items-center justify-between gap-6 text-left focus:outline-none"
+                    className="group flex w-full items-center justify-between gap-6 text-left focus:outline-none cursor-pointer"
                   >
                     <span className="font-display text-lg font-medium text-[#F5F6F8] transition-colors group-hover:text-[#B7F36B] md:text-xl">
                       {item.q}
@@ -97,7 +77,7 @@ export function Faq() {
                     id={contentId}
                     role="region"
                     aria-labelledby={headerId}
-                    className="mt-3 pr-10 text-sm leading-relaxed text-[#969DA8] md:text-base"
+                    className="mt-3 pr-10 text-sm leading-relaxed text-[#969DA8] md:text-base font-sans-editorial"
                   >
                     <p>{item.a}</p>
                   </div>

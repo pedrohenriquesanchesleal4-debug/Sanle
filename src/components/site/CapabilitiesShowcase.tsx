@@ -43,21 +43,21 @@ const CAPABILITIES: CapabilityTab[] = [
     category: "DIGITAL EXPERIENCES",
     name: "Sanle Digital",
     title: "Sua empresa merece uma presença digital à altura do que entrega.",
-    description: "Criamos experiências digitais que apresentam seus serviços com clareza, transmitem confiança imediata e facilitam o próximo passo do seu cliente comercial.",
+    description: "Criamos sites, landing pages e experiências digitais que apresentam seus serviços com clareza, transmitem confiança imediata e facilitam o próximo passo comercial do seu cliente.",
     accentColor: "#2440FF",
     icon: Globe,
     ctaText: "Quero melhorar minha presença digital",
     ctaHref: "/#contato?categoria=site",
     services: [
-      "Sites institucionais de alto padrão",
-      "Landing pages de alta conversão",
-      "Redesign e modernização de interfaces",
-      "Catálogos digitais para produtos e serviços",
-      "Páginas de captação e qualificação de leads",
+      "Sites institucionais de direção editorial autoral",
+      "Landing pages focadas em clareza e conversão comercial",
+      "Redesign completo e modernização de interfaces",
+      "Catálogos digitais interativos para produtos e serviços",
+      "Páginas de captação e qualificação de oportunidades",
       "Sites com painel administrativo (CMS sob medida)",
-      "Integração nativa com WhatsApp e CRM",
-      "Jornadas comerciais e formulários em etapas",
-      "Otimização extrema de performance e SEO técnico"
+      "Integração direta com WhatsApp e CRM comercial",
+      "Jornadas comerciais e formulários guiados em etapas",
+      "Engenharia de performance web, acessibilidade e SEO técnico"
     ]
   },
   {
@@ -66,21 +66,21 @@ const CAPABILITIES: CapabilityTab[] = [
     category: "CUSTOM SOFTWARE",
     name: "Sanle Systems",
     title: "Quando sua operação exige mais do que uma planilha.",
-    description: "Desenvolvemos sistemas web personalizados para organizar processos, conectar informações críticas e dar à sua liderança mais controle sobre o que acontece todos os dias.",
+    description: "Desenvolvemos aplicações web, portais, CRMs e painéis gerenciais personalizados para organizar processos, centralizar informações e dar visibilidade real à liderança.",
     accentColor: "#C8A24A",
     icon: Layers,
     ctaText: "Quero desenvolver um sistema",
     ctaHref: "/#contato?categoria=sistema",
     services: [
-      "Sistemas web e aplicações empresariais",
-      "Dashboards e painéis de controle gerencial",
-      "CRMs personalizados para o seu ciclo de vendas",
+      "Aplicações web e sistemas empresariais sob medida",
+      "Dashboards executivos e painéis de controle operacional",
+      "CRMs personalizados para o ciclo real da sua equipe",
       "Portais de autoatendimento para clientes e parceiros",
       "Sistemas de pedidos, orçamentos e esteiras operacionais",
-      "Controle de serviços, ordens de trabalho e prazos",
-      "Aplicações internas para equipes de campo e backoffice",
-      "APIs e barramentos de conexão entre plataformas legadas",
-      "MVPs robustos para lançamento de novos produtos digitais"
+      "Gestão de ordens de serviço, laudos e prazos",
+      "Ferramentas internas para equipes de campo e backoffice",
+      "APIs REST e camadas de integração entre sistemas",
+      "MVPs estruturados para validação e lançamento de produtos"
     ]
   },
   {
@@ -88,22 +88,22 @@ const CAPABILITIES: CapabilityTab[] = [
     badge: "03 · INTELIGÊNCIA ARTIFICIAL",
     category: "AI AGENTS & INTELLIGENCE",
     name: "Sanle Agents",
-    title: "Inteligência que não fica só na conversa.",
-    description: "Desenvolvemos agentes de inteligência artificial que ajudam empresas a atender clientes, consultar informações e executar tarefas conectadas aos seus processos reais.",
+    title: "Inteligência aplicada com contexto, limites claros e execução.",
+    description: "Projetamos agentes de IA e assistentes com busca documental (RAG) que auxiliam no atendimento comercial, consultam acervos internos e acionam ferramentas conectadas à sua operação.",
     accentColor: "#B7F36B",
     icon: Bot,
     ctaText: "Quero um agente para minha empresa",
     ctaHref: "/#contato?categoria=agente_ia",
     services: [
-      "Agentes de WhatsApp para triagem e qualificação 24/7",
-      "Coleta inteligente de informações para elaboração de orçamento",
-      "Assistentes internos com busca RAG em manuais e documentos",
-      "Pesquisa instantânea em bases de conhecimento empresariais",
-      "Apoio a análises de contratos, certidões e notas fiscais",
-      "Classificação e encaminhamento automático para especialistas",
-      "Execução de tarefas delimitadas com chamada de ferramentas (tools)",
-      "Agentes personalizados desenvolvidos sob medida para sua regra",
-      "Transferência human-in-the-loop para atendentes com histórico"
+      "Agentes de WhatsApp para triagem e qualificação inicial",
+      "Coleta estruturada de informações para elaboração de propostas",
+      "Assistentes internos com busca RAG em manuais e políticas",
+      "Consulta contextualizada em bases de conhecimento da empresa",
+      "Apoio à leitura e triagem de documentos, contratos e certidões",
+      "Classificação e roteamento de demandas para especialistas",
+      "Execução de ações delimitadas via chamada de ferramentas (tools)",
+      "Regras de negócio e escopo de resposta definidos sob medida",
+      "Transbordo transparente (human-in-the-loop) com histórico completo"
     ]
   },
   {
@@ -111,22 +111,22 @@ const CAPABILITIES: CapabilityTab[] = [
     badge: "04 · FLUXO CONTÍNUO",
     category: "PROCESS AUTOMATION",
     name: "Sanle Automation",
-    title: "Menos tarefas repetitivas. Mais capacidade para avançar.",
-    description: "Conectamos ferramentas e automatizamos processos para reduzir retrabalho, organizar informações e simplificar rotinas operacionais sem exigir troca de softwares.",
+    title: "Menos trabalho repetitivo. Mais capacidade para avançar.",
+    description: "Conectamos ferramentas, documentos e sistemas existentes para reduzir retrabalho manual, validar informações com segurança e manter processos operacionais fluindo.",
     accentColor: "#10B981",
     icon: Workflow,
     ctaText: "Quero automatizar um processo",
     ctaHref: "/#contato?categoria=automacao",
     services: [
-      "Automação e extração de documentos fiscais e boletos",
-      "Organização automática de arquivos e pastas na nuvem",
-      "Processamento, saneamento e conciliação de planilhas",
-      "Geração automatizada de relatórios executivos periódicos",
-      "Fluxos de aprovação de despesas e compras com 1 clique",
-      "Notificações automáticas no WhatsApp e e-mail",
-      "Sincronização bidirecional de dados entre ERPs e canais",
-      "Eliminação de redigitação repetida de cadastros",
-      "Pipelines seguros com ou sem modelos de inteligência artificial"
+      "Extração estruturada de dados de documentos fiscais e recibos",
+      "Organização e indexação automática de arquivos digitais",
+      "Processamento, saneamento e cruzamento de planilhas",
+      "Consolidação automatizada de relatórios operacionais",
+      "Fluxos de aprovação com alçadas e revisão humana de exceções",
+      "Alertas e notificações operacionais por WhatsApp e e-mail",
+      "Sincronização de dados entre sistemas de gestão e canais",
+      "Eliminação de redigitação manual entre plataformas",
+      "Pipelines determinísticos com registro de atividades"
     ]
   }
 ];
@@ -160,15 +160,15 @@ export function CapabilitiesShowcase() {
   const agentScenarios = [
     {
       user: "Olá, gostaria de solicitar um orçamento para manutenção em nossos compressores industriais.",
-      agent: "Posso ajudar de imediato. Quantos equipamentos precisam de manutenção e qual a localização da sua unidade?",
+      agent: "Posso ajudar. Quantos equipamentos precisam de manutenção preventiva ou corretiva e qual a localização da sua unidade?",
       tool: "identificar_categoria(tipo: 'industrial', servico: 'manutencao_preventiva')",
-      toolOutput: "Lead qualificado · Nível de prioridade: Alta · SLA: 2h"
+      toolOutput: "Demanda classificada · Prioridade: Alta · Escopo técnico pré-selecionado"
     },
     {
-      user: "São 4 compressores na fábrica de Brasília (SIA Trecho 3). Temos urgência para esta semana.",
-      agent: "Perfeito! Localizei a tabela técnica para compressores industriais. Já estruturei a solicitação e estou transferindo o atendimento para o engenheiro responsável com todo o histórico registrado.",
-      tool: "criar_oportunidade_crm(unidade: 'Brasilia-SIA', qtd: 4, transferir: true)",
-      toolOutput: "Oportunidade #9201 criada no CRM · Atendente notificado via WhatsApp"
+      user: "São 4 compressores na unidade de Brasília (SIA Trecho 3). Temos preferência para atendimento ainda esta semana.",
+      agent: "Perfeito! Consultei a disponibilidade regional e registrei sua solicitação. Já estou transferindo seu atendimento para o engenheiro responsável com todo o resumo técnico.",
+      tool: "criar_oportunidade_crm(unidade: 'Brasilia-SIA', ativos: 4, transferir_humano: true)",
+      toolOutput: "Oportunidade registrada no CRM · Especialista acionado com histórico"
     }
   ];
 
@@ -180,7 +180,7 @@ export function CapabilitiesShowcase() {
   return (
     <section
       id="capacidades"
-      className="relative scroll-mt-16 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] select-none overflow-clip w-full max-w-full"
+      className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] overflow-clip w-full max-w-full"
       aria-label="As Quatro Capacidades Comerciais da Sanle"
     >
       {/* Luz ambiente volumétrica de fundo */}
@@ -198,7 +198,7 @@ export function CapabilitiesShowcase() {
            ======================================================================= */}
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 shadow-xs backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-[#B7F36B]" />
             <span className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-[#969DA8] font-medium">
               {dict.capabilities.badge}
             </span>
@@ -217,7 +217,7 @@ export function CapabilitiesShowcase() {
         </div>
 
         {/* =======================================================================
-            SELETOR PRINCIPAL DAS QUATRO CAPACIDADES (Estilo Awwwards / Apple HUD)
+            SELETOR PRINCIPAL DAS QUATRO CAPACIDADES
            ======================================================================= */}
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 p-1.5 sm:p-2 rounded-2xl md:rounded-3xl bg-[#111319]/90 border border-white/10 backdrop-blur-xl">
           {CAPABILITIES.map((cap) => {
@@ -348,7 +348,7 @@ export function CapabilitiesShowcase() {
                     <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
                     <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
                     <span className="ml-2 font-mono text-[0.65rem] text-[#969DA8] hidden sm:inline">
-                      https://suaempresa.com.br
+                      preview://arquitetura-editorial
                     </span>
                   </div>
 
@@ -357,7 +357,7 @@ export function CapabilitiesShowcase() {
                     <button
                       type="button"
                       onClick={() => setDevicePreview("desktop")}
-                      className={`p-1.5 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all ${
+                      className={`p-1.5 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all cursor-pointer ${
                         devicePreview === "desktop"
                           ? "bg-[#2440FF] text-white"
                           : "text-[#969DA8] hover:text-white"
@@ -369,7 +369,7 @@ export function CapabilitiesShowcase() {
                     <button
                       type="button"
                       onClick={() => setDevicePreview("mobile")}
-                      className={`p-1.5 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all ${
+                      className={`p-1.5 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all cursor-pointer ${
                         devicePreview === "mobile"
                           ? "bg-[#2440FF] text-white"
                           : "text-[#969DA8] hover:text-white"
@@ -389,54 +389,54 @@ export function CapabilitiesShowcase() {
                       <span className="font-serif-editorial text-lg text-white font-bold">
                         Vanguard Engenharia
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#B7F36B] text-[#08090C] font-mono text-[10px] font-bold">
-                        Online
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/15 text-[#B7F36B] font-mono text-[10px]">
+                        Protótipo Ilustrativo
                       </span>
                     </div>
 
                     {/* Hero do mock */}
                     <div className="space-y-2 py-2">
                       <span className="font-mono text-[9px] uppercase tracking-wider text-[#78A9FF] block">
-                        Construção Civil & Projetos
+                        Construção Civil & Projetos Corporativos
                       </span>
                       <h4 className="font-serif-editorial text-xl sm:text-2xl text-white leading-tight">
-                        Engenharia de precisão para obras de grande escala.
+                        Engenharia de precisão para obras e infraestrutura.
                       </h4>
                       <p className="text-xs text-[#969DA8] leading-relaxed">
-                        Apresentação clara dos serviços, portfólio de projetos executados e contato imediato via WhatsApp.
+                        Apresentação clara de escopo técnico, acervo de obras executadas e solicitação de proposta integrada ao WhatsApp e CRM.
                       </p>
                     </div>
 
                     {/* Botões do mock */}
                     <div className="flex gap-2 pt-2">
                       <span className="px-3 py-1.5 rounded-full bg-[#2440FF] text-white text-[11px] font-medium inline-flex items-center gap-1">
-                        <span>Fazer Orçamento</span>
+                        <span>Solicitar Proposta</span>
                         <ArrowUpRight className="h-3 w-3" />
                       </span>
                       <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-stone-300 text-[11px]">
-                        Ver Portfólio
+                        Acervo Técnico
                       </span>
                     </div>
 
-                    {/* Métricas de Engenharia e Performance */}
+                    {/* Pilares de Engenharia Web */}
                     <div className="pt-3 border-t border-white/10 grid grid-cols-3 gap-2 text-center font-mono text-[10px]">
                       <div className="p-2 rounded bg-white/[0.03] border border-white/5">
-                        <span className="text-[#B7F36B] font-bold block text-sm">99</span>
-                        <span className="text-[#969DA8] text-[9px]">Performance</span>
+                        <span className="text-[#B7F36B] font-bold block text-xs">SSR / SSG</span>
+                        <span className="text-[#969DA8] text-[9px]">Next.js 15</span>
                       </div>
                       <div className="p-2 rounded bg-white/[0.03] border border-white/5">
-                        <span className="text-[#78A9FF] font-bold block text-sm">100</span>
+                        <span className="text-[#78A9FF] font-bold block text-xs">Schema.org</span>
                         <span className="text-[#969DA8] text-[9px]">SEO Técnico</span>
                       </div>
                       <div className="p-2 rounded bg-white/[0.03] border border-white/5">
-                        <span className="text-white font-bold block text-sm">0.6s</span>
-                        <span className="text-[#969DA8] text-[9px]">LCP Médio</span>
+                        <span className="text-white font-bold block text-xs">CMS + CRM</span>
+                        <span className="text-[#969DA8] text-[9px]">Integrado</span>
                       </div>
                     </div>
                   </div>
 
                   <span className="block mt-3 text-center font-mono text-[10px] text-[#969DA8]">
-                    [DEMONSTRAÇÃO VISUAL DE ARQUITETURA DE SITE MODERNO]
+                    SIMULAÇÃO ILUSTRATIVA DE COMPOSIÇÃO EDITORIAL RESPONSIVA
                   </span>
                 </div>
               </div>
@@ -453,11 +453,11 @@ export function CapabilitiesShowcase() {
                       S
                     </span>
                     <span className="font-mono text-xs uppercase tracking-wider text-white font-bold">
-                      PAINEL OPERACIONAL DA EMPRESA
+                      PAINEL OPERACIONAL SOB MEDIDA
                     </span>
                   </div>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-stone-300">
-                    Dados Fictícios · Clique nos cards
+                    Simulação · Clique nos cards
                   </span>
                 </div>
 
@@ -583,7 +583,7 @@ export function CapabilitiesShowcase() {
                     <ShieldCheck className="h-3.5 w-3.5 text-[#B7F36B]" />
                     <span>PostgreSQL com Row Level Security (RLS)</span>
                   </span>
-                  <span>Latência de resposta: 0.14s</span>
+                  <span>Controle de acesso por perfil</span>
                 </div>
               </div>
             )}
@@ -595,13 +595,13 @@ export function CapabilitiesShowcase() {
               <div className="rounded-2xl border border-white/15 bg-[#090A0E] overflow-hidden shadow-2xl p-4 sm:p-5 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-pulse" />
+                    <span className="h-2 w-2 rounded-full bg-[#B7F36B]" />
                     <span className="font-mono text-xs uppercase tracking-wider text-white font-bold">
-                      AGENTE DE ATENDIMENTO & QUALIFICAÇÃO
+                      AGENTE COM RAG & TOOL CALLING
                     </span>
                   </div>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#B7F36B]/10 text-[#B7F36B] border border-[#B7F36B]/20">
-                    Tool-Calling Ativo
+                    Simulação Ilustrativa
                   </span>
                 </div>
 
@@ -632,9 +632,9 @@ export function CapabilitiesShowcase() {
                     <div className="flex items-center justify-between text-[#B7F36B]">
                       <span className="flex items-center gap-1.5 font-bold">
                         <Terminal className="h-3 w-3" />
-                        <span>AÇÃO DO AGENTE (TOOL CALL):</span>
+                        <span>AÇÃO ESTRUTURADA (TOOL CALL):</span>
                       </span>
-                      <span className="text-[#969DA8]">Executado em 0.18s</span>
+                      <span className="text-[#969DA8]">Escopo Delimitado</span>
                     </div>
                     <code className="text-[#78A9FF] block text-[9.5px]">
                       {agentScenarios[agentStep]?.tool}
@@ -660,15 +660,14 @@ export function CapabilitiesShowcase() {
                   </span>
                 </div>
 
-                {/* Card de Arquitetura e Confiança (Requisito da Seção 6.3) */}
+                {/* Card de Arquitetura e Confiança */}
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 font-mono text-[10px] text-[#969DA8] space-y-1">
                   <span className="font-bold text-white flex items-center gap-1.5">
                     <Lock className="h-3 w-3 text-[#B7F36B]" />
-                    <span>ARQUITETURA DE CONFIANÇA & LIMITES DE ATUAÇÃO</span>
+                    <span>GOVERNANÇA DE IA & LIMITES OPERACIONAIS</span>
                   </span>
                   <p className="text-[9.5px] leading-relaxed text-stone-300">
-                    Nossos agentes não alucinam: operam sobre bases de conhecimento fechadas (RAG), com regras de negócio 
-                    estritas e transferência para operador humano em qualquer exceção ou aprovação sensível.
+                    Agentes projetados para consultar bases documentais autorizadas da empresa (RAG), aplicar validação de schema nas chamadas de ferramentas e transferir para atendimento humano em decisões críticas.
                   </p>
                 </div>
               </div>
@@ -681,13 +680,13 @@ export function CapabilitiesShowcase() {
               <div className="rounded-2xl border border-white/15 bg-[#090A0E] overflow-hidden shadow-2xl p-4 sm:p-5 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
+                    <span className="h-2 w-2 rounded-full bg-[#10B981]" />
                     <span className="font-mono text-xs uppercase tracking-wider text-white font-bold">
-                      PIPELINE OPERACIONAL EM 5 NÓS
+                      PIPELINE OPERACIONAL EM 5 ETAPAS
                     </span>
                   </div>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30">
-                    Zero Redigitação
+                    Simulação de Fluxo
                   </span>
                 </div>
 
@@ -697,8 +696,8 @@ export function CapabilitiesShowcase() {
                     { step: "01", label: "Entrada", desc: "WhatsApp / E-mail" },
                     { step: "02", label: "Extração", desc: "Schema Tipado" },
                     { step: "03", label: "Validação", desc: "Regras Fiscais" },
-                    { step: "04", label: "Integração", desc: "ERP / ContaAzul" },
-                    { step: "05", label: "Resultado", desc: "Conciliado" }
+                    { step: "04", label: "Integração", desc: "ERP / Sistema" },
+                    { step: "05", label: "Registro", desc: "Log de Evento" }
                   ].map((node, i) => (
                     <button
                       key={i}
@@ -720,14 +719,14 @@ export function CapabilitiesShowcase() {
                 <div className="p-4 rounded-xl border border-white/10 bg-[#12141A] font-mono text-xs space-y-2">
                   <div className="flex items-center justify-between text-[#10B981]">
                     <span className="font-bold">
-                      NÓ ATIVO: {["ENTRADA DE DADOS", "PROCESSAMENTO & EXTRAÇÃO", "VALIDAÇÃO DETERMINÍSTICA", "INTEGRAÇÃO COM ERP", "RESULTADO CONCILIADO"][activeAutoNode]}
+                      ETAPA ATIVA: {["ENTRADA DE DADOS", "PROCESSAMENTO & EXTRAÇÃO", "VALIDAÇÃO DE REGRAS", "INTEGRAÇÃO COM SISTEMA", "REGISTRO OPERACIONAL"][activeAutoNode]}
                     </span>
-                    <span className="text-[#969DA8] text-[10px]">Status: 100% Auditável</span>
+                    <span className="text-[#969DA8] text-[10px]">Rastreável</span>
                   </div>
 
                   {activeAutoNode === 0 && (
                     <p className="text-[#969DA8] text-[11px] leading-relaxed">
-                      Captura automática de notas fiscais (PDF/XML), comprovantes de PIX e pedidos recebidos pelo WhatsApp Business API ou caixas de entrada de e-mail.
+                      Recebimento automático de documentos (PDF/XML), formulários ou anexos enviados por clientes em canais oficiais de comunicação.
                     </p>
                   )}
                   {activeAutoNode === 1 && (
@@ -737,24 +736,24 @@ export function CapabilitiesShowcase() {
                   )}
                   {activeAutoNode === 2 && (
                     <p className="text-[#969DA8] text-[11px] leading-relaxed">
-                      Conferência instantânea contra a tabela de preços do contrato e checagem anti-duplicidade em 0.12 segundos. Em caso de divergência, dispara alerta para revisão humana em fila única.
+                      Conferência automática contra parâmetros do pedido e checagem anti-duplicidade. Caso haja divergência, encaminha para fila de revisão humana.
                     </p>
                   )}
                   {activeAutoNode === 3 && (
                     <p className="text-[#969DA8] text-[11px] leading-relaxed">
-                      Sincronização via API com Omie, ContaAzul, SAP ou TOTVS através de barramento tolerante a falhas com retries idempotentes.
+                      Envio estruturado via API ou webhook para o ERP, CRM ou banco de dados utilizado pela empresa, evitando redigitação manual.
                     </p>
                   )}
                   {activeAutoNode === 4 && (
                     <p className="text-[#969DA8] text-[11px] leading-relaxed">
-                      Baixa bancária confirmada, relatório financeiro atualizado e trilha de auditoria append-only gravada para compliance e governança.
+                      Atualização do status no painel gerencial e gravação de log estruturado com horário, origem e resultado do processamento.
                     </p>
                   )}
                 </div>
 
                 <div className="pt-2 flex items-center justify-between font-mono text-[10px] text-[#969DA8]">
-                  <span>Arquitetura de microsserviços tolerante a falhas</span>
-                  <span className="text-[#10B981]">Velocidade média: 0.18s</span>
+                  <span>Validação de schema JSON + retries controlados</span>
+                  <span className="text-[#10B981]">Revisão humana para exceções</span>
                 </div>
               </div>
             )}

@@ -658,6 +658,50 @@ export async function countLandingEvents(): Promise<number> {
   return (await landingEventsTable()).count();
 }
 
+export type StatelessProspectPayload = {
+  empresa: string;
+  cidade: string;
+  nicho: string;
+  oportunidade?: string | null;
+};
+
+export function encodeProspectPayload(input: StatelessProspectPayload): string {
+  const json = JSON.stringify({
+    e: input.empresa.trim(),
+    c: (input.cidade || "Brasília").trim(),
+    n: input.nicho.trim(),
+    o: input.oportunidade?.trim() || null
+  });
+  return Buffer.from(json, "utf8").toString("base64url");
+}
+
+export function decodeProspectPayload(token?: string | null): StatelessProspectPayload | null {
+  if (!token || typeof token !== "string") return null;
+  try {
+    const raw = Buffer.from(token, "base64url").toString("utf8");
+    const parsed = JSON.parse(raw) as { e?: string; c?: string; n?: string; o?: string | null };
+    if (!parsed || typeof parsed.e !== "string" || !parsed.e.trim()) return null;
+    return {
+      empresa: parsed.e.trim(),
+      cidade: typeof parsed.c === "string" && parsed.c.trim() ? parsed.c.trim() : "Brasília",
+      nicho: typeof parsed.n === "string" && parsed.n.trim() ? parsed.n.trim() : "sua operação",
+      oportunidade: typeof parsed.o === "string" && parsed.o.trim() ? parsed.o.trim() : null
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function cleanCompanyNameFromSlug(slug: string): string {
+  const cleaned = (slug || "")
+    .trim()
+    .replace(/-[a-z0-9]{4}$/i, "")
+    .replace(/-/g, " ")
+    .trim();
+  if (!cleaned) return "Empresa";
+  return cleaned.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export async function createProspectPage(input: {
   slug: string;
   leadId?: string | null;
@@ -694,8 +738,12 @@ export async function getProspectPageBySlug(slug: string): Promise<ProspectPageR
   } catch {
     // Continua para o fallback local
   }
-  const local = await new LocalTable<ProspectPageRecord>("prospectPages").all();
-  return local.find((p) => p.slug.trim().toLowerCase() === normalized) ?? null;
+  try {
+    const local = await new LocalTable<ProspectPageRecord>("prospectPages").all();
+    return local.find((p) => p.slug.trim().toLowerCase() === normalized) ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function listProspectPages(): Promise<ProspectPageRecord[]> {

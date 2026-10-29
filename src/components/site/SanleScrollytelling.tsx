@@ -30,53 +30,53 @@ interface StoryChapter {
 
 const CHAPTERS: StoryChapter[] = [
   {
-    id: "caos",
+    id: "diagnostico",
     chapter: "01",
-    kicker: "CAPÍTULO 01 · O DIAGNÓSTICO",
-    title: "O Ponto de Partida: A Fragmentação Manual",
-    lead: "Rotinas desconectadas, cópia de dados e esforço invisível.",
-    body: "Toda empresa em crescimento acumula processos manuais que drenam energia: notas fiscais perdidas em caixas de entrada, dados redigitados repetidamente em três planilhas diferentes e conferências manuais exaustivas. O atrito consome a margem antes que a liderança perceba.",
-    kpi: "32% do tempo",
-    kpiLabel: "Drenado em retrabalho e conferência",
-    tag: "Atrito Crítico",
+    kicker: "CAPÍTULO 01 · O DIAGNÓSTICO E A IDEIA",
+    title: "O Ponto de Partida: Onde boas ideias e operações travam",
+    lead: "Processos desconectados, controles paralelos e projetos que ficam só no papel.",
+    body: "Empresas em crescimento frequentemente enfrentam dois desafios ao mesmo tempo: uma presença digital que não reflete sua maturidade real e uma rotina interna presa em planilhas, mensagens soltas e retrabalho manual entre setores.",
+    kpi: "Escopo claro",
+    kpiLabel: "Mapeamento real antes de escrever código",
+    tag: "Diagnóstico",
     icon: Compass,
     themeColor: "#EF4444"
   },
   {
-    id: "engenharia",
+    id: "digital",
     chapter: "02",
-    kicker: "CAPÍTULO 02 · A ENGENHARIA",
-    title: "A Tubulação Invisível: Ingestão Estruturada",
-    lead: "Sem forçar sua empresa a trocar de sistemas: conectamos o que já existe.",
-    body: "A Sanle mapeia onde os dados se perdem e projeta conexões diretas entre arquivos, canais e sistemas. Arquivos de WhatsApp, e-mails fiscais e PDFs são convertidos em schemas tipados e validados em menos de 0.2 segundos, sem intervenção humana.",
+    kicker: "CAPÍTULO 02 · PRESENÇA DIGITAL & ENTRADA",
+    title: "A Primeira Camada: Posicionamento e Captação Estruturada",
+    lead: "Sites, páginas e canais que comunicam valor e organizam a chegada de demandas.",
+    body: "Construímos interfaces autorais e rápidas que apresentam sua empresa com clareza comercial e transformam contatos de clientes em solicitações padronizadas, conectadas diretamente ao WhatsApp e ao seu fluxo de atendimento.",
     kpi: "Zero migração",
-    kpiLabel: "De softwares e ERPs atuais",
-    tag: "Tubulação Ativa",
+    kpiLabel: "Integra com as ferramentas que você já usa",
+    tag: "Presença & Canais",
     icon: Layers,
     themeColor: "#2440FF"
   },
   {
-    id: "convergencia",
+    id: "sistemas",
     chapter: "03",
-    kicker: "CAPÍTULO 03 · A CONVERGÊNCIA",
-    title: "A Tríade dos Nós: Documentos, Sistemas e Regras",
-    lead: "Regras de negócio aplicadas no milissegundo de entrada dos dados.",
-    body: "Os três nós da Sanle operam em sincronismo determinístico: checagem contra tabelas de preço, validação fiscal e verificação contra duplicidade. 98% dos fluxos ocorrem silenciosamente; apenas anomalias reais vão para aprovação humana com 1 clique.",
-    kpi: "14x mais veloz",
-    kpiLabel: "Velocidade média de conciliação",
-    tag: "Precisão Estrita",
+    kicker: "CAPÍTULO 03 · SISTEMAS & AGENTES COM CONTEXTO",
+    title: "O Núcleo de Software: Sistemas Sob Medida e IA Aplicada",
+    lead: "Regras de negócio estruturadas e inteligência conectada aos documentos da empresa.",
+    body: "Quando a operação pede mais controle, desenvolvemos painéis, portais, CRMs e agentes de IA com busca documental (RAG) e chamada de ferramentas. O software organiza o fluxo e mantém o operador humano no comando das decisões críticas.",
+    kpi: "Sob medida",
+    kpiLabel: "Desenhado para a regra real da sua operação",
+    tag: "Sistemas & IA",
     icon: ShieldCheck,
     themeColor: "#C8A24A"
   },
   {
-    id: "fluxo",
+    id: "automacao",
     chapter: "04",
-    kicker: "CAPÍTULO 04 · O FLUXO PERMANENTE",
-    title: "A Operação em Regime Silencioso: Escala e Margem",
-    lead: "A empresa passa a funcionar de forma contínua, previsível e sem fadiga.",
-    body: "Os lançamentos contábeis no ERP e as baixas bancárias acontecem em tempo real com trilha auditável append-only. A empresa dobra a capacidade de atendimento mantendo a mesma equipe concentrada em clientes e vendas, devolvendo horas úteis aos sócios.",
-    kpi: "100% auditável",
-    kpiLabel: "Rastreabilidade e governança total",
+    kicker: "CAPÍTULO 04 · AUTOMAÇÃO & FLUXO CONTÍNUO",
+    title: "A Operação Integrada: Menos Retrabalho, Mais Visibilidade",
+    lead: "Documentos, APIs e bancos de dados conversando sem redigitação manual.",
+    body: "Com integrações e pipelines automatizados, informações extraídas de documentos e canais seguem para os sistemas certos com validação e registro de atividades, liberando a equipe para focar em clientes, análise e crescimento.",
+    kpi: "Ponta a ponta",
+    kpiLabel: "Rastreabilidade e histórico operacional",
     tag: "Fluxo Contínuo",
     icon: Zap,
     themeColor: "#10B981"
@@ -89,7 +89,6 @@ export function SanleScrollytelling() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [userInteracted, setUserInteracted] = useState(false);
 
-  // Troca de capítulo pelo clique direto nos botões superiores com scroll sincronizado
   const handleSelectChapter = useCallback((index: number) => {
     setActiveChapter(index);
     setScrollProgress((index + 0.5) / CHAPTERS.length);
@@ -117,7 +116,6 @@ export function SanleScrollytelling() {
     handleSelectChapter(prevIdx);
   }, [activeChapter, handleSelectChapter]);
 
-  // Sincronização inteligente com o scroll da página
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -131,13 +129,11 @@ export function SanleScrollytelling() {
           const windowH = window.innerHeight;
           const totalDist = container.offsetHeight - windowH;
 
-          // Se a seção está na tela
           if (rect.top <= windowH * 0.4 && rect.bottom >= windowH * 0.2) {
             if (totalDist > 0) {
               const progress = Math.max(0, Math.min(1, -rect.top / totalDist));
               setScrollProgress(progress);
 
-              // Só sincroniza pelo scroll se o usuário estiver rolando ativamente
               const chapterIdx = Math.min(
                 CHAPTERS.length - 1,
                 Math.floor(progress * CHAPTERS.length)
@@ -161,12 +157,14 @@ export function SanleScrollytelling() {
     };
   }, []);
 
-  // Transição automática suave de demonstração caso o usuário fique observando
   useEffect(() => {
     if (userInteracted) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const timer = setInterval(() => {
       setActiveChapter((prev) => (prev + 1) % CHAPTERS.length);
-    }, 5500);
+    }, 6500);
 
     return () => clearInterval(timer);
   }, [userInteracted]);
@@ -178,27 +176,21 @@ export function SanleScrollytelling() {
     <section
       id="historia-sanle"
       ref={containerRef}
-      className="relative w-full bg-[#08090C] text-[#F5F6F8] select-none border-b border-white/[0.08] lg:min-h-[175vh]"
-      aria-label="Ambiente 01: Engenharia Operacional · Scrollytelling da Construção do Fluxo Sanle"
+      className="relative w-full bg-[#08090C] text-[#F5F6F8] border-b border-white/[0.08] lg:min-h-[175vh]"
+      aria-label="Arquitetura em Movimento: Os 4 Capítulos de Engenharia da Sanle"
     >
-      {/* =========================================================================
-          VIEWPORT FIXA DE SCROLLYTELLING (Sticky top-0 sem vácuo nem cortes)
-         ========================================================================= */}
       <div 
-        className="relative lg:sticky lg:top-0 w-full flex flex-col justify-between py-6 sm:py-8 md:py-10 px-4 sm:px-6 md:px-10 transition-colors duration-700 bg-transparent z-10 lg:min-h-[100dvh]"
+        className="relative lg:sticky lg:top-0 w-full flex flex-col justify-between pt-20 sm:pt-24 pb-8 sm:pb-10 px-4 sm:px-6 md:px-10 transition-colors duration-700 bg-transparent z-10 lg:min-h-[100dvh]"
       >
-        {/* Glow dinâmico de fundo que reage com elegância ao capítulo ativo */}
         <div
-          className="pointer-events-none absolute inset-0 transition-opacity duration-1000 blur-[140px] opacity-25"
+          className="pointer-events-none absolute inset-0 transition-opacity duration-1000 blur-[140px] opacity-20"
           style={{
             background: `radial-gradient(circle at 50% 50%, ${currentChapter.themeColor} 0%, transparent 65%)`
           }}
           aria-hidden="true"
         />
 
-        {/* =======================================================================
-            BARRA DE CONTROLE SUPERIOR (Estilo HUD do why.zero.university)
-           ======================================================================= */}
+        {/* BARRA DE CONTROLE SUPERIOR */}
         <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3.5 max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-3">
             <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#2440FF]/20 text-[#78A9FF] border border-[#2440FF]/30">
@@ -206,15 +198,14 @@ export function SanleScrollytelling() {
             </span>
             <div>
               <span className="font-mono text-[0.62rem] sm:text-xs uppercase tracking-[0.2em] font-bold block text-[#78A9FF]">
-                AMBIENTE 01 · ENGENHARIA OPERACIONAL
+                ARQUITETURA EM MOVIMENTO · 4 ETAPAS
               </span>
               <span className="text-[0.62rem] sm:text-xs text-[#969DA8] font-mono hidden sm:inline">
-                A CONSTRUÇÃO DO FLUXO CONTÍNUO
+                DO DIAGNÓSTICO À OPERAÇÃO INTEGRADA
               </span>
             </div>
           </div>
 
-          {/* Timeline de Capítulos com Botões Táteis Clicáveis */}
           <div className="flex items-center gap-1.5 sm:gap-2">
             {CHAPTERS.map((ch, idx) => {
               const isActive = idx === activeChapter;
@@ -238,16 +229,12 @@ export function SanleScrollytelling() {
           </div>
         </div>
 
-        {/* =======================================================================
-            PALCO PRINCIPAL CINEMATOGRÁFICO: DUAS COLUNAS EM LOCKSTEP
-           ======================================================================= */}
-        <div className="relative z-20 my-auto py-3 max-w-7xl mx-auto w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-8 md:gap-12 items-center">
-          {/* Lado Esquerdo: O Esquemático Operacional que Reage Dinamicamente ao Capítulo */}
+        {/* PALCO PRINCIPAL */}
+        <div className="relative z-20 my-auto py-4 max-w-7xl mx-auto w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-8 md:gap-12 items-center">
           <div className="w-full transform transition-all duration-500">
             <OperationalBlueprintStage activeChapter={activeChapter} scrollProgress={scrollProgress} />
           </div>
 
-          {/* Lado Direito: A Narrativa do Capítulo com Tipografia Editorial */}
           <div className="space-y-3.5 sm:space-y-5">
             <div className="flex items-center justify-between">
               <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-semibold text-[#78A9FF]">
@@ -255,7 +242,6 @@ export function SanleScrollytelling() {
                 <span>{currentChapter.kicker}</span>
               </div>
 
-              {/* Botões rápidos de próximo/anterior */}
               <div className="flex items-center gap-1.5 sm:hidden">
                 <button
                   type="button"
@@ -288,7 +274,6 @@ export function SanleScrollytelling() {
               {currentChapter.body}
             </p>
 
-            {/* Métrica de Impacto / KPI do Capítulo */}
             <div className="pt-3.5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <span className="font-mono text-lg sm:text-2xl font-bold block text-[#F5F6F8]">
@@ -301,10 +286,10 @@ export function SanleScrollytelling() {
 
               <div className="flex items-center gap-2">
                 <Link
-                  href="/diagnostico"
+                  href="/#contato"
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#2440FF] text-white font-medium text-xs hover:bg-[#3856ff] transition-all shadow-md shadow-[#2440FF]/30 active:scale-95"
                 >
-                  <span>Mapear processo</span>
+                  <span>Conversar sobre meu projeto</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
@@ -312,20 +297,19 @@ export function SanleScrollytelling() {
           </div>
         </div>
 
-        {/* Rodapé da Viewport: Navegação e Barra de Progresso scrub contínuo */}
+        {/* Rodapé da Viewport */}
         <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-3 max-w-7xl mx-auto w-full text-xs font-mono text-[#969DA8]">
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#B7F36B] animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-[#B7F36B]" />
             <span>CAPÍTULO {activeChapter + 1} DE {CHAPTERS.length} · {currentChapter.tag.toUpperCase()}</span>
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Controles de avanço táteis */}
             <div className="hidden sm:flex items-center gap-1">
               <button
                 type="button"
                 onClick={handlePrev}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-white/10 bg-white/[0.04] text-[11px] text-[#969DA8] hover:text-white hover:bg-white/[0.08] transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-white/10 bg-white/[0.04] text-[11px] text-[#969DA8] hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
                 <span>Anterior</span>
@@ -333,7 +317,7 @@ export function SanleScrollytelling() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-white/10 bg-white/[0.04] text-[11px] text-[#969DA8] hover:text-white hover:bg-white/[0.08] transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-white/10 bg-white/[0.04] text-[11px] text-[#969DA8] hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer"
               >
                 <span>Próximo</span>
                 <ChevronRight className="h-3.5 w-3.5" />

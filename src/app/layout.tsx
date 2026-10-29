@@ -1,42 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Geist, Geist_Mono, Fraunces, Space_Grotesk } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { siteUrl } from "@/content/brand";
 import { SmoothScrollProvider } from "@/components/site/SmoothScrollProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-serif"
-});
-
-const geist = Geist({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-sans"
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"]
 });
 
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono"
 });
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fraunces",
-  axes: ["SOFT", "WONK", "opsz"]
-});
-
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-space"
+  variable: "--font-space",
+  weight: ["400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
@@ -135,7 +122,7 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable} scroll-smooth`}
+      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
       <head>
         <script

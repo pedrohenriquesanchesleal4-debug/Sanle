@@ -30,18 +30,18 @@ export default async function SolucaoPage({ params }: { params: Promise<{ slug: 
   if (!s) notFound();
 
   return (
-    <article className="shell py-20 md:py-28">
+    <article className="shell pt-28 pb-20 md:pt-36 md:pb-28">
       <Reveal>
-        <Link href="/solucoes" className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink-soft hover:text-cobalt">
+        <Link href="/solucoes" className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink-soft hover:text-[#78A9FF]">
           ← Soluções
         </Link>
-        <span className="mt-8 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-cobalt">
-          Solução {s.code}
+        <span className="mt-8 block font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[#78A9FF]">
+          Frente {s.code}
         </span>
-        <h1 className="mt-4 max-w-3xl font-display text-[clamp(2.1rem,5vw,3.6rem)] leading-[1.02] text-ink">
+        <h1 className="mt-4 max-w-3xl font-serif-editorial text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.02] text-ink">
           {s.title}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{s.short}</p>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft font-sans-editorial">{s.short}</p>
       </Reveal>
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-20">
@@ -61,7 +61,7 @@ export default async function SolucaoPage({ params }: { params: Promise<{ slug: 
             <ol className="mt-4 space-y-3">
               {s.how.map((step, i) => (
                 <li key={step} className="flex gap-3 text-ink-soft">
-                  <span className="mt-0.5 font-mono text-[0.72rem] text-cobalt">
+                  <span className="mt-0.5 font-mono text-[0.72rem] text-[#78A9FF]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="leading-relaxed">{step}</span>
@@ -73,12 +73,12 @@ export default async function SolucaoPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <Reveal>
-        <section className="mt-16 rounded-2xl border border-[var(--rule)] bg-white p-8 md:p-10">
+        <section className="mt-16 rounded-2xl border border-white/10 bg-[#111319]/90 p-8 md:p-10">
           <h2 className="eyebrow">O que pode ser entregue</h2>
           <ul className="mt-6 grid gap-4 md:grid-cols-2">
             {s.deliverables.map((d) => (
               <li key={d} className="flex items-start gap-3 text-ink-soft">
-                <Check size={16} className="mt-1 shrink-0 text-cobalt" aria-hidden />
+                <Check size={16} className="mt-1 shrink-0 text-[#B7F36B]" aria-hidden />
                 <span className="leading-relaxed">{d}</span>
               </li>
             ))}
@@ -102,8 +102,8 @@ export default async function SolucaoPage({ params }: { params: Promise<{ slug: 
 
       <Reveal>
         <div className="mt-16 flex flex-wrap items-center gap-4">
-          <Link href="/diagnostico" className="btn btn-primary">
-            Mapear um processo <ArrowRight size={16} />
+          <Link href="/#contato" className="btn btn-primary">
+            Conversar sobre meu projeto <ArrowRight size={16} />
           </Link>
           <Link href="/solucoes" className="btn btn-ghost">
             Ver outras soluções
