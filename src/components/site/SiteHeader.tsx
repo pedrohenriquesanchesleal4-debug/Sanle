@@ -15,10 +15,9 @@ export function SiteHeader() {
 
   const navLinks = [
     { label: dict.header.capabilities, href: "/#capacidades" },
-    { label: dict.header.engineering, href: "/#historia-sanle" },
+    { label: dict.header.engineering, href: "/#metodo" },
     { label: dict.header.projects, href: "/#prova" },
     { label: dict.header.contracting, href: "/#contratacao" },
-    { label: dict.header.solutions, href: "/solucoes" },
     { label: dict.header.contact, href: "/#contato" }
   ];
 
@@ -74,9 +73,9 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        {/* Links Desktop dentro da Ilha */}
+        {/* Links Desktop e Tablet dentro da Ilha */}
         <nav
-          className="hidden lg:flex items-center gap-1 rounded-full bg-white/[0.03] border border-white/[0.06] px-2 py-1"
+          className="hidden md:flex items-center gap-1 rounded-full bg-white/[0.03] border border-white/[0.06] px-2 py-1"
           aria-label="Seções do site"
         >
           {navLinks.map((link) => (
