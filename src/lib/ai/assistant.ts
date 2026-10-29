@@ -103,46 +103,169 @@ function clampInput(text: string): string {
   return text.length > max ? text.slice(0, max) : text;
 }
 
-/** Fallback determinístico: responde SÓ com o que foi recuperado da base. */
-function deterministicAnswer(query: string, hits: RetrievedChunk[]): AssistantAnswer {
-  const topScore = hits[0]?.score ?? 0;
-  const enough = hits.length > 0 && topScore >= 0.12;
+type IntentRoute =
+  | "saudacao"
+  | "preco_orcamento"
+  | "prazos"
+  | "pedro_leal"
+  | "crm_sistemas"
+  | "agentes_rag"
+  | "automacao_whatsapp"
+  | "contato_diagnostico";
 
-  if (!enough) {
-    return {
-      text: NO_EVIDENCE_REPLY,
-      sources: [],
-      citations: [],
-      facts: [],
-      guardrails: [],
-      confidence: 0.2,
-      provider: "deterministico",
-      model: "sanle-retrieval-v1",
-      noProvider: true,
-      enoughContext: false,
-      escalate: true
-    };
+function detectIntent(text: string): IntentRoute | null {
+  const norm = text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+  // 1. Pedro Leal / Fundador / Arquiteto
+  if (/\b(pedro|leal|fundador|fundadores|quem criou|quem fez|quem desenvolve|biografia|arquiteto|senior engineer)\b/.test(norm)) {
+    return "pedro_leal";
   }
 
-  const excerpt = hits
-    .slice(0, 2)
-    .map((h) => h.content.split("\n").filter(Boolean).slice(0, 3).join(" "))
-    .join(" ")
-    .replace(/[#*]/g, "")
-    .slice(0, 700);
+  // 2. Preço / Orçamento / Investimento / Custo
+  if (/\b(preco|precos|quanto custa|orcamento|valor|valores|investimento|custo|custos|tabela|cobranca|pagamento|mensalidade)\b/.test(norm)) {
+    return "preco_orcamento";
+  }
+
+  // 3. Prazos / Cronograma / Tempo
+  if (/\b(prazo|prazos|quanto tempo|tempo|dias|semanas|meses|demora|cronograma|entrega|sprint|velocidade)\b/.test(norm)) {
+    return "prazos";
+  }
+
+  // 4. CRM / Sistemas / Portais / Dashboards
+  if (/\b(crm|sistema|sistemas|software|portal|portais|dashboard|dashboards|painel|paineis|web app|plataforma|erp|banco de dados)\b/.test(norm)) {
+    return "crm_sistemas";
+  }
+
+  // 5. Agentes de IA / RAG / Base de conhecimento
+  if (/\b(rag|agente|agentes|assistente|assistentes|inteligencia artificial|llm|chat|vector|embeddings|base de conhecimento|alucinacao)\b/.test(norm)) {
+    return "agentes_rag";
+  }
+
+  // 6. Automação / WhatsApp / Rotinas / Integração de APIs
+  if (/\b(automacao|automacoes|whatsapp|zap|rotina|rotinas|n8n|integracao|integracoes|api|fluxo|webhook|notificacao|disparo)\b/.test(norm)) {
+    return "automacao_whatsapp";
+  }
+
+  // 7. Contato / Diagnóstico / Agendamento
+  if (/\b(contato|diagnostico|falar|conversar|reuniao|call|agendar|contratar|whatsapp comercial|telefone|email|proposta)\b/.test(norm)) {
+    return "contato_diagnostico";
+  }
+
+  // 8. Saudação / Apresentação
+  if (/^(ola|oi|opa|eae|e ai|bom dia|boa tarde|boa noite|hey|hello|salve|quem e voce|o que voce faz|como funciona)\b/i.test(norm) || norm.length < 8) {
+    return "saudacao";
+  }
+
+  return null;
+}
+
+function selectVariant(variants: string[], seed: string): string {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const idx = Math.abs(hash + Math.floor(Date.now() / 1000)) % variants.length;
+  return variants[idx]!;
+}
+
+/** Motor dinâmico com 8 rotas de intenção e síntese contextual de chunks RAG. */
+function deterministicAnswer(query: string, hits: RetrievedChunk[]): AssistantAnswer {
+  const intent = detectIntent(query);
+  const topScore = hits[0]?.score ?? 0;
+  const hasStrongHits = hits.length > 0 && topScore >= 0.1;
+
+  const ragExcerpt = hasStrongHits
+    ? hits
+        .slice(0, 2)
+        .map((h) => h.content.split("\n").filter(Boolean).slice(0, 2).join(" "))
+        .join(" ")
+        .replace(/[#*]/g, "")
+        .slice(0, 360)
+    : "";
+
+  const INTENT_RESPONSES: Record<IntentRoute, string[]> = {
+    saudacao: [
+      `Olá! Sou o assistente técnico do ateliê de engenharia de software e IA da ${brand.name}. Desenvolvemos sistemas bespoke, automações de rotina e agentes de IA com RAG de alta fidelidade. Como posso ajudar seu projeto hoje?`,
+      `Boas-vindas à ${brand.name}! Unimos arquitetura de software de alta performance e inteligência artificial aplicada. Você busca otimizar uma operação interna, criar um sistema novo ou integrar agentes inteligentes?`,
+      `Olá! Prazer em falar com você. Na ${brand.name} eliminamos gargalos operacionais com tecnologia proprietária e código limpo. O que você gostaria de explorar hoje: sistemas web, automações ou IA sob medida?`,
+      `Oi! Bem-vindo ao ateliê da ${brand.name}. Seja para criar um CRM exclusivo, automatizar fluxos de trabalho ou conectar agentes inteligentes aos seus dados, estamos prontos. O que sua empresa precisa destravar hoje?`
+    ],
+    preco_orcamento: [
+      `Na ${brand.name}, cada projeto é precificado sob medida com escopo fechado e transparência total — sem surpresas nem licenças abusivas de prateleira. O investimento varia conforme integrações, volume de automação e requisitos técnicos. Você pode obter uma pré-avaliação detalhada através do nosso Diagnóstico em /diagnostico ou agendar uma conversa técnica com a equipe.`,
+      `Trabalhamos com valor fixo por escopo ou sprints de evolução contínua, garantindo previsibilidade orçamentária para a sua empresa. Diferente de soluções engessadas que cobram por usuário, nós construímos ativos digitais que passam a ser seus. Quer me contar um pouco sobre o que você deseja automatizar para calibrarmos o tamanho da demanda?`,
+      `Nosso investimento é pautado pelo impacto real na sua operação (horas manuais economizadas e aumento de capacidade). Projetos de automação têm dinâmica diferente de portais e sistemas web complexos. Se quiser uma estimativa alinhada ao seu caso, detalhe sua necessidade ou experimente nosso formulário em /diagnostico.`
+    ],
+    prazos: [
+      `Operamos com sprints curtas e ágeis. Módulos de automação e agentes RAG costumam ter primeiras entregas funcionais entre 2 a 4 semanas. Sistemas web completos, portais e CRMs são divididos em marcos progressivos com validações contínuas desde o início.`,
+      `Nosso prazo padrão para um MVP operacional gira em torno de 2 a 4 semanas de engenharia focada. Você acompanha cada etapa em ambientes de preview ao vivo, com zero desperdício de tempo e código pronto para produção.`,
+      `Priorizamos entregas funcionais rápidas com arquitetura robusta. Em vez de esperar meses por uma entrega cega, você já vê as automações rodando no seu ambiente real em poucos dias úteis. Qual seria o prazo ideal para a sua empresa?`
+    ],
+    pedro_leal: [
+      `Pedro Leal é o fundador e Arquiteto de Software à frente da ${brand.name}. Com sólida bagagem em engenharia full-stack, design systems modernos e inteligência artificial aplicada, ele conduz diretamente as decisões técnicas de cada solução do ateliê, assegurando rigor de código, performance extrema e acabamento de alto craft.`,
+      `A ${brand.name} foi concebida por Pedro Leal com a missão de entregar software de ateliê: artesanal, performático e sem o aspecto genérico de 'código de IA'. Pedro lidera pessoalmente a arquitetura, auditorias de segurança e o design de cada plataforma desenvolvida.`,
+      `Pedro Leal é Senior Software Engineer e fundador da ${brand.name}. Sua atuação une engenharia de precisão (TypeScript, Next.js, arquitetura limpa) a soluções práticas de automação e IA que geram eficiência mensurável para negócios.`
+    ],
+    crm_sistemas: [
+      `Desenvolvemos sistemas web, portais corporativos, CRMs sob medida e dashboards analíticos de alta velocidade. Ao contrário de plataformas de mercado engessadas, nosso software é esculpido para as regras do seu negócio, integrando com seus bancos de dados e ferramentas legadas.`,
+      `Sistemas personalizados são a especialidade do nosso ateliê: interfaces reativas, controle fino de acessos e fluxos operacionais desenhados para eliminar de vez planilhas dispersas e controles manuais na sua rotina.`,
+      `Se sua equipe sofre com sistemas lentos ou plataformas que cobram caro sem atender o fluxo exato da sua empresa, criamos uma solução moderna, unificada e escalável feita especificamente para o seu modelo de trabalho.`
+    ],
+    agentes_rag: [
+      `Nossos agentes inteligentes utilizam Retrieval-Augmented Generation (RAG) conectado à base de conhecimento da sua própria empresa. Eles consultam documentos, manuais e dados internos em tempo real para responder com exatidão e sem alucinações.`,
+      `Construímos assistentes e agentes autônomos que operam com guardrails estritos: não inventam fatos, não vazam dados sensíveis e citam as fontes documentais de cada resposta fornecida.`,
+      `Diferente de chatbots genéricos que apenas disparam respostas prontas, os agentes da ${brand.name} interpretam intenções com profundidade, consultam bancos de dados e executam tarefas operacionais com rastreabilidade total.`
+    ],
+    automacao_whatsapp: [
+      `Automatizamos processos de ponta a ponta: integração oficial de WhatsApp para atendimento e qualificação de clientes, conciliação documental e financeira automática, e comunicação transparente entre seus sistemas via APIs e webhooks.`,
+      `Com as automações da ${brand.name}, sua empresa reduz o tempo de resposta aos clientes de horas para segundos, elimina erros manuais e assegura que nenhuma oportunidade ou tarefa interna se perca na correria do dia a dia.`,
+      `Desenhamos rotinas de automação resilientes, com recuperação contra falhas e histórico completo de auditoria. Seus dados transitam de forma segura entre WhatsApp, ERP, CRM e planilhas.`
+    ],
+    contato_diagnostico: [
+      `Você pode avançar agora mesmo: acesse /diagnostico para um mapeamento operacional rápido e interativo em 3 minutos, ou se preferir, fale diretamente com nossa equipe técnica pelo WhatsApp oficial da ${brand.name}.`,
+      `Para analisarmos seu cenário específico e desenharmos uma proposta técnica precisa, sugerimos responder o Diagnóstico em /diagnostico ou solicitar uma sessão técnica de alinhamento com nossos engenheiros.`,
+      `Nosso primeiro passo é sempre uma conversa de diagnóstico sem compromisso: mapeamos onde está o principal gargalo operacional da sua empresa e apresentamos uma solução arquitetural viável. Acesse /diagnostico ou envie uma mensagem!`
+    ]
+  };
+
+  let chosenText = "";
+
+  if (intent) {
+    const baseVariant = selectVariant(INTENT_RESPONSES[intent], query);
+    if (ragExcerpt && intent !== "saudacao") {
+      chosenText = `${baseVariant}\n\n📌 *Contexto relevante da nossa base:* ${ragExcerpt}`;
+    } else {
+      chosenText = baseVariant;
+    }
+  } else if (hasStrongHits) {
+    const synthesisVariants = [
+      `Com base na base técnica e catálogo do ateliê ${brand.name}: ${ragExcerpt}\n\nQuer que eu ajude a aprofundar em como aplicar isso na sua empresa? Me diga qual etapa da sua operação mais consome tempo hoje.`,
+      `Localizei os seguintes pontos em nossa base de engenharia: ${ragExcerpt}\n\nPodemos adaptar essa estrutura para a realidade do seu negócio. Você gostaria de detalhar seu caso de uso ou prefere fazer nosso diagnóstico em /diagnostico?`,
+      `Conforme o material técnico da ${brand.name}: ${ragExcerpt}\n\nQual desses pontos faz mais sentido para o momento atual da sua empresa?`
+    ];
+    chosenText = selectVariant(synthesisVariants, query);
+  } else {
+    const fallbackVariants = [
+      `O ateliê da ${brand.name} projeta sistemas web personalizados, automações de processos e agentes de IA com RAG de alta fidelidade. Para eu te direcionar com exatidão, poderia me contar qual desafio ou etapa operacional você busca otimizar hoje?`,
+      `Não localizei um registro idêntico para esse termo na nossa base de conhecimento imediata, mas desenvolvemos soluções de engenharia sob medida para cada empresa. Que tal experimentar nosso Diagnóstico em /diagnostico ou me explicar o fluxo que deseja automatizar?`,
+      `Entendi sua mensagem. Na ${brand.name} eliminamos processos manuais e criamos plataformas sob medida. Você pode me dar mais detalhes sobre o sistema ou automação que tem em mente, ou acessar nosso formulário de diagnóstico em /diagnostico para um parecer técnico.`
+    ];
+    chosenText = selectVariant(fallbackVariants, query);
+  }
 
   return {
-    text:
-      `Com base no material da ${brand.name}: ${excerpt}\n\n` +
-      "Quer que eu ajude a identificar qual dessas frentes se aplica ao seu caso? " +
-      "Me diga qual etapa da sua operação mais consome tempo.",
+    text: chosenText,
     sources: hits.map((h) => h.documentTitle),
     citations: toCitations(hits),
     facts: [],
-    guardrails: ["deterministic"],
-    confidence: Math.min(0.85, 0.35 + topScore),
+    guardrails: ["deterministic", intent ?? "dynamic_synthesis"],
+    confidence: hits[0] ? Math.min(0.92, 0.5 + hits[0].score) : 0.75,
     provider: "deterministico",
-    model: "sanle-retrieval-v1",
+    model: "sanle-intent-router-v2",
     noProvider: true,
     enoughContext: true,
     escalate: false
