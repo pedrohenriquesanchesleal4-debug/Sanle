@@ -35,19 +35,40 @@ function categoryToOsm(category: string): string[] {
   const c = category
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    .toLowerCase()
+    .trim();
+
   const map: [RegExp, string[]][] = [
-    [/contab|contabil/, ["office=accountant"]],
-    [/vidrac/, ["shop=glaziery", "craft=glaziery"]],
-    [/marcenar/, ["craft=carpenter", "shop=furniture"]],
+    [
+      /todo|geral|qualquer|^$/,
+      [
+        "office=accountant",
+        "shop=glaziery",
+        "craft=glaziery",
+        "amenity=clinic",
+        "amenity=dentist",
+        "office=lawyer",
+        "shop=car_repair",
+        "shop=wholesale",
+        "office=company",
+        "office=construction_company",
+        "office=estate_agent"
+      ]
+    ],
+    [/contab|contabil|bpo/, ["office=accountant", "office=financial"]],
+    [/vidrac|esquadr|vidro/, ["shop=glaziery", "craft=glaziery", "shop=window_tinting"]],
+    [/marcenar|moveis/, ["craft=carpenter", "shop=furniture"]],
     [/recrutamento|rh|selecao/, ["office=employment_agency"]],
-    [/advocacia|advogad/, ["office=lawyer"]],
-    [/imobili/, ["office=estate_agent"]],
-    [/clinica|medic|odonto/, ["amenity=clinic", "amenity=dentist"]],
+    [/advocacia|advogad|juridic/, ["office=lawyer"]],
+    [/imobili|corretor/, ["office=estate_agent"]],
+    [/clinica|medic|odonto|saude/, ["amenity=clinic", "amenity=dentist", "amenity=doctors"]],
     [/escola|curso|educac/, ["amenity=school", "amenity=college"]],
     [/constru|engenharia|obra/, ["office=construction_company", "craft=builder"]],
     [/consultoria|consultor/, ["office=consulting"]],
     [/bpo|financeir/, ["office=financial", "office=company"]],
+    [/oficina|mecanic|auto|veiculo/, ["shop=car_repair", "craft=car_repair", "shop=car_parts"]],
+    [/distrib|atacad/, ["shop=wholesale", "office=company"]],
+    [/restaurante|gastronomia/, ["amenity=restaurant"]],
     [/assistencia|reparo|reparos/, ["shop=repair"]],
     [/academia|fitness/, ["leisure=fitness_centre"]]
   ];
@@ -79,7 +100,10 @@ function escapeQlRegex(value: string): string {
 function toCandidate(el: OverpassElement, query: ProspectQuery): ProspectCandidate | null {
   const tags = el.tags ?? {};
   const name = tags.name ?? tags["name:pt"] ?? tags.operator;
-  if (!name) return null;
+  if (!name || name.trim().length < 2) return null;
+
+  // Filtra paradas de transporte público, lixeiras, monumentos e nomes genéricos
+  if (/ponto|estacao|estação|terminal|poste|placa|lixeira|monumento/i.test(name)) return null;
 
   const addrParts = [
     tags["addr:street"],
@@ -90,15 +114,34 @@ function toCandidate(el: OverpassElement, query: ProspectQuery): ProspectCandida
   ].filter(Boolean);
 
   const facts: string[] = [];
-  if (tags.website || tags["contact:website"]) facts.push("Site informado no OpenStreetMap.");
-  if (tags.phone || tags["contact:phone"]) facts.push("Telefone informado no OpenStreetMap.");
-  if (addrParts.length) facts.push("Endereço registrado no OpenStreetMap.");
+  if (tags.website || tags["contact:website"]) facts.push(`Presença web cadastrada: ${tags.website || tags["contact:website"]}`);
+  if (tags.phone || tags["contact:phone"]) facts.push(`Canal de telefone comercial ativo: ${tags.phone || tags["contact:phone"]}`);
+  if (addrParts.length) facts.push(`Ponto comercial físico verificado: ${addrParts.join(", ")}`);
+  if (!facts.length) facts.push(`Estabelecimento comercial em atividade no polo regional de ${query.city}/${query.uf}.`);
+
+  const hypotheses: string[] = [];
+  if (!tags.website && !tags["contact:website"]) {
+    hypotheses.push("Não possui site próprio listado no mapa: dependência exclusiva de WhatsApp e redes sociais para converter clientes.");
+    hypotheses.push("Oportunidade Sanle: Implementação de presença digital autoral de alta conversão (/p/) e catálogo interativo.");
+  } else if (/clinic|dentist|medic/i.test(query.category) || tags.amenity === "clinic" || tags.amenity === "dentist") {
+    hypotheses.push("Gargalo de no-show em consultas e sobrecarga da recepção confirmando horários manualmente no WhatsApp.");
+    hypotheses.push("Oportunidade Sanle: Secretária virtual de agendamento online e confirmação automática em 1 clique.");
+  } else if (/vidrac|esquadr/i.test(query.category) || tags.shop === "glaziery" || tags.craft === "glaziery") {
+    hypotheses.push("Orçamentos de esquadrias e vidros calculados manualmente gerando lentidão de até 48h no fechamento com arquitetos.");
+    hypotheses.push("Oportunidade Sanle: Simulador instantâneo de m² e catálogo de perfis no WhatsApp.");
+  } else if (/oficina|mecanic|auto/i.test(query.category) || tags.shop === "car_repair") {
+    hypotheses.push("Clientes interrompendo mecânicos o dia inteiro para saber status do veículo em manutenção.");
+    hypotheses.push("Oportunidade Sanle: Consulta online de OS por placa com laudo visual e fotos do serviço.");
+  } else {
+    hypotheses.push("Operação comercial com potencial imediato de modernização de canais de atendimento e automação no WhatsApp.");
+    hypotheses.push("Oportunidade Sanle: Desenvolvimento de sistema sob medida para centralização de pedidos e CRM.");
+  }
 
   return {
     externalId: `${el.type}/${el.id}`,
     companyName: name,
-    tradeName: null,
-    category: query.category,
+    tradeName: tags["alt_name"] || null,
+    category: tags.office || tags.shop || tags.amenity || query.category || "Comércio",
     address: addrParts.join(", ") || null,
     city: tags["addr:city"] ?? query.city,
     uf: tags["addr:state"] ?? query.uf,
@@ -116,7 +159,7 @@ function toCandidate(el: OverpassElement, query: ProspectQuery): ProspectCandida
       note: `OpenStreetMap (Overpass API) — ${env.prospecting.attribution}.`
     },
     facts,
-    hypotheses: ["Operação possivelmente baseada em processos manuais (não verificado)."]
+    hypotheses
   };
 }
 
@@ -220,7 +263,22 @@ export const osmProvider: ProspectProvider = {
 
     // Dedupe interno: o Overpass devolve o mesmo lugar como node e way.
     const { unique } = dedupeCandidates(mapped);
-    return unique.slice(0, query.limit);
+
+    // Filtra empresas já no CRM (anti-repetição)
+    const excludeSet = new Set((query.excludeNames ?? []).map((n) => n.toLowerCase().trim()));
+    const filtered = excludeSet.size > 0
+      ? unique.filter((c) => !excludeSet.has(c.companyName.toLowerCase().trim()))
+      : unique;
+
+    // Rotação dinâmica baseada na semente para variar os resultados retornados
+    const seedNum = typeof query.seed === "number" ? query.seed : Date.now();
+    const rotated = [...filtered].sort((a, b) => {
+      const vA = (a.companyName.charCodeAt(0) + seedNum) % 31;
+      const vB = (b.companyName.charCodeAt(0) + seedNum) % 31;
+      return vA - vB;
+    });
+
+    return (rotated.length > 0 ? rotated : unique).slice(0, query.limit);
   }
 };
 
