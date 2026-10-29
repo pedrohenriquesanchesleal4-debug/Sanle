@@ -1,3 +1,6 @@
+/**
+ * Dicionário canônico PT-BR — Rodapé, Ateliê Interativo e Navegação Sanle Studio.
+ */
 import type { Dictionary } from "../types";
 
 export const pt: Dictionary = {

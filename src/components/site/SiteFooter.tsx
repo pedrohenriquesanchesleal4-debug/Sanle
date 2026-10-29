@@ -9,13 +9,28 @@ import { LanguageSelector } from "@/components/i18n/LanguageSelector";
 
 /**
  * Rodapé institucional e comercial da Sanle com suporte a i18n e Tema Claro/Escuro.
+ * Fundo Obsidian Studio (#07080A), ícones neutros monocromáticos e sem overflow-hidden
+ * para preservar a abertura livre do dropdown de idiomas.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
-  const { dict } = useI18n();
+  const { dict, locale } = useI18n();
+
+  const labels = {
+    governance: locale === "en" ? "Governance & Legal" : locale === "es" ? "Gobernanza y Legal" : "Governança & Legal",
+    security: locale === "en" ? "Security & Compliance" : locale === "es" ? "Seguridad y Privacidad" : "Segurança & LGPD",
+    channels: locale === "en" ? "Direct Channels" : locale === "es" ? "Canales Directos" : "Canais Diretos",
+    catalog: locale === "en" ? "Solutions Catalog" : locale === "es" ? "Catálogo de Soluciones" : "Catálogo de Soluções",
+    guidedDiagnostic: locale === "en" ? "Guided Diagnostic" : locale === "es" ? "Diagnóstico Guiado" : "Diagnóstico Guiado",
+    motto: locale === "en"
+      ? "GREAT IDEAS DESERVE TO COME OFF PAPER · BRASÍLIA · DF"
+      : locale === "es"
+      ? "BUENAS IDEAS MERECEN SALIR DEL PAPEL · BRASÍLIA · DF"
+      : "BOAS IDEIAS MERECEM SAIR DO PAPEL · BRASÍLIA · DF"
+  };
 
   return (
-    <footer className="border-t border-[#F5F6F8]/10 bg-[#08090C] py-14 text-[#F5F6F8] overflow-hidden w-full max-w-full">
+    <footer className="border-t border-[#F5F6F8]/10 bg-[#07080A] py-14 text-[#F5F6F8] w-full max-w-full">
       <div className="shell">
         <div className="grid grid-cols-1 gap-10 border-b border-[#F5F6F8]/8 pb-10 md:grid-cols-12">
           {/* Coluna 1: Marca & Posicionamento */}
@@ -49,7 +64,7 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#historia-sanle" className="transition-colors hover:text-[#F5F6F8]">
+                <Link href="/#metodo" className="transition-colors hover:text-[#F5F6F8]">
                   {dict.header.engineering}
                 </Link>
               </li>
@@ -65,7 +80,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/solucoes" className="transition-colors hover:text-[#F5F6F8]">
-                  Catálogo de Soluções
+                  {labels.catalog}
                 </Link>
               </li>
             </ul>
@@ -74,7 +89,7 @@ export function SiteFooter() {
           {/* Coluna 3: Governança & Legal */}
           <div className="md:col-span-2">
             <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-[#78A9FF]">
-              Governança & Legal
+              {labels.governance}
             </span>
             <ul className="mt-3 space-y-2 text-sm text-[#969DA8]">
               <li>
@@ -88,22 +103,22 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#seguranca-governanca" className="transition-colors hover:text-[#F5F6F8]">
-                  Segurança & LGPD
+                <Link href="/#contato" className="transition-colors hover:text-[#F5F6F8]">
+                  {labels.security}
                 </Link>
               </li>
               <li>
                 <Link href="/diagnostico" className="transition-colors hover:text-[#F5F6F8]">
-                  Diagnóstico Guiado
+                  {labels.guidedDiagnostic}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 4: Contato Direto & Liderança Técnica */}
+          {/* Coluna 4: Contato Direto & Liderança Técnica (Ícones Monocromáticos) */}
           <div className="md:col-span-3">
-            <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-[#10B981]">
-              Canais Diretos
+            <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-[#969DA8]">
+              {labels.channels}
             </span>
             <ul className="mt-3 space-y-2.5 text-sm text-[#969DA8]">
               <li>
@@ -111,9 +126,9 @@ export function SiteFooter() {
                   href={`https://wa.me/${brand.contact.whatsapp.replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors"
+                  className="group inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors"
                 >
-                  <MessageCircle size={15} className="text-[#10B981] shrink-0" />
+                  <MessageCircle size={15} className="text-[#969DA8] group-hover:text-[#F5F6F8] transition-colors shrink-0" />
                   <span>{brand.contact.whatsappDisplay || "(61) 98139-9051"}</span>
                   <ArrowUpRight size={12} className="opacity-60" />
                 </a>
@@ -121,9 +136,9 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`mailto:${brand.contact.email}`}
-                  className="inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors truncate max-w-[240px]"
+                  className="group inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors truncate max-w-[240px]"
                 >
-                  <Mail size={15} className="text-[#78A9FF] shrink-0" />
+                  <Mail size={15} className="text-[#969DA8] group-hover:text-[#F5F6F8] transition-colors shrink-0" />
                   <span className="truncate">{brand.contact.email}</span>
                 </a>
               </li>
@@ -132,9 +147,9 @@ export function SiteFooter() {
                   href={brand.contact.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors"
+                  className="group inline-flex items-center gap-2 hover:text-[#F5F6F8] transition-colors"
                 >
-                  <Linkedin size={15} className="text-[#0A66C2] shrink-0" />
+                  <Linkedin size={15} className="text-[#969DA8] group-hover:text-[#F5F6F8] transition-colors shrink-0" />
                   <span>Pedro Henrique S. Leal</span>
                   <ArrowUpRight size={12} className="opacity-60" />
                 </a>
@@ -145,7 +160,7 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-4 font-mono text-[11px] text-[#969DA8]/70 sm:flex-row">
           <span>© {year} Sanle. {dict.footer.rights}</span>
-          <span>BOAS IDEIAS MERECEM SAIR DO PAPEL · BRASÍLIA · DF</span>
+          <span>{labels.motto}</span>
         </div>
       </div>
     </footer>

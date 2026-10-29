@@ -1,28 +1,148 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Sparkles, ArrowLeftRight, Check, X } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
-const CHAOS_POINTS = [
-  "Documentos dispersos entre e-mails, WhatsApp pessoal e pastas locais sem padrão.",
-  "Planilhas paralelas atualizadas manualmente por diferentes pessoas com fórmulas quebradas.",
-  "Dados redigitados 3 vezes no CRM, no ERP e em planilhas de controle.",
-  "Erros de estoque e duplicidades descobertos tardiamente no fechamento do mês.",
-  "Pendências financeiras que se perdem sem responsável claro e sem prazo definido."
-];
+const CONTENT = {
+  pt: {
+    badge: "O Contraste da Verdade Operacional",
+    title: "O abismo entre o improviso manual e a engenharia sob medida.",
+    desc: "Arraste o divisor ou clique nos botões acima para comparar o cotidiano de uma rotina fragmentada com um fluxo automatizado e orquestrado.",
+    btnChaos: "Atrito Manual",
+    btnSplit: "50% Dividido",
+    btnOrder: "Fluxo Sanle",
+    orderTag: "DEPOIS · FLUXO ORGANIZADO",
+    orderSub: "AUTOMATIZADO EM TEMPO REAL",
+    orderSystem: "SANLE ORQUESTRAÇÃO · PIPELINES",
+    orderLatency: "LATÊNCIA: 0.38s",
+    chaosTag: "ANTES · ATRITO OPERACIONAL",
+    chaosSub: "MANUAL / REDUNDANTE",
+    chaosSystem: "ROTINA FRAGMENTADA",
+    chaosLoss: "PERDA: 3.4h/DIA",
+    disclaimer: "* Comparativo ilustrativo baseado no diagnóstico médio de processos",
+    dragHint: "ARRASTE O SELETOR OU USE OS BOTÕES ACIMA",
+    chaosPoints: [
+      "Documentos dispersos entre e-mails, WhatsApp pessoal e pastas locais sem padrão.",
+      "Planilhas paralelas atualizadas manualmente por diferentes pessoas com fórmulas quebradas.",
+      "Dados redigitados 3 vezes no CRM, no ERP e em planilhas de controle.",
+      "Erros de estoque e duplicidades descobertos tardiamente no fechamento do mês.",
+      "Pendências financeiras que se perdem sem responsável claro e sem prazo definido."
+    ],
+    orderPoints: [
+      "Documentos centralizados, classificados e renomeados por regras automáticas em 0.18s.",
+      "Dados integrados entre WhatsApp, ERP e banco sem intervenção humana.",
+      "Validação fiscal e contábil imediata na entrada com alerta proativo de discrepâncias.",
+      "Trilha completa de auditoria append-only com hash e registro de cada lançamento.",
+      "Revisão humana acionada exclusivamente onde o julgamento é indispensável (2% dos casos)."
+    ]
+  },
+  en: {
+    badge: "The Operational Reality Contrast",
+    title: "The divide between manual friction and bespoke engineering.",
+    desc: "Drag the divider or click the buttons above to compare a fragmented routine with an automated, orchestrated pipeline.",
+    btnChaos: "Manual Friction",
+    btnSplit: "50% Split",
+    btnOrder: "Sanle Flow",
+    orderTag: "AFTER · ORGANIZED FLOW",
+    orderSub: "AUTOMATED IN REAL TIME",
+    orderSystem: "SANLE ORCHESTRATION · PIPELINES",
+    orderLatency: "LATENCY: 0.38s",
+    chaosTag: "BEFORE · OPERATIONAL FRICTION",
+    chaosSub: "MANUAL / REDUNDANT",
+    chaosSystem: "FRAGMENTED ROUTINE",
+    chaosLoss: "LOSS: 3.4h/DAY",
+    disclaimer: "* Illustrative comparison based on average operational diagnosis",
+    dragHint: "DRAG THE SLIDER OR USE THE BUTTONS ABOVE",
+    chaosPoints: [
+      "Documents scattered across emails, personal WhatsApp chats, and unstructured folders.",
+      "Parallel spreadsheets manually edited by multiple team members with broken formulas.",
+      "Data re-typed up to 3 times across CRM, ERP, and standalone tracker sheets.",
+      "Inventory errors and data duplicates caught too late at month-end closing.",
+      "Financial pending tasks falling through the cracks with no clear owner or SLA."
+    ],
+    orderPoints: [
+      "Documents centralized, classified, and indexed by deterministic rules in 0.18s.",
+      "Seamless real-time synchronization between WhatsApp, ERP, and core database.",
+      "Immediate tax and fiscal input validation with proactive discrepancy alerts.",
+      "Complete append-only audit trail with tamper-proof cryptographic hashing.",
+      "Human review triggered strictly where strategic judgment is indispensable (2% of cases)."
+    ]
+  },
+  es: {
+    badge: "El Contraste de la Realidad Operativa",
+    title: "El abismo entre la improvisación manual y la ingeniería a medida.",
+    desc: "Arrastra el divisor o pulsa los botones superiores para comparar una rutina fragmentada frente a un flujo automatizado y orquestado.",
+    btnChaos: "Fricción Manual",
+    btnSplit: "50% Dividido",
+    btnOrder: "Flujo Sanle",
+    orderTag: "DESPUÉS · FLUJO ORGANIZADO",
+    orderSub: "AUTOMATIZADO EN TIEMPO REAL",
+    orderSystem: "ORQUESTACIÓN SANLE · PIPELINES",
+    orderLatency: "LATENCIA: 0.38s",
+    chaosTag: "ANTES · FRICCIÓN OPERATIVA",
+    chaosSub: "MANUAL / REDUNDANTE",
+    chaosSystem: "RUTINA FRAGMENTADA",
+    chaosLoss: "PÉRDIDA: 3.4h/DÍA",
+    disclaimer: "* Comparativa ilustrativa basada en diagnóstico operativo promedio",
+    dragHint: "ARRASTRA EL SELECTOR O USA LOS BOTONES SUPERIORES",
+    chaosPoints: [
+      "Documentos dispersos entre correos, WhatsApp personal y carpetas sin estructura.",
+      "Hojas de cálculo paralelas actualizadas manualmente con fórmulas dañadas.",
+      "Datos reingresados 3 veces entre CRM, ERP y controles manuales.",
+      "Errores de inventario y duplicidades detectados tardíamente en el cierre mensual.",
+      "Pendientes financieros que se extravían sin responsable asignado ni plazo claro."
+    ],
+    orderPoints: [
+      "Documentos centralizados, clasificados y procesados por reglas automáticas en 0.18s.",
+      "Datos integrados entre WhatsApp, ERP y base central sin fricción humana.",
+      "Validación fiscal y contable inmediata al ingreso con alertas proactivas.",
+      "Trazabilidad completa con registro inmutable y hash criptográfico por evento.",
+      "Revisión humana requerida únicamente donde el criterio experto es clave (2% de casos)."
+    ]
+  }
+};
 
-const ORDER_POINTS = [
-  "Documentos centralizados, classificados e renomeados por regras automáticas em 0.18s.",
-  "Dados integrados entre WhatsApp, ERP e banco sem intervenção humana.",
-  "Validação fiscal e contábil imediata na entrada com alerta proativo de discrepâncias.",
-  "Trilha completa de auditoria append-only com hash e registro de cada lançamento.",
-  "Revisão humana acionada exclusivamente onde o julgamento é indispensável (2% dos casos)."
-];
-
+/**
+ * Transformation — Slider comparativo de antes e depois com scrub por GSAP ScrollTrigger.
+ * A âncora canônica da seção é #metodo, alinhando a navegação de cabeçalho e rodapé.
+ */
 export function Transformation() {
   const [sliderPos, setSliderPos] = useState(50); // 0 a 100%
   const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { locale } = useI18n();
+
+  const t = CONTENT[locale] || CONTENT.pt;
+
+  // Sincronização scrub via GSAP ScrollTrigger
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top center",
+      end: "bottom center",
+      scrub: 1.2,
+      onUpdate: (self) => {
+        // Se o usuário não estiver arrastando manualmente, o scroll controla suavemente o slider
+        if (!isDraggingRef.current) {
+          const targetPct = 85 - self.progress * 70; // 85% (atrito manual) -> 15% (fluxo organizado)
+          setSliderPos(Math.round(targetPct));
+        }
+      }
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, []);
 
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -34,12 +154,13 @@ export function Transformation() {
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
+    isDraggingRef.current = true;
     setIsDragging(true);
     updatePosition(e.clientX);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging || e.buttons === 1) {
+    if (isDraggingRef.current || e.buttons === 1) {
       updatePosition(e.clientX);
     }
   };
@@ -50,12 +171,14 @@ export function Transformation() {
     } catch {
       // safe fallback
     }
+    isDraggingRef.current = false;
     setIsDragging(false);
   };
 
   return (
     <section
-      id="capacidades"
+      ref={sectionRef}
+      id="metodo"
       className="relative scroll-mt-20 py-16 sm:py-20 md:py-24 bg-[#0A0B10] text-[#F5F6F8] border-b border-white/[0.08] select-none overflow-hidden w-full max-w-full"
       aria-labelledby="transf-title"
     >
@@ -65,14 +188,14 @@ export function Transformation() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 font-mono text-xs uppercase tracking-[0.14em] text-[#60A5FA]">
               <Sparkles className="h-3.5 w-3.5 text-[#10B981]" />
-              <span>O Contraste da Verdade Operacional</span>
+              <span>{t.badge}</span>
             </div>
 
             <h2
               id="transf-title"
               className="mt-4 font-serif text-[clamp(2.1rem,4.8vw,4.2rem)] font-normal leading-[1.04] text-[#F9FAFB] tracking-[-0.03em]"
             >
-              O abismo entre o improviso manual e a engenharia sob medida.
+              {t.title}
             </h2>
           </div>
 
@@ -87,7 +210,7 @@ export function Transformation() {
                   : "bg-white/[0.04] text-[#969DA8] border-white/10 hover:border-white/30"
               }`}
             >
-              Atrito Manual
+              {t.btnChaos}
             </button>
             <button
               type="button"
@@ -98,7 +221,7 @@ export function Transformation() {
                   : "bg-white/[0.04] text-[#969DA8] border-white/10 hover:border-white/30"
               }`}
             >
-              50% Dividido
+              {t.btnSplit}
             </button>
             <button
               type="button"
@@ -109,14 +232,13 @@ export function Transformation() {
                   : "bg-white/[0.04] text-[#969DA8] border-white/10 hover:border-white/30"
               }`}
             >
-              Fluxo Sanle
+              {t.btnOrder}
             </button>
           </div>
         </div>
 
         <p className="mt-4 max-w-2xl text-sm sm:text-base md:text-lg text-[#969DA8] font-sans-editorial">
-          Arraste o divisor ou clique nos botões acima para comparar o cotidiano de uma rotina
-          fragmentada com um fluxo automatizado e orquestrado.
+          {t.desc}
         </p>
 
         {/* =========================================================================
@@ -137,13 +259,13 @@ export function Transformation() {
               <div className="flex items-center justify-between border-b border-white/10 pb-3 sm:pb-4 font-mono text-[0.66rem] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.16em] text-[#B7F36B]">
                 <span className="font-bold flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#B7F36B] shadow-[0_0_8px_#B7F36B]" />
-                  DEPOIS · FLUXO ORGANIZADO
+                  {t.orderTag}
                 </span>
-                <span className="text-[#969DA8] hidden sm:inline">AUTOMATIZADO EM TEMPO REAL</span>
+                <span className="text-[#969DA8] hidden sm:inline">{t.orderSub}</span>
               </div>
 
               <ul className="mt-4 sm:mt-6 space-y-2.5 sm:space-y-3.5 max-w-2xl">
-                {ORDER_POINTS.map((pt, i) => (
+                {t.orderPoints.map((pt, i) => (
                   <li key={i} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm md:text-base leading-snug">
                     <span className="flex h-4 w-4 sm:h-5 sm:w-5 shrink-0 items-center justify-center rounded-full bg-[#10B981]/20 text-[#B7F36B] font-bold text-xs mt-0.5 border border-[#10B981]/30">
                       <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
@@ -155,8 +277,8 @@ export function Transformation() {
             </div>
 
             <div className="flex items-center justify-between font-mono text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.12em] text-[#969DA8] pt-3 sm:pt-4 border-t border-white/10">
-              <span>SANLE ORQUESTRAÇÃO · PIPELINES</span>
-              <span className="text-[#B7F36B] font-bold">LATÊNCIA: 0.38s</span>
+              <span>{t.orderSystem}</span>
+              <span className="text-[#B7F36B] font-bold">{t.orderLatency}</span>
             </div>
           </div>
 
@@ -171,13 +293,13 @@ export function Transformation() {
               <div className="flex items-center justify-between border-b border-red-500/20 pb-3 sm:pb-4 font-mono text-[0.66rem] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.16em] text-red-400">
                 <span className="font-bold flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                  ANTES · ATRITO OPERACIONAL
+                  {t.chaosTag}
                 </span>
-                <span className="text-red-300/70 hidden sm:inline">MANUAL / REDUNDANTE</span>
+                <span className="text-red-300/70 hidden sm:inline">{t.chaosSub}</span>
               </div>
 
               <ul className="mt-4 sm:mt-6 space-y-2.5 sm:space-y-3.5 max-w-2xl">
-                {CHAOS_POINTS.map((pt, i) => (
+                {t.chaosPoints.map((pt, i) => (
                   <li key={i} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm md:text-base leading-snug">
                     <span className="flex h-4 w-4 sm:h-5 sm:w-5 shrink-0 items-center justify-center rounded-full bg-red-950/80 text-red-400 font-bold text-xs mt-0.5 border border-red-500/40">
                       <X className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
@@ -189,8 +311,8 @@ export function Transformation() {
             </div>
 
             <div className="flex items-center justify-between font-mono text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.12em] text-[#969DA8] pt-3 sm:pt-4 border-t border-red-500/20">
-              <span>ROTINA FRAGMENTADA</span>
-              <span className="text-red-400 font-bold">PERDA: 3.4h/DIA</span>
+              <span>{t.chaosSystem}</span>
+              <span className="text-red-400 font-bold">{t.chaosLoss}</span>
             </div>
           </div>
 
@@ -207,8 +329,8 @@ export function Transformation() {
 
         {/* Legenda de Usabilidade */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2 font-mono text-[0.68rem] sm:text-xs text-[#969DA8]">
-          <span>* Comparativo ilustrativo baseado no diagnóstico médio de processos</span>
-          <span>ARRASTE O SELETOR OU USE OS BOTÕES ACIMA</span>
+          <span>{t.disclaimer}</span>
+          <span>{t.dragHint}</span>
         </div>
       </div>
     </section>
