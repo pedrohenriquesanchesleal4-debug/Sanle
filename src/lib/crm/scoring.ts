@@ -76,16 +76,21 @@ export function scoreLead(lead: Lead, weights: ScoringWeights = DEFAULT_WEIGHTS)
   );
 
   // 4. Compatibilidade geográfica
-  const inFocus = (lead.uf ?? "").toUpperCase() === "DF" || /bras[íi]lia/i.test(lead.city ?? "");
+  const ufClean = (lead.uf ?? "").toUpperCase().trim();
+  const isPrimaryRegion = ufClean === "DF" || /bras[íi]lia/i.test(lead.city ?? "");
+  const isTargetEconomicHub = ["DF", "GO", "SP", "RJ", "MG", "PR", "SC", "RS", "BA"].includes(ufClean);
+  const geoScore = isPrimaryRegion ? 1 : isTargetEconomicHub ? 0.95 : has(lead.city) ? 0.8 : 0;
   push(
     "geografia",
     "Compatibilidade geográfica",
-    inFocus ? 1 : has(lead.city) ? 0.5 : 0,
-    inFocus
-      ? "Em Brasília/DF — foco inicial da operação."
-      : has(lead.city)
-        ? `${lead.city ?? ""}${lead.uf ? `/${lead.uf}` : ""} fora do foco inicial (atendimento remoto possível).`
-        : "Localização não informada."
+    geoScore,
+    isPrimaryRegion
+      ? "Em Brasília/DF — sede da Sanle e atendimento presencial imediato."
+      : isTargetEconomicHub
+        ? `${lead.city ?? ""}${lead.uf ? `/${lead.uf}` : ""} — polo econômico estratégico com alta aderência comercial.`
+        : has(lead.city)
+          ? `${lead.city ?? ""}${lead.uf ? `/${lead.uf}` : ""} — operação nacional 100% remota via internet.`
+          : "Localização não informada."
   );
 
   // 5. Clareza do problema

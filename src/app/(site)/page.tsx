@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { HeroPortal } from "@/components/site/HeroPortal";
-import { CapabilitiesShowcase } from "@/components/site/CapabilitiesShowcase";
-import { SanleScrollytelling } from "@/components/site/SanleScrollytelling";
+import { Transformation } from "@/components/site/Transformation";
 import { Cases } from "@/components/site/Cases";
 import { CostCalculator } from "@/components/site/CostCalculator";
 import { Method } from "@/components/site/Method";
@@ -12,7 +11,7 @@ import { FinalCta } from "@/components/site/FinalCta";
 import { brand, faqs, siteUrl } from "@/content/brand";
 
 export const metadata: Metadata = {
-  title: "Sanle · Produtos Digitais, Sistemas Sob Medida, Agentes de IA & Automação",
+  title: "Sanle · Estúdio de Engenharia de Software, Produtos Digitais & IA",
   description: brand.shortPitch,
   alternates: { canonical: "/" }
 };
@@ -63,38 +62,30 @@ const structuredData = [
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "As 4 Frentes de Engenharia de Software da Sanle",
+      name: "Soluções de Engenharia de Software da Sanle",
       itemListElement: [
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Sanle Digital · Sites, Landing Pages e Experiências Digitais",
-            description: "Presença digital autoral, páginas de alta conversão, SEO técnico e integração com WhatsApp e CRM."
+            name: "Sanle Digital · Vitrines e Experiências Digitais de Alta Conversão",
+            description: "Presença digital autoral, páginas de alto ticket e captação integrada ao WhatsApp e CRM."
           }
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Sanle Systems · Sistemas Web, Portais, CRMs e Dashboards",
-            description: "Aplicações web sob medida para organizar processos operacionais, clientes e dados em tempo real."
+            name: "Sanle Systems · Sistemas Web, Portais e CRMs Sob Medida",
+            description: "Aplicações web para organizar processos operacionais, clientes e dados em tempo real."
           }
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Sanle Agents · Agentes de IA, RAG e Atendimento Inteligente",
-            description: "Agentes de inteligência artificial conectados aos documentos da empresa com chamada de ferramentas e transbordo humano."
-          }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Sanle Automation · Automação de Processos, Documentos e APIs",
-            description: "Integração entre sistemas, leitura estruturada de documentos e eliminação de retrabalho manual."
+            name: "Sanle Agents · Agentes de IA Conectados a Documentos (RAG)",
+            description: "Agentes de inteligência artificial treinados nos documentos da empresa sem alucinação."
           }
         }
       ]
@@ -136,34 +127,31 @@ export default function HomePage() {
         }}
       />
 
-      {/* 1. Hero Editorial + Estúdio Interativo das 4 Frentes ("Boas ideias merecem sair do papel.") */}
+      {/* 1. O Ateliê Vivo de Engenharia Sanle: Bancada de Degustação Interativa ao Vivo */}
       <HeroPortal />
 
-      {/* 2. As 4 Frentes Comerciais da Sanle (Digital, Sistemas, Agentes, Automação) + Demonstrações Reais */}
-      <CapabilitiesShowcase />
+      {/* 2. O Contraste da Verdade: Comparativo Interativo entre o Atrito Manual e a Engenharia Sanle */}
+      <Transformation />
 
-      {/* 3. Scrollytelling Editorial: Do Diagnóstico à Operação Integrada em 4 Capítulos */}
-      <SanleScrollytelling />
-
-      {/* 4. Provas de Capacidade: Produtos Próprios, Sistemas Reais e Arquiteturas Demonstráveis */}
+      {/* 3. Provas de Capacidade e Arquitetura: Produtos Próprios e Sistemas Reais em Produção */}
       <Cases />
 
-      {/* 5. Simulador de Impacto Operacional (Estimativa Ilustrativa Transparente) */}
+      {/* 4. Calculadora Transparente de Retorno e Impacto Operacional */}
       <CostCalculator />
 
-      {/* 6. Método de Implementação em 4 Etapas */}
+      {/* 5. Método de Implementação Ágil em 7 a 14 dias com Código 100% Proprietário */}
       <Method />
 
-      {/* 7. Arquitetura, Segurança, Privacidade & Governança */}
+      {/* 6. Arquitetura, Segurança e Governança de Dados (PostgreSQL + RLS) */}
       <TrustSection />
 
-      {/* 8. Modelos de Engajamento Comercial & Transparência de Custos Cloud/IA */}
+      {/* 7. Modelos de Engajamento Comercial Transparentes */}
       <CommercialModels />
 
-      {/* 9. Perguntas Frequentes (FAQ) */}
+      {/* 8. Perguntas Frequentes (FAQ) */}
       <Faq />
 
-      {/* 10. Seletor Inteligente de Necessidade, Briefing Contextual & Canais Diretos */}
+      {/* 9. Seletor de Demanda e Contato Direto com Pedro Leal */}
       <FinalCta />
     </>
   );

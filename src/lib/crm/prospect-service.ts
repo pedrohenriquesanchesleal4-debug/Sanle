@@ -80,9 +80,18 @@ export async function runProspectSearch(query: ProspectQuery): Promise<ProspectS
 
   const leads = await allLeads();
   const existing = buildKeyIndex(leads);
-  const seenInSearch = new Set<string>();
+  const existingNames = leads
+    .map((l) => (l.tradeName || l.companyName || "").trim())
+    .filter((n): n is string => n.length > 2);
 
-  const raw = await provider.search(query);
+  const queryWithContext: ProspectQuery = {
+    ...query,
+    excludeNames: existingNames.slice(0, 50),
+    seed: query.seed ?? Date.now()
+  };
+
+  const seenInSearch = new Set<string>();
+  const raw = await provider.search(queryWithContext);
 
   const items: SearchResultItem[] = raw.map((c) => {
     const keys = candidateKeys(c);
@@ -104,7 +113,7 @@ export async function runProspectSearch(query: ProspectQuery): Promise<ProspectS
   return {
     providerId: provider.id,
     providerLabel: provider.label,
-    query,
+    query: queryWithContext,
     items,
     total: items.length,
     freeFirst: isFreeFirst(),

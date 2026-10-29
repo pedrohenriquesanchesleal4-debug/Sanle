@@ -37,15 +37,15 @@ export const brand = {
 } as const;
 
 export const hero = {
-  eyebrow: "SANLE STUDIO · THE OPPORTUNITY ENGINE · DIGITAL · SISTEMAS · AGENTES · AUTOMAÇÃO",
-  headlineTop: "Boas ideias merecem",
-  headlineBottom: "sair do",
-  headlineItalic: "papel.",
+  eyebrow: "SANLE STUDIO · THE OPPORTUNITY ENGINE · ENGENHARIA DE SOFTWARE AUTORAL",
+  headlineTop: "Software desenhado para a",
+  headlineBottom: "realidade da sua",
+  headlineItalic: "operação.",
   subheadline:
-    "Transformamos necessidades de negócio em produtos digitais, sistemas sob medida, agentes de inteligência artificial e automações operacionais construídos para durar.",
+    "Construímos presenças digitais autorais de alto padrão, sistemas web sob medida e inteligência artificial prática. Sem templates pré-fabricados, sem dependência de plataformas de aluguel e com entrega em 7 a 14 dias.",
   ctaPrimary: { label: "Tirar meu projeto do papel", href: "/#contato" },
-  ctaSecondary: { label: "Explorar as 4 frentes", href: "/#capacidades" },
-  microProof: "Digital · Sistemas Web · Agentes de IA · Automação de Processos"
+  ctaSecondary: { label: "Explorar o ateliê interativo", href: "#portal-hero-container" },
+  microProof: "Código 100% proprietário · Entrega em 7 a 14 dias"
 } as const;
 
 /** O atrito operacional e comercial que motiva novos sistemas. */

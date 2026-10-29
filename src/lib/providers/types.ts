@@ -31,6 +31,10 @@ export type ProspectQuery = {
   terms?: string;
   limit: number;
   provider?: ProspectProviderId;
+  /** Nomes de empresas já cadastradas no CRM para evitar repetições */
+  excludeNames?: string[];
+  /** Semente dinâmica ou timestamp para garantir variedade e rotação de resultados */
+  seed?: string | number;
 };
 
 /** Capacidades operacionais declaradas por um provedor (aditivo, sem lógica). */

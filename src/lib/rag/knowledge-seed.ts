@@ -6,9 +6,9 @@ import { indexDocument, reprocessAll } from "./ingest";
 export { indexDocument } from "./ingest";
 
 /**
- * Documentos institucionais iniciais da base de conhecimento.
- * Derivados de `brand.ts` para manter uma única fonte da verdade.
- * Nada aqui inventa clientes, preços ou prazos.
+ * Documentos institucionais iniciais da base de conhecimento (RAG).
+ * Derivados de `brand.ts` e dos playbooks comerciais comprovados da Sanle.
+ * Nada aqui inventa clientes falsos, certificações inexistentes ou métricas sem base.
  */
 
 export function baseKnowledge(): { title: string; category: string; content: string }[] {
@@ -113,6 +113,76 @@ export function baseKnowledge(): { title: string; category: string; content: str
       "- A IA prepara o conteúdo; a pessoa decide quando e onde enviar.",
       "",
       "Estrutura sugerida de primeiro contato: (1) contexto curto e específico; (2) hipótese de problema em forma de pergunta; (3) convite a uma conversa rápida; (4) encerramento respeitoso, sem pressão."
+    ].join("\n")
+  });
+
+  // =========================================================================
+  // DOCUMENTOS ESTRATÉGICOS DE INTELIGÊNCIA COMERCIAL E FECHAMENTO B2B
+  // =========================================================================
+
+  docs.push({
+    title: "Playbook de Qualificação e Fechamento B2B de Alto Ticket",
+    category: "vendas_estrategicas",
+    content: [
+      "# Playbook de Qualificação e Fechamento B2B de Alto Ticket",
+      "Como selecionar as melhores empresas para fechar contrato com a Sanle:",
+      "",
+      "## 1. Perfil Ideal de Cliente (High-Ticket ICP)",
+      "- Faturamento Mensal Estimado: R$ 50.000 a R$ 500.000+",
+      "- Equipe: 5 a 50 colaboradores ativos",
+      "- Canal Comercial Ativo: Alto volume diário de conversas e cotações pelo WhatsApp",
+      "- Gargalo Evidente: Perda de vendas por demora na resposta, falta de catálogo digital estruturado, orçamentos calculados na mão ou planilhas paralelas que travam o crescimento",
+      "",
+      "## 2. Os 4 Nichos de Maior Probabilidade de Fechamento Imediato",
+      "1. Vidraçarias e Esquadrias de Alumínio: Fecham rapidamente quando veem a calculadora interativa de m² no WhatsApp e o catálogo digital de fotos de obras, porque hoje perdem de 20% a 30% das cotações na demora de envio.",
+      "2. Clínicas Odontológicas e Médicas: Fecham para resolver o no-show (faltas de 18% a 25%) através de confirmação automática no WhatsApp e secretária de IA para triagem 24/7.",
+      "3. Escritórios de Contabilidade e BPO: Fecham para eliminar a cobrança desgastante de extratos OFX e notas no fim do mês, liberando analistas de até 40h/mês de digitação.",
+      "4. Distribuidoras e Atacado B2B: Fecham para substituir pedidos informais em áudio e PDF por um portal B2B onde os clientes compram sozinhos.",
+      "",
+      "## 3. Roteiro de Fechamento em 3 Passos",
+      "Passo 1 — Enviar a página de demonstração sob medida (/p/[slug]): 'Preparamos um protótipo funcional para a [Nome da Empresa] demonstrando o catálogo e fluxo de orçamento.'",
+      "Passo 2 — Conectar no WhatsApp direto: Mostrar o protótipo funcionando no celular do decisor.",
+      "Passo 3 — Apresentar o cronograma de 7 a 14 dias: 'Não paralisamos sua operação. Em 10 dias está publicado no domínio oficial da sua empresa.'"
+    ].join("\n")
+  });
+
+  docs.push({
+    title: "Diferenciação Radical contra IA Genérica e Templates Baratos",
+    category: "diferenciacao",
+    content: [
+      "# Por que Empresas Compram da Sanle e Recusam Templates Prontos",
+      "",
+      "## 1. O Problema das Soluções Baratas (Wix, WordPress genérico e IA Slop)",
+      "- Sites lentos e pesados com dezenas de plugins inseguros que quebram a cada atualização.",
+      "- Visual genérico que parece template de IA: o cliente entra e não sente confiança de que a empresa é sólida.",
+      "- Nenhuma integração real: formulários que mandam e-mail para caixa de spam em vez de entrar no WhatsApp e no ERP da empresa.",
+      "- Ausência de regras de negócio: não calculam m², não validam CPF/CNPJ, não fazem triagem médica nem conciliam extratos.",
+      "",
+      "## 2. A Vantagem Competitiva da Engenharia Sanle",
+      "- Arquitetura de Software Real: Construído em Next.js com React 19, TypeScript estrito e PostgreSQL com RLS.",
+      "- Direção de Arte Autoral: Tipografia com personalidade, paleta exclusiva por setor, sem visual repetitivo de IA.",
+      "- Conexão Direta com a Operação: O site não é apenas um folheto digital, é uma ferramenta de trabalho que capta leads, calcula orçamentos e sincroniza com o WhatsApp.",
+      "- Segurança e Governança LGPD: Sem vazamento de dados, com logs auditáveis e supervisão humana."
+    ].join("\n")
+  });
+
+  docs.push({
+    title: "Matriz de Resolução de Objeções Comerciais B2B",
+    category: "objecoes",
+    content: [
+      "# Matriz de Resolução de Objeções Comerciais",
+      "",
+      "## Objeção 1: 'Quanto custa esse serviço?'",
+      "Resposta recomendada: 'Cada projeto é dimensionado para o retorno do seu negócio. Por exemplo, em [Nicho], o investimento se paga nos primeiros 30 a 60 dias apenas evitando orçamentos perdidos no WhatsApp. Posso te mostrar a demonstração prática de 5 minutos sobre como calculamos isso?'",
+      "",
+      "## Objeção 2: 'Já temos um sistema interno / ERP.'",
+      "Resposta recomendada: 'Excelente! Nosso trabalho não é substituir o sistema que vocês já usam, e sim criar a camada de captação digital e integrações que o ERP não faz — como o catálogo interativo, agendamento no WhatsApp ou entrada rápida de pedidos sem redigitação.'",
+      "",
+      "## Objeção 3: 'Estamos sem tempo agora, me procure no próximo mês.'",
+      "Resposta recomendada: 'Compreendo perfeitamente a correria. Justamente por isso nosso método exige quase zero do seu tempo: nós desenhamos a arquitetura, implementamos e entregamos pronta em até 14 dias. Deixo o link da demonstração da sua empresa aqui para você ver quando tiver 2 minutinhos.'",
+      "",
+      "## Objeção 4: 'Nossos clientes preferem ligar ou falar no WhatsApp tradicional.'",
+      "Resposta recomendada: 'Eles continuarão falando no WhatsApp! A diferença é que a mensagem já chegará com o pedido, as medidas ou o serviço especificado, poupando 15 minutos de perguntas e respostas repetitivas em cada conversa.'"
     ].join("\n")
   });
 
