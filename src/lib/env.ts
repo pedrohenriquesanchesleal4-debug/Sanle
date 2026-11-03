@@ -49,6 +49,19 @@ const resolvedAdminEmails = Array.from(
   ])
 );
 
+// Resolução inteligente de chaves e provedor Gemini / Google AI
+const geminiApiKey = clean(process.env.GEMINI_API_KEY) || clean(process.env.GOOGLE_AI_API_KEY);
+const rawAiProvider = clean(process.env.SANLE_AI_PROVIDER);
+const isGeminiProvider =
+  rawAiProvider === "gemini" ||
+  rawAiProvider === "google" ||
+  (!rawAiProvider && Boolean(geminiApiKey));
+
+const resolvedAiProvider = rawAiProvider || (geminiApiKey ? "gemini" : "");
+const resolvedAiApiKey = clean(process.env.SANLE_AI_API_KEY) || geminiApiKey;
+const defaultAiModel = isGeminiProvider ? "gemini-2.0-flash" : "gpt-4o-mini";
+const defaultAiBaseUrl = isGeminiProvider ? "https://generativelanguage.googleapis.com/v1beta/openai" : "";
+
 export const env = {
   siteUrl: clean(process.env.NEXT_PUBLIC_SITE_URL) || "http://localhost:3000",
 
@@ -65,12 +78,12 @@ export const env = {
   },
 
   ai: {
-    provider: clean(process.env.SANLE_AI_PROVIDER) || "", // openai | anthropic | openai_compatible | local
-    apiKey: clean(process.env.SANLE_AI_API_KEY),
-    model: clean(process.env.SANLE_AI_MODEL) || "gpt-4o-mini",
-    publicModel: clean(process.env.SANLE_AI_PUBLIC_MODEL) || clean(process.env.SANLE_AI_MODEL) || "gpt-4o-mini",
-    adminModel: clean(process.env.SANLE_AI_ADMIN_MODEL) || clean(process.env.SANLE_AI_MODEL) || "gpt-4o-mini",
-    baseUrl: clean(process.env.SANLE_AI_BASE_URL),
+    provider: resolvedAiProvider, // openai | anthropic | openai_compatible | gemini | google | local
+    apiKey: resolvedAiApiKey,
+    model: clean(process.env.SANLE_AI_MODEL) || defaultAiModel,
+    publicModel: clean(process.env.SANLE_AI_PUBLIC_MODEL) || clean(process.env.SANLE_AI_MODEL) || defaultAiModel,
+    adminModel: clean(process.env.SANLE_AI_ADMIN_MODEL) || clean(process.env.SANLE_AI_MODEL) || defaultAiModel,
+    baseUrl: clean(process.env.SANLE_AI_BASE_URL) || defaultAiBaseUrl,
     embedModel: clean(process.env.SANLE_EMBED_MODEL) || "text-embedding-3-small",
     maxOutputTokens: int(process.env.SANLE_AI_MAX_OUTPUT_TOKENS, 900, 64),
     maxInputChars: int(process.env.SANLE_AI_MAX_INPUT_CHARS, 12000, 500),

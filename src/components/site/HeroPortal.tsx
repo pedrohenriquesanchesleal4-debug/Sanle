@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/analytics";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { ThreeStudioScene } from "@/components/site/ThreeStudioScene";
 
 type InteractiveMode = "showcase" | "system" | "agent";
 
@@ -41,6 +43,7 @@ const AGENT_DIALOGS = [
 
 export function HeroPortal() {
   const [activeMode, setActiveMode] = useState<InteractiveMode>("showcase");
+  const { dict } = useI18n();
 
   // Estado do Modo 1: Vitrine & Catálogo Comercial
   const [glassArea, setGlassArea] = useState<number>(14);
@@ -125,10 +128,13 @@ export function HeroPortal() {
 
   return (
     <section
-      id="portal-hero-container"
-      className="relative w-full max-w-full bg-[#090A0F] text-[#F3F4F6] pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-24 border-b border-white/[0.07] overflow-clip"
+      id="capacidades"
+      className="relative w-full max-w-full bg-[#07080A] text-[#F3F4F6] pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-24 border-b border-white/[0.07] overflow-clip"
       aria-label="Sanle Studio — Engenharia de Software e Produtos Digitais"
     >
+      {/* Cena WebGL Tridimensional — Constelação Cinética de Software Sanle */}
+      <ThreeStudioScene />
+
       {/* Granulação táctil e atmosfera física de estúdio */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.035] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"
@@ -148,26 +154,26 @@ export function HeroPortal() {
           <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-xs text-[#9CA3AF]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse" />
             <span className="font-mono text-[0.68rem] tracking-wide text-[#E5E7EB]">
-              Sanle Studio · Engenharia de Software Autoral
+              {dict.hero.eyebrow}
             </span>
           </div>
 
           <div className="hidden sm:flex items-center gap-3 text-xs text-[#9CA3AF] font-mono text-[0.68rem]">
             <span>Brasília · Atendimento Nacional</span>
             <span className="text-white/20">/</span>
-            <span className="text-[#60A5FA]">Código 100% Proprietário</span>
+            <span className="text-[#60A5FA]">{dict.hero.microProof}</span>
           </div>
         </div>
 
         {/* Bloco de Título e Posicionamento Monumental */}
         <div className="max-w-4xl">
           <h1 className="font-serif text-[clamp(2.5rem,6vw,5.2rem)] font-normal tracking-[-0.035em] text-[#F9FAFB] leading-[1.02]">
-            Software desenhado para a realidade da sua operação.
+            {dict.hero.headlineTop} {dict.hero.headlineBottom}{" "}
+            <span className="italic font-serif-editorial text-[#78A9FF]">{dict.hero.headlineItalic}</span>
           </h1>
 
           <p className="mt-5 sm:mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-[#9CA3AF] font-sans">
-            Construímos presenças digitais autorais de alto padrão, sistemas web sob medida e inteligência artificial prática.
-            Sem templates prontos, sem dependência de plataformas de aluguel e com entrega ágil em 7 a 14 dias.
+            {dict.hero.subheadline}
           </p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3.5">
@@ -176,7 +182,7 @@ export function HeroPortal() {
               onClick={() => trackEvent("cta_clicado", { cta: "hero_iniciar_projeto" })}
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#2563EB] text-white font-medium text-sm transition-all hover:bg-[#1D4ED8] shadow-[0_10px_30px_rgba(37,99,235,0.35)] active:scale-[0.98]"
             >
-              <span>Tirar projeto do papel</span>
+              <span>{dict.hero.ctaPrimary}</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
 
@@ -186,7 +192,7 @@ export function HeroPortal() {
               className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-white/[0.03] border border-white/15 text-[#E5E7EB] text-sm hover:border-[#60A5FA] hover:text-white hover:bg-white/[0.06] transition-all cursor-pointer active:scale-[0.98]"
             >
               <MessageCircle className="h-4 w-4 text-[#10B981]" />
-              <span>Falar no WhatsApp com Pedro Leal</span>
+              <span>{dict.hero.ctaSecondary}</span>
             </button>
 
             <span className="w-full sm:w-auto text-xs text-[#6B7280] font-mono pt-1 sm:pt-0">

@@ -1,3 +1,7 @@
+/**
+ * Diccionario en español — Sanle Studio
+ * Paridad completa para el Taller, Hero, Navegación y Pie de página
+ */
 import type { Dictionary } from "../types";
 
 export const es: Dictionary = {
@@ -23,26 +27,26 @@ export const es: Dictionary = {
     contact: "Contacto",
     about: "Nosotros",
     talkToSpecialist: "Diagnóstico Técnico",
-    buildSolution: "Iniciar Proyecto",
+    buildSolution: "Tirar del Papel",
     menuOpen: "Abrir menú",
     menuClose: "Cerrar menú"
   },
   hero: {
-    eyebrow: "SANLE · ESTUDIO DE INGENIERÍA DE SOFTWARE · BRASÍLIA · DF",
-    headlineTop: "Las buenas ideas merecen",
-    headlineBottom: "salir del",
-    headlineItalic: "papel.",
+    eyebrow: "SANLE STUDIO · INGENIERÍA DE SOFTWARE DE AUTOR",
+    headlineTop: "Software diseñado para la",
+    headlineBottom: "realidad de su",
+    headlineItalic: "operación.",
     subheadline:
-      "Transformamos necesidades de negocio en productos digitales, sistemas a medida, agentes de inteligencia artificial y automatizaciones operativas.",
+      "Construimos presencias digitales de autor de alto estándar, sistemas web a medida e inteligencia artificial práctica. Sin plantillas prediseñadas, sin dependencia de plataformas de alquiler y con entrega ágil en 7 a 14 días.",
     ctaPrimary: "Sacar mi proyecto del papel",
-    ctaSecondary: "Explorar los 4 frentes",
-    microProof: "Digital · Sistemas Web · Agentes de IA · Automatización",
+    ctaSecondary: "Explorar el taller interactivo",
+    microProof: "Código 100% propietario · Entrega en 7 a 14 días",
     pillarDigital: "01 · DIGITAL",
-    pillarDigitalSub: "Sitios y Experiencias",
+    pillarDigitalSub: "Sitios y Escaparates de Autor",
     pillarSystems: "02 · SISTEMAS",
-    pillarSystemsSub: "Web Apps, Portales y CRMs",
+    pillarSystemsSub: "Web Apps y Portales",
     pillarAgents: "03 · AGENTES",
-    pillarAgentsSub: "IA, RAG y Atención",
+    pillarAgentsSub: "IA con Contexto Real (RAG)",
     pillarAuto: "04 · AUTOMATIZACIÓN",
     pillarAutoSub: "Integraciones y Flujos"
   },
@@ -132,10 +136,10 @@ export const es: Dictionary = {
   },
   footer: {
     tagline:
-      "Productos digitales, sistemas a medida, agentes de inteligencia artificial y automatización de procesos.",
+      "Productos digitales de autor, sistemas a medida, agentes de IA fundamentados y automatización de procesos.",
     rights: "Todos los derechos reservados.",
-    privacy: "Privacidad",
-    terms: "Términos de Uso",
+    privacy: "Política de Privacidad",
+    terms: "Términos de Servicio",
     contactDirect: "Contacto directo: +55 (61) 98139-9051"
   }
 };

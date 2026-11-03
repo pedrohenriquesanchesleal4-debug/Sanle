@@ -24,11 +24,11 @@ const ADAPTERS: Record<LLMProviderId, LLMAdapter> = {
 
 /** Id de provedor declarado no env, saneado para o enum conhecido. */
 export function configuredProviderId(): LLMProviderId | null {
-  const raw = env.ai.provider.trim();
+  const raw = env.ai.provider.trim().toLowerCase();
   if (!raw) return null;
   if (raw === "openai" || raw === "anthropic" || raw === "openai_compatible" || raw === "local") return raw;
   // Nomes comuns que mapeiam para OpenAI-compatível (endpoint `/v1`).
-  if (raw === "openrouter" || raw === "groq" || raw === "together" || raw === "ollama" || raw === "lmstudio") {
+  if (raw === "gemini" || raw === "google" || raw === "openrouter" || raw === "groq" || raw === "together" || raw === "ollama" || raw === "lmstudio") {
     return "openai_compatible";
   }
   return null;
